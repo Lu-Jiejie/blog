@@ -1,11 +1,25 @@
 /// <reference types="vitest" />
 
 import path from 'node:path'
+import MDShiki from '@shikijs/markdown-it'
+import { transformerNotationDiff, transformerNotationHighlight, transformerNotationWordHighlight } from '@shikijs/transformers'
+import { rendererRich, transformerTwoslash } from '@shikijs/twoslash'
 import Vue from '@vitejs/plugin-vue'
+import fs from 'fs-extra'
+import matter from 'gray-matter'
+import MDAnchor from 'markdown-it-anchor'
+import MDGithubAlerts from 'markdown-it-github-alerts'
+import MDLinkAttributes from 'markdown-it-link-attributes'
+import MDMagicLink from 'markdown-it-magic-link'
+// @ts-expect-error missing types of 'markdown-it-table-of-contents'
+import MDTableOfContents from 'markdown-it-table-of-contents'
+import slugify from 'scripts/slugify'
 import UnoCSS from 'unocss/vite'
+import Components from 'unplugin-vue-components/vite'
 import Markdown from 'unplugin-vue-markdown/vite'
 import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
+import OptimizeExclude from 'vite-plugin-optimize-exclude'
 
 export default defineConfig({
   resolve: {
@@ -25,14 +39,25 @@ export default defineConfig({
 
     Vue({
       include: [/\.vue$/, /\.md$/],
-      script: {
+      features: {
         propsDestructure: true,
       },
     }),
+
     VueRouter({
       extensions: ['.vue', '.md'],
       routesFolder: 'pages',
+      extendRoute(route) {
+        const path = route.components.get('default')
+        if (path && path.endsWith('.md')) {
+          const { data } = matter(fs.readFileSync(path, 'utf-8'))
+          route.addToMeta({
+            frontmatter: data,
+          })
+        }
+      },
     }),
+
     Markdown({
       headEnabled: true,
       exportFrontmatter: false,
@@ -41,16 +66,69 @@ export default defineConfig({
       markdownItOptions: {
         quotes: '""\'\'',
       },
-      frontmatterPreprocess(frontmatter, options, id, defaults) {
-        const head = defaults(frontmatter, options)
-        return { head, frontmatter }
+      async markdownItSetup(md) {
+        // shiki markdown it
+        md.use(await MDShiki({
+          themes: {
+            light: 'vitesse-light',
+            dark: 'vitesse-dark',
+          },
+          defaultColor: false,
+          transformers: [
+            transformerTwoslash({
+              explicitTrigger: true,
+              renderer: rendererRich(),
+            }),
+            transformerNotationDiff(),
+            transformerNotationHighlight(),
+            transformerNotationWordHighlight(),
+          ],
+        }))
+
+        // 标题锚点
+        md.use(MDAnchor, {
+          slugify,
+          permalink: MDAnchor.permalink.linkInsideHeader({
+            symbol: '#',
+            renderAttrs: () => ({
+              'aria-hidden': 'true',
+            }),
+          }),
+        })
+
+        // 链接属性
+        md.use(MDLinkAttributes, {
+          matcher: (link: string) => link.startsWith('http'),
+          attrs: {
+            target: '_blank',
+            rel: 'noopener noreferrer',
+          },
+        })
+
+        // 目录生成
+        md.use(MDTableOfContents, {
+          slugify,
+          includeLevel: [1, 2, 3, 4],
+          containerHeaderHtml: '<div class="markdown-it-table-of-contents"></div>',
+        })
+
+        // 魔法链接
+        md.use(MDMagicLink, {})
+
+        // GitHub 提示块
+        md.use(MDGithubAlerts)
       },
     }),
-  ],
 
-  test: {
-    environment: 'jsdom',
-  },
+    Components({
+      extensions: ['.vue', '.md'],
+      dts: true,
+      include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+    }),
+
+    OptimizeExclude(),
+  ],
   ssgOptions: {
+    formatting: 'minify',
   },
 })

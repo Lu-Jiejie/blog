@@ -1,8 +1,15 @@
-/* eslint-disable unused-imports/no-unused-vars */
+import dayjs from 'dayjs'
+import LocalizedFormat from 'dayjs/plugin/localizedFormat.js'
+import NProgress from 'nprogress'
 import { ViteSSG } from 'vite-ssg'
+import { setupRouterScroller } from 'vue-router-better-scroller'
 import { routes } from 'vue-router/auto-routes'
 import App from './App.vue'
 
+import 'markdown-it-github-alerts/styles/github-colors-light.css'
+import 'markdown-it-github-alerts/styles/github-colors-dark-class.css'
+import 'markdown-it-github-alerts/styles/github-base.css'
+import '@shikijs/twoslash/style-rich.css'
 import './styles/main.css'
 import 'uno.css'
 
@@ -13,7 +20,32 @@ export const createApp = ViteSSG(
   // vue-router options
   { routes },
   // function to have custom setups
-  ({ app, router, routes, initialState }) => {
-    // install plugins etc.
+  ({ router }) => {
+    dayjs.extend(LocalizedFormat)
+
+    if (!import.meta.env.SSR) {
+      router.beforeEach(() => {
+        NProgress.start()
+      })
+      router.afterEach(() => {
+        NProgress.done()
+      })
+
+      const html = document.querySelector('html')!
+      setupRouterScroller(router, {
+        selectors: {
+          html(ctx) {
+            if (ctx.savedPosition?.top || import.meta.hot) {
+              html.classList.add('no-sliding')
+            }
+            else {
+              html.classList.remove('no-sliding')
+            }
+            return true
+          },
+        },
+        behavior: 'auto',
+      })
+    }
   },
 )
