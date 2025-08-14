@@ -8,7 +8,12 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    PostTag: typeof import('./src/components/PostTags.vue')['default']
+    PostTags: typeof import('./src/components/PostTags.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TheFooter: typeof import('./src/components/layout/TheFooter.vue')['default']
+    TheHeader: typeof import('./src/components/layout/TheHeader.vue')['default']
+    WrapperPost: typeof import('./src/components/WrapperPost.vue')['default']
   }
 }

@@ -13,13 +13,12 @@ import MDLinkAttributes from 'markdown-it-link-attributes'
 import MDMagicLink from 'markdown-it-magic-link'
 // @ts-expect-error missing types of 'markdown-it-table-of-contents'
 import MDTableOfContents from 'markdown-it-table-of-contents'
-import slugify from 'scripts/slugify'
 import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
 import Markdown from 'unplugin-vue-markdown/vite'
 import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
-import OptimizeExclude from 'vite-plugin-optimize-exclude'
+import slugify from './scripts/slugify'
 
 export default defineConfig({
   resolve: {
@@ -37,13 +36,6 @@ export default defineConfig({
   plugins: [
     UnoCSS(),
 
-    Vue({
-      include: [/\.vue$/, /\.md$/],
-      features: {
-        propsDestructure: true,
-      },
-    }),
-
     VueRouter({
       extensions: ['.vue', '.md'],
       routesFolder: 'pages',
@@ -58,7 +50,18 @@ export default defineConfig({
       },
     }),
 
+    Vue({
+      include: [/\.vue$/, /\.md$/],
+      features: {
+        propsDestructure: true,
+      },
+    }),
+
     Markdown({
+      wrapperComponent: 'WrapperPost',
+      wrapperClasses: (_, code) => code.includes('@layout-full-width')
+        ? ''
+        : 'prose m-auto slide-enter-content',
       headEnabled: true,
       exportFrontmatter: false,
       exposeFrontmatter: false,
@@ -74,6 +77,7 @@ export default defineConfig({
             dark: 'vitesse-dark',
           },
           defaultColor: false,
+          cssVariablePrefix: '--s-',
           transformers: [
             transformerTwoslash({
               explicitTrigger: true,
@@ -109,7 +113,7 @@ export default defineConfig({
         md.use(MDTableOfContents, {
           slugify,
           includeLevel: [1, 2, 3, 4],
-          containerHeaderHtml: '<div class="markdown-it-table-of-contents"></div>',
+
         })
 
         // 魔法链接
@@ -121,13 +125,12 @@ export default defineConfig({
     }),
 
     Components({
-      extensions: ['.vue', '.md'],
+      extensions: ['vue', 'md'],
       dts: true,
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
     }),
-
-    OptimizeExclude(),
   ],
+
   ssgOptions: {
     formatting: 'minify',
   },
