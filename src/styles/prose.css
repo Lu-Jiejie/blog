@@ -3,10 +3,18 @@
   --fg: #555;
   --fg-deep: #222;
   --fg-deeper: #000;
+
   color: var(--fg);
   max-width: 70ch;
   font-size: 1rem;
   line-height: 1.75;
+}
+
+html.dark .prose {
+  --fg-light: #888;
+  --fg: #bbb;
+  --fg-deep: #ddd;
+  --fg-deeper: #fff;
 }
 
 .prose [class~='lead'] {
@@ -42,8 +50,10 @@
 .prose a {
   font-weight: inherit;
   text-decoration: none;
-  border-bottom: 1px solid rgba(125, 125, 125, 0.3);
+  border-bottom: 1px solid rgba(125, 125, 125, 0.4);
   transition: border 0.3s ease-in-out;
+  color: var(--fg-deeper);
+  font-weight: 500;
 }
 
 .prose a:hover {

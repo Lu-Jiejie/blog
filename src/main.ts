@@ -9,10 +9,15 @@ import App from './App.vue'
 import 'markdown-it-github-alerts/styles/github-colors-light.css'
 import 'markdown-it-github-alerts/styles/github-colors-dark-class.css'
 import 'markdown-it-github-alerts/styles/github-base.css'
+
+import 'markdown-it-copy-code/styles/base.css'
+import 'markdown-it-copy-code/styles/large.css'
+
 import '@shikijs/twoslash/style-rich.css'
 import './styles/main.css'
 import './styles/markdown.css'
 import './styles/prose.css'
+
 import 'uno.css'
 
 // `export const createApp` is required instead of the original `createApp(App).mount('#app')`
@@ -39,7 +44,7 @@ export const createApp = ViteSSG(
           html(ctx) {
             if (
               ctx.savedPosition?.top
-              // || import.meta.hot
+              || import.meta.hot
             ) {
               html.classList.add('no-sliding')
             }

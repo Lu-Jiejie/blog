@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Post } from '~/types'
 import { useEventListener } from '@vueuse/core'
+import { useCopyCode } from 'markdown-it-copy-code'
 import { nextTick, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { formatDate } from '~/logic'
@@ -13,13 +14,16 @@ const content = ref<HTMLDivElement>()
 const router = useRouter()
 
 onMounted(() => {
+  // for copy code
+  useCopyCode()
+
   const navigate = () => {
     if (location.hash) {
       const anchor = content.value?.querySelector(decodeURIComponent(location.hash))
       if (anchor) {
         const rect = anchor.getBoundingClientRect()
         window.scrollTo({
-          top: window.scrollY + rect.top - 40,
+          top: window.scrollY + rect.top - 20,
           behavior: 'smooth',
         })
       }
@@ -72,26 +76,30 @@ onMounted(() => {
 
 <template>
   <div
-    v-if="frontmatter.title"
+    v-if="frontmatter.display || frontmatter.title"
     class="prose" m-auto mb-8
   >
     <h1 mb-0>
-      {{ frontmatter.title }}
+      {{ frontmatter.display || frontmatter.title }}
     </h1>
 
     <p v-if="frontmatter.subtitle" m="t--5! b-6!" op-80 italic>
       {{ frontmatter.subtitle }}
     </p>
 
-    <p m="t--5!">
-      <span op-60>{{ formatDate(frontmatter.date, false) }}</span>
-      <span v-if="frontmatter.place" op-60>
-        · {{ frontmatter.place }}
+    <div op-60 m="t--5!" flex="~ gap-2 items-center wrap">
+      <span>{{ formatDate(frontmatter.date, false) }}</span>
+      <span v-if="frontmatter.place">
+        {{ frontmatter.place }}
       </span>
 
-      <span mx-1 />
-      <PostTags :tags="frontmatter.tags" />
-    </p>
+      <!-- <PostTags :tags="frontmatter.tags" /> -->
+      <div flex="~ gap-2 items-center">
+        <RouterLink v-for="tag in frontmatter.tags" :key="tag" :to="`/tags/${tag}`">
+          #{{ tag }}
+        </RouterLink>
+      </div>
+    </div>
   </div>
 
   <article

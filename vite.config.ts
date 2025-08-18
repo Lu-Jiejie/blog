@@ -8,11 +8,11 @@ import Vue from '@vitejs/plugin-vue'
 import fs from 'fs-extra'
 import matter from 'gray-matter'
 import MDAnchor from 'markdown-it-anchor'
+import MDCopyCode from 'markdown-it-copy-code'
 import MDGithubAlerts from 'markdown-it-github-alerts'
 import MDLinkAttributes from 'markdown-it-link-attributes'
 import MDMagicLink from 'markdown-it-magic-link'
-// @ts-expect-error missing types of 'markdown-it-table-of-contents'
-import MDTableOfContents from 'markdown-it-table-of-contents'
+import MDTableOfContents from 'markdown-it-toc-done-right'
 import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
 import Markdown from 'unplugin-vue-markdown/vite'
@@ -112,8 +112,8 @@ export default defineConfig({
         // 目录生成
         md.use(MDTableOfContents, {
           slugify,
-          includeLevel: [1, 2, 3, 4],
-
+          listType: 'ul',
+          level: [1, 2, 3, 4],
         })
 
         // 魔法链接
@@ -121,6 +121,9 @@ export default defineConfig({
 
         // GitHub 提示块
         md.use(MDGithubAlerts)
+
+        // 代码复制
+        md.use(MDCopyCode, {})
       },
     }),
 

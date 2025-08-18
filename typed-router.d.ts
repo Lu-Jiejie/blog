@@ -20,6 +20,11 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...all]': RouteRecordInfo<'/[...all]', '/:all(.*)', { all: ParamValue<true> }, { all: ParamValue<false> }>,
+    '/category/archive': RouteRecordInfo<'/category/archive', '/category/archive', Record<never, never>, Record<never, never>>,
+    '/category/life': RouteRecordInfo<'/category/life', '/category/life', Record<never, never>, Record<never, never>>,
+    '/category/notes': RouteRecordInfo<'/category/notes', '/category/notes', Record<never, never>, Record<never, never>>,
+    '/posts/nuxt4-tips': RouteRecordInfo<'/posts/nuxt4-tips', '/posts/nuxt4-tips', Record<never, never>, Record<never, never>>,
+    '/posts/nuxt4-tips copy': RouteRecordInfo<'/posts/nuxt4-tips copy', '/posts/nuxt4-tips copy', Record<never, never>, Record<never, never>>,
     '/posts/test': RouteRecordInfo<'/posts/test', '/posts/test', Record<never, never>, Record<never, never>>,
   }
 
@@ -40,6 +45,26 @@ declare module 'vue-router/auto-routes' {
     }
     'pages/[...all].vue': {
       routes: '/[...all]'
+      views: never
+    }
+    'pages/category/archive.vue': {
+      routes: '/category/archive'
+      views: never
+    }
+    'pages/category/life.vue': {
+      routes: '/category/life'
+      views: never
+    }
+    'pages/category/notes.vue': {
+      routes: '/category/notes'
+      views: never
+    }
+    'pages/posts/nuxt4-tips.md': {
+      routes: '/posts/nuxt4-tips'
+      views: never
+    }
+    'pages/posts/nuxt4-tips copy.md': {
+      routes: '/posts/nuxt4-tips copy'
       views: never
     }
     'pages/posts/test.md': {

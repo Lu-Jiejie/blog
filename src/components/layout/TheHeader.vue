@@ -1,18 +1,22 @@
 <script setup lang="ts">
+import { RouterLink } from 'vue-router'
 import { toggleDark } from '~/logic'
 </script>
 
 <template>
-  <header z-40>
-    <!-- <img src="/icon-dark.png" class="h-100% w-auto object-cover block" alt=""> -->
-
+  <header>
     <nav
-      flex w="100%" items-center
+      flex w="100%" items-center z-40 text-lg
       print:op-0 select-none p-8 box-border
     >
+      <RouterLink to="/" title="鹿巢">
+        <Logo
+          h-7 op-75 hover:op-100 transition duration-400 ease
+        />
+      </RouterLink>
       <div flex-1 />
       <div class="right" flex items-center gap-4>
-        <RouterLink to="/posts" title="文章">
+        <RouterLink to="/category/notes" title="文章">
           <span lt-md:hidden>文章</span>
           <div i-ri-article-line md:hidden />
         </RouterLink>

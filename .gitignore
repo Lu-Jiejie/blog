@@ -9,3 +9,6 @@ node_modules
 *.log
 temp
 public/assets/fonts
+
+# Local Netlify folder
+.netlify

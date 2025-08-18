@@ -1,4 +1,5 @@
 import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
+
 import {
   defineConfig,
   presetAttributify,
@@ -13,7 +14,7 @@ export default defineConfig({
     'bg-base': 'bg-white dark:bg-black',
     'text-color-base': 'text-black dark:text-white',
     'border-base': 'border-[#8884]',
-  }],
+  }, [/^important-(.*)$/, ([_, c]) => `!${c}`]],
   rules: [
     [/^slide-enter-(\d+)$/, ([_, n]) => ({
       '--enter-stage': n,
