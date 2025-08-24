@@ -90,7 +90,7 @@ h6:focus .header-anchor {
   position: fixed;
   top: 10em;
   /* bottom: 0; */
-  max-height: calc(100vh - 15em);
+  max-height: calc(100vh - 18em);
   font-size: 1em;
   right: 2.5em;
   z-index: 200;

@@ -8,3 +8,13 @@ export interface Post {
   tags?: string[]
   place?: string
 }
+
+export interface Project {
+  name: string
+  link: string
+  description: string
+  icon: string
+  icon_css?: string
+}
+
+export type Projects = Record<string, Project[]>

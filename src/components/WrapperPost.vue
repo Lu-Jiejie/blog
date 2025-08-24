@@ -3,7 +3,7 @@ import type { Post } from '~/types'
 import { useEventListener } from '@vueuse/core'
 import { useCopyCode } from 'markdown-it-copy-code'
 import { nextTick, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { formatDate } from '~/logic'
 
 const { frontmatter } = defineProps<{
@@ -12,6 +12,7 @@ const { frontmatter } = defineProps<{
 
 const content = ref<HTMLDivElement>()
 const router = useRouter()
+const route = useRoute()
 
 onMounted(() => {
   // for copy code
@@ -87,15 +88,17 @@ onMounted(() => {
       {{ frontmatter.subtitle }}
     </p>
 
-    <div op-60 m="t--5!" flex="~ gap-2 items-center wrap">
+    <div op-60 m="t--5!" flex="~ gap-2 items-center wrap" line-height-tight>
       <span>{{ formatDate(frontmatter.date, false) }}</span>
       <span v-if="frontmatter.place">
         {{ frontmatter.place }}
       </span>
-
+      <div />
       <!-- <PostTags :tags="frontmatter.tags" /> -->
-      <div flex="~ gap-2 items-center">
-        <RouterLink v-for="tag in frontmatter.tags" :key="tag" :to="`/tags/${tag}`">
+      <div flex="~ gap-3 wrap">
+        <RouterLink
+          v-for="tag in frontmatter.tags" :key="tag" :to="`/tags/${tag}`"
+        >
           #{{ tag }}
         </RouterLink>
       </div>
@@ -107,4 +110,17 @@ onMounted(() => {
   >
     <slot />
   </article>
+
+  <div
+    class="prose"
+    m="t-8 b-8" m-auto slide-enter animate-delay-500 print:hidden
+  >
+    <span op-50 mr-2> > </span>
+    <RouterLink
+      :to="route.path.split('/').slice(0, -1).join('/') || '/'"
+      op-50 hover:op-75 font-mono
+    >
+      {{ `cd ..` }}
+    </RouterLink>
+  </div>
 </template>

@@ -59,9 +59,7 @@ export default defineConfig({
 
     Markdown({
       wrapperComponent: 'WrapperPost',
-      wrapperClasses: (_, code) => code.includes('@layout-full-width')
-        ? ''
-        : 'prose m-auto slide-enter-content',
+      wrapperClasses: 'prose m-auto slide-enter-content',
       headEnabled: true,
       exportFrontmatter: false,
       exposeFrontmatter: false,

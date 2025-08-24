@@ -8,16 +8,20 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    CategoryNav: typeof import('./src/components/CategoryNav.vue')['default']
     CategorySubNav: typeof import('./src/components/CategorySubNav.vue')['default']
+    CategoryView: typeof import('./src/components/CategoryView.vue')['default']
+    GithubHeatmap: typeof import('./src/components/GithubHeatmap.vue')['default']
     ListPosts: typeof import('./src/components/ListPosts.vue')['default']
+    ListProjects: typeof import('./src/components/ListProjects.vue')['default']
     Logo: typeof import('./src/components/Logo.vue')['default']
-    PostTags: typeof import('./src/components/PostTags.vue')['default']
+    MusicCard: typeof import('./src/components/MusicCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    TempMusicCard: typeof import('./src/components/TempMusicCard.vue')['default']
+    TheBack: typeof import('./src/components/layout/TheBack.vue')['default']
     TheFooter: typeof import('./src/components/layout/TheFooter.vue')['default']
     TheHeader: typeof import('./src/components/layout/TheHeader.vue')['default']
-    ThePostsSubNav: typeof import('./src/components/layout/ThePostsSubNav.vue')['default']
-    WrapperPost: typeof import('./src/components/wrapper/WrapperPost.vue')['default']
+    TheToTop: typeof import('./src/components/layout/TheToTop.vue')['default']
+    WrapperPost: typeof import('./src/components/WrapperPost.vue')['default']
   }
 }

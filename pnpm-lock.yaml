@@ -37,12 +37,9 @@ importers:
       '@antfu/eslint-config':
         specifier: ^5.2.0
         version: 5.2.0(@unocss/eslint-plugin@66.4.2(eslint@9.33.0(jiti@2.4.2))(typescript@5.9.2))(@vue/compiler-sfc@3.5.18)(eslint-plugin-format@1.0.1(eslint@9.33.0(jiti@2.4.2)))(eslint@9.33.0(jiti@2.4.2))(typescript@5.9.2)(vitest@3.2.4(@types/debug@4.1.12)(@types/node@22.17.1)(jiti@2.4.2)(jsdom@26.1.0)(terser@5.43.1)(tsx@4.19.2)(yaml@2.8.1))
-      '@iconify-json/carbon':
-        specifier: ^1.2.11
-        version: 1.2.11
-      '@iconify-json/ri':
-        specifier: ^1.2.5
-        version: 1.2.5
+      '@iconify/json':
+        specifier: ^2.2.376
+        version: 2.2.376
       '@shikijs/markdown-it':
         specifier: ^3.9.2
         version: 3.9.2(markdown-it-async@2.2.0)
@@ -58,9 +55,6 @@ importers:
       '@types/fs-extra':
         specifier: ^11.0.4
         version: 11.0.4
-      '@types/markdown-it-anchor':
-        specifier: ^7.0.0
-        version: 7.0.0(@types/markdown-it@14.1.2)(markdown-it@14.1.0)
       '@types/markdown-it-link-attributes':
         specifier: ^3.0.5
         version: 3.0.5
@@ -707,11 +701,8 @@ packages:
     resolution: {integrity: sha512-xeO57FpIu4p1Ri3Jq/EXq4ClRm86dVF2z/+kvFnyqVYRavTZmaFaUBbWCOuuTh0o/g7DSsk6kc2vrS4Vl5oPOQ==}
     engines: {node: '>=18.18'}
 
-  '@iconify-json/carbon@1.2.11':
-    resolution: {integrity: sha512-fWcoR0V4dLGLsgUvgjioBcTmj+l8NlMMEP/aMMUwR9PWAr5mCBg52rsTe/bvOnL1zj9PUCNxaj2M4H27GrnO3g==}
-
-  '@iconify-json/ri@1.2.5':
-    resolution: {integrity: sha512-kWGimOXMZrlYusjBKKXYOWcKhbOHusFsmrmRGmjS7rH0BpML5A9/fy8KHZqFOwZfC4M6amObQYbh8BqO5cMC3w==}
+  '@iconify/json@2.2.376':
+    resolution: {integrity: sha512-2jQ+5zPV7Lva9iuFOvMkcq5XQyRx7xvLuodpDI+yjAxOnB2gpWa4caFz53tyPgCWU50Zd9/JSNZaCNYSTniSrg==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -972,10 +963,6 @@ packages:
 
   '@types/linkify-it@5.0.0':
     resolution: {integrity: sha512-sVDA58zAw4eWAffKOaQH5/5j3XeayukzDk+ewSsnv3p4yJEZHCCzMDiZM8e0OUrRvmpGZ85jf4yDHkHsgBNr9Q==}
-
-  '@types/markdown-it-anchor@7.0.0':
-    resolution: {integrity: sha512-kFehISVfgSePSp6JWGWrcgKIPoPpAsZAqTLUt0Wq9+MNiGdnWdXQy8UerwhmD2afmjux1TWf8XCmlpL2/6ax/A==}
-    deprecated: This is a stub types definition. markdown-it-anchor provides its own type definitions, so you do not need this installed.
 
   '@types/markdown-it-link-attributes@3.0.5':
     resolution: {integrity: sha512-VZ2BGN3ywUg7mBD8W6PwR8ChpOxaQSBDbLqPgvNI+uIra3zY2af1eG/3XzWTKjEraTWskMKnZqZd6m1fDF67Bg==}
@@ -2679,6 +2666,9 @@ packages:
     resolution: {integrity: sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q==}
     engines: {node: '>=8'}
 
+  pathe@1.1.2:
+    resolution: {integrity: sha512-whLdWMYL2TwI08hn8/ZqAbrVemu0LNaNNJZX73O6qaIdCTfXutsLhMkjdENX0qhsQ9uIimo4/aQOmXkoon2nDQ==}
+
   pathe@2.0.3:
     resolution: {integrity: sha512-WUjGcAqP1gQacoQe+OBJsFA7Ld4DyXuUIjZ5cc75cLHvJ7dtNsTugphxIADwspS+AraAUePCKrSVtPLFj/F88w==}
 
@@ -3811,13 +3801,10 @@ snapshots:
 
   '@humanwhocodes/retry@0.4.2': {}
 
-  '@iconify-json/carbon@1.2.11':
+  '@iconify/json@2.2.376':
     dependencies:
       '@iconify/types': 2.0.0
-
-  '@iconify-json/ri@1.2.5':
-    dependencies:
-      '@iconify/types': 2.0.0
+      pathe: 1.1.2
 
   '@iconify/types@2.0.0': {}
 
@@ -4070,13 +4057,6 @@ snapshots:
       '@types/node': 22.17.1
 
   '@types/linkify-it@5.0.0': {}
-
-  '@types/markdown-it-anchor@7.0.0(@types/markdown-it@14.1.2)(markdown-it@14.1.0)':
-    dependencies:
-      markdown-it-anchor: 9.2.0(@types/markdown-it@14.1.2)(markdown-it@14.1.0)
-    transitivePeerDependencies:
-      - '@types/markdown-it'
-      - markdown-it
 
   '@types/markdown-it-link-attributes@3.0.5':
     dependencies:
@@ -6283,6 +6263,8 @@ snapshots:
   path-exists@4.0.0: {}
 
   path-key@3.1.1: {}
+
+  pathe@1.1.2: {}
 
   pathe@2.0.3: {}
 

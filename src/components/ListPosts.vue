@@ -9,6 +9,7 @@ type PostRoute = {
 
 const props = defineProps<{
   category?: string
+  categories: Array<{ name: string, label: string }>
 }>()
 
 const router = useRouter()
@@ -26,6 +27,7 @@ const posts: PostRoute[] = router.getRoutes()
     path: r.path,
     ...(r.meta.frontmatter),
   }))
+  .sort((a, b) => Number(new Date(b.date)) - Number(new Date(a.date)))
 
 function getYear(date: Date | string | number) {
   // console.log(date, new Date(date).getFullYear())
@@ -58,46 +60,59 @@ function isSameYear(date1?: Date | string | number, date2?: Date | string | numb
         >{{ getYear(post.date) }}</span>
       </div>
 
-      <RouterLink
-        :to="post.path" class="item"
-        block font-normal m="b-6 t-2"
+      <div
+        slide-enter
+        :style="{
+          '--enter-stage': idx,
+          '--enter-step': '60ms',
+        }"
       >
-        <li flex="~ col gap-2 md:row md:items-center">
-          <!-- category & title -->
-          <div leading-1.2em flex="~ wrap">
-            <span
-              v-if="!category"
-              align-middle flex-none
-              text-xs rounded bg-hex-a1a1a160 text-hex-a1a1a1
-              p="x-1 y-0.5" m="l--12 r-2 y-auto"
-              hidden md:important-block
-            >
-              {{ post.category }}
-            </span>
-            <span text-lg>
-              {{ post.title }}
-            </span>
-          </div>
+        <RouterLink
+          :to="post.path" class="item"
+          block font-normal m="b-6 t-2"
+        >
+          <li flex="~ col gap-2 md:row md:items-center">
+            <!-- category & title -->
+            <div leading-1.2em relative>
+              <span text-lg block>
+                {{ post.title }}
+              </span>
 
-          <!-- extra info -->
-          <div text-sm ws-nowrap op-50 flex="~ gap-2 items-center wrap">
-            <span>
-              {{ formatDate(post.date, true) }}
-            </span>
-            <!-- <span> · </span> -->
-            <span v-if="post.place">
-              {{ post.place }}
-            </span>
-            <div>
-              <RouterLink
-                v-for="tag in post.tags" :key="tag" :to="`/tags/${tag}`"
+              <span
+                v-if="!category"
+                absolute right="full" top="0.3em"
+                inline-block rounded bg-hex-a1a1a150
+                text-xs text-hex-555 dark:text-hex-bbb
+                p="x-1 y-0.5" m="r-2"
+                text-right hidden md:important-block
+                whitespace-nowrap
               >
-                #{{ tag }}
-              </RouterLink>
+                {{ props.categories.find(c => c.name === post.category)?.label }}
+              </span>
             </div>
-          </div>
-        </li>
-      </RouterLink>
+
+            <!-- extra info -->
+            <div text-sm ws-nowrap flex="~ gap-2 items-center wrap">
+              <span op-50>
+                {{ formatDate(post.date, true) }}
+              </span>
+              <!-- <span> · </span> -->
+              <span v-if="post.place" op-50>
+                {{ post.place }}
+              </span>
+              <span
+                v-if="!category"
+                align-middle flex-none rounded bg-hex-a1a1a150
+                text-xs text-hex-555 dark:text-hex-bbb
+                p="x-1 y-0.5" m="y-auto"
+                md:hidden
+              >
+                {{ props.categories.find(c => c.name === post.category)?.label }}
+              </span>
+            </div>
+          </li>
+        </RouterLink>
+      </div>
     </template>
   </ul>
 </template>

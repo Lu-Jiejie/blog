@@ -34,7 +34,7 @@ export default defineConfig({
     presetWebFonts({
       fonts: {
         sans: 'Inter',
-        serif: 'DM Serif Display',
+        serif: 'Newsreader',
         mono: 'Fira Code',
       },
       processors: createLocalFontProcessor(),

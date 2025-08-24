@@ -20,12 +20,12 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...all]': RouteRecordInfo<'/[...all]', '/:all(.*)', { all: ParamValue<true> }, { all: ParamValue<false> }>,
-    '/category/archive': RouteRecordInfo<'/category/archive', '/category/archive', Record<never, never>, Record<never, never>>,
-    '/category/life': RouteRecordInfo<'/category/life', '/category/life', Record<never, never>, Record<never, never>>,
+    '/category/all': RouteRecordInfo<'/category/all', '/category/all', Record<never, never>, Record<never, never>>,
+    '/category/essays': RouteRecordInfo<'/category/essays', '/category/essays', Record<never, never>, Record<never, never>>,
     '/category/notes': RouteRecordInfo<'/category/notes', '/category/notes', Record<never, never>, Record<never, never>>,
+    '/posts/about-my-life': RouteRecordInfo<'/posts/about-my-life', '/posts/about-my-life', Record<never, never>, Record<never, never>>,
     '/posts/nuxt4-tips': RouteRecordInfo<'/posts/nuxt4-tips', '/posts/nuxt4-tips', Record<never, never>, Record<never, never>>,
-    '/posts/nuxt4-tips copy': RouteRecordInfo<'/posts/nuxt4-tips copy', '/posts/nuxt4-tips copy', Record<never, never>, Record<never, never>>,
-    '/posts/test': RouteRecordInfo<'/posts/test', '/posts/test', Record<never, never>, Record<never, never>>,
+    '/projects': RouteRecordInfo<'/projects', '/projects', Record<never, never>, Record<never, never>>,
   }
 
   /**
@@ -39,7 +39,7 @@ declare module 'vue-router/auto-routes' {
    * @internal
    */
   export interface _RouteFileInfoMap {
-    'pages/index.md': {
+    'pages/index.vue': {
       routes: '/'
       views: never
     }
@@ -47,28 +47,28 @@ declare module 'vue-router/auto-routes' {
       routes: '/[...all]'
       views: never
     }
-    'pages/category/archive.vue': {
-      routes: '/category/archive'
+    'pages/category/all.vue': {
+      routes: '/category/all'
       views: never
     }
-    'pages/category/life.vue': {
-      routes: '/category/life'
+    'pages/category/essays.vue': {
+      routes: '/category/essays'
       views: never
     }
     'pages/category/notes.vue': {
       routes: '/category/notes'
       views: never
     }
+    'pages/posts/about-my-life.md': {
+      routes: '/posts/about-my-life'
+      views: never
+    }
     'pages/posts/nuxt4-tips.md': {
       routes: '/posts/nuxt4-tips'
       views: never
     }
-    'pages/posts/nuxt4-tips copy.md': {
-      routes: '/posts/nuxt4-tips copy'
-      views: never
-    }
-    'pages/posts/test.md': {
-      routes: '/posts/test'
+    'pages/projects.vue': {
+      routes: '/projects'
       views: never
     }
   }

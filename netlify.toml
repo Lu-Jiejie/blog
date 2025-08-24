@@ -9,3 +9,6 @@ NODE_VERSION = "23"
 from = "/*"
 to = "/index.html"
 status = 200
+
+[dev]
+targetPort = 3333
