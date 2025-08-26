@@ -19,7 +19,7 @@ const props = defineProps<{
 const API = 'https://api.injahow.cn/meting/'
 const NETEASE_MUSIC_URL = 'https://music.163.com/#/song?id='
 const CACHE_EXPIRY = 24 * 60 * 60 * 1000
-const CACHE_KEY = 'music_list'
+const CACHE_KEY = 'recent-listens'
 const list = useExpireStorage<MusicItem[]>(CACHE_KEY, CACHE_EXPIRY)
 
 const prepared = computed(() => {

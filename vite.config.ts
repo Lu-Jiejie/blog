@@ -18,7 +18,7 @@ import Components from 'unplugin-vue-components/vite'
 import Markdown from 'unplugin-vue-markdown/vite'
 import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
-import slugify from './scripts/slugify'
+import { slugify } from './scripts/slugify'
 
 export default defineConfig({
   resolve: {

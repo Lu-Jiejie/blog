@@ -17,8 +17,6 @@ declare module 'vue' {
     MusicCard: typeof import('./src/components/MusicCard.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    TempMusicCard: typeof import('./src/components/TempMusicCard.vue')['default']
-    TheBack: typeof import('./src/components/layout/TheBack.vue')['default']
     TheFooter: typeof import('./src/components/layout/TheFooter.vue')['default']
     TheHeader: typeof import('./src/components/layout/TheHeader.vue')['default']
     TheToTop: typeof import('./src/components/layout/TheToTop.vue')['default']
