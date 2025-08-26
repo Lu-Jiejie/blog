@@ -69,7 +69,6 @@ function filterContributionsForLastYear(contributions: ContributionDay[]) {
   const sortedDays = [...filteredDays].sort((a, b) => {
     return new Date(a.date).getTime() - new Date(b.date).getTime()
   })
-
   return {
     filteredDays: sortedDays,
     today,
@@ -81,30 +80,17 @@ function calculateWeeks(filteredDays: ContributionDay[]) {
   const weeksArray: ContributionDay[][] = []
   let week: ContributionDay[] = []
 
-  const firstDay = filteredDays.length > 0 ? new Date(filteredDays[0].date) : new Date()
-  const firstDayOfWeek = firstDay.getDay()
-
-  for (let i = 0; i < firstDayOfWeek; i++) {
-    week.push({ date: '', count: 0, level: 0 })
-  }
-
   filteredDays.forEach((day) => {
     week.push(day)
-
     if (week.length === 7) {
       weeksArray.push([...week])
       week = []
     }
   })
-
   if (week.length > 0) {
-    while (week.length < 7) {
-      week.push({ date: '', count: 0, level: 0 })
-    }
-    weeksArray.push(week)
+    weeksArray.push([...week])
   }
-
-  return weeksArray.slice(0, 53)
+  return weeksArray
 }
 
 function createEmptyWeeks() {
