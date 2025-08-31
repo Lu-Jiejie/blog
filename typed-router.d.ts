@@ -23,8 +23,6 @@ declare module 'vue-router/auto-routes' {
     '/category/all': RouteRecordInfo<'/category/all', '/category/all', Record<never, never>, Record<never, never>>,
     '/category/essays': RouteRecordInfo<'/category/essays', '/category/essays', Record<never, never>, Record<never, never>>,
     '/category/notes': RouteRecordInfo<'/category/notes', '/category/notes', Record<never, never>, Record<never, never>>,
-    '/posts/about-my-life': RouteRecordInfo<'/posts/about-my-life', '/posts/about-my-life', Record<never, never>, Record<never, never>>,
-    '/posts/nuxt4-tips': RouteRecordInfo<'/posts/nuxt4-tips', '/posts/nuxt4-tips', Record<never, never>, Record<never, never>>,
     '/projects': RouteRecordInfo<'/projects', '/projects', Record<never, never>, Record<never, never>>,
   }
 
@@ -39,7 +37,7 @@ declare module 'vue-router/auto-routes' {
    * @internal
    */
   export interface _RouteFileInfoMap {
-    'pages/index.vue': {
+    'pages/index.md': {
       routes: '/'
       views: never
     }
@@ -57,14 +55,6 @@ declare module 'vue-router/auto-routes' {
     }
     'pages/category/notes.vue': {
       routes: '/category/notes'
-      views: never
-    }
-    'pages/posts/about-my-life.md': {
-      routes: '/posts/about-my-life'
-      views: never
-    }
-    'pages/posts/nuxt4-tips.md': {
-      routes: '/posts/nuxt4-tips'
       views: never
     }
     'pages/projects.vue': {

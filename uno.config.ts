@@ -11,9 +11,8 @@ import {
 
 export default defineConfig({
   shortcuts: [{
-    'bg-base': 'bg-white dark:bg-black',
-    'text-color-base': 'text-black dark:text-white',
     'border-base': 'border-[#8884]',
+    'bg-card-item-link': 'bg-hex-8882 hover:bg-hex-8883 dark:bg-hex-8883 dark:hover:bg-hex-8884',
   }, [/^important-(.*)$/, ([_, c]) => `!${c}`]],
   rules: [
     [/^slide-enter-(\d+)$/, ([_, n]) => ({

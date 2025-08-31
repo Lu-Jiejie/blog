@@ -1,5 +1,16 @@
 <script setup lang="ts">
 import type { Projects } from '~/types'
+import { useHead } from '@vueuse/head'
+
+useHead({
+  title: 'Projects - Lu Jiejie',
+  meta: [
+    {
+      name: 'description',
+      content: 'Selection of projects by Lu Jiejie',
+    },
+  ],
+})
 
 const projects: Projects = {
   'NPM Packages': [

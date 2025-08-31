@@ -12,3 +12,9 @@ status = 200
 
 [dev]
 targetPort = 3333
+
+[[headers]]
+for = "/assets/*"
+
+[headers.values]
+Cache-Control = "public, max-age=31536000, immutable"

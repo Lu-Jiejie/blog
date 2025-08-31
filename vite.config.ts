@@ -41,6 +41,7 @@ export default defineConfig({
       routesFolder: 'pages',
       extendRoute(route) {
         const path = route.components.get('default')
+
         if (path && path.endsWith('.md')) {
           const { data } = matter(fs.readFileSync(path, 'utf-8'))
           route.addToMeta({
@@ -59,7 +60,12 @@ export default defineConfig({
 
     Markdown({
       wrapperComponent: 'WrapperPost',
-      wrapperClasses: 'prose m-auto slide-enter-content',
+      wrapperClasses: (_, code) => {
+        if (code.includes('@layout-full-width')) {
+          return ''
+        }
+        return 'prose m-auto slide-enter-content'
+      },
       headEnabled: true,
       exportFrontmatter: false,
       exposeFrontmatter: false,
