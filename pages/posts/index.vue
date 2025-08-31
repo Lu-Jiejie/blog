@@ -56,6 +56,6 @@ useHead(computed(() => ({
       </template>
     </div>
 
-    <ListPosts :categories="categories" :type="type" />
+    <ListPosts :categories="categories" :type="type" :key="type" />
   </div>
 </template>

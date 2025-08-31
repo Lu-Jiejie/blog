@@ -13,27 +13,23 @@ import { toggleDark } from '~/logic'
       <div class="right" flex items-center gap-4>
         <RouterLink to="/" title="Me">
           <span lt-md:hidden>Me</span>
-          <div i-carbon-home md:hidden />
+          <div i-icon-park-outline-home md:hidden />
         </RouterLink>
         <RouterLink to="/posts" title="Posts">
           <span lt-md:hidden>Posts</span>
-          <div i-ri-article-line md:hidden />
+          <div i-icon-park-outline-align-text-right-one md:hidden />
         </RouterLink>
         <RouterLink to="/projects" title="Projects">
           <span lt-md:hidden>Projects</span>
-          <div i-ri-lightbulb-line md:hidden />
+          <div i-icon-park-outline-blocks-and-arrows md:hidden />
         </RouterLink>
         <RouterLink to="/media" title="Media">
           <span lt-md:hidden>Media</span>
-          <div i-mingcute-film-line md:hidden />
+          <div i-icon-park-outline-film md:hidden />
         </RouterLink>
-        <!-- <RouterLink to="/tags" title="标签">
-          <span lt-md:hidden>标签</span>
-          <div i-carbon-tag md:hidden />
-        </RouterLink> -->
 
         <a href="https://github.com/Lu-Jiejie" target="_blank" title="GitHub">
-          <div i-carbon-logo-github />
+          <div i-icon-park-outline-github-one />
         </a>
         <a href="/feed.xml" target="_blank" title="RSS" lt-md:hidden>
           <div i-la-rss-square style="font-size: 1.3rem; margin: -0.13rem -0.13rem;" />
