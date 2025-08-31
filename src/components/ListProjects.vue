@@ -8,10 +8,10 @@ const { projects } = defineProps<{
 
 <template>
   <div max-w-300 mx-auto select-none class="prose">
-    <h1 text-4xl font-serif important-font-normal text-center>
+    <h1 text-4xl text-center>
       Projects
     </h1>
-    <p important-mt--6 mb-5 op-60 text-xl italic font-serif text-center>
+    <p important-mt--6 mb-5 op-60 italic text-lg text-center>
       Projects maintained by me.
     </p>
     <div

@@ -20,9 +20,9 @@ declare module 'vue-router/auto-routes' {
   export interface RouteNamedMap {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...all]': RouteRecordInfo<'/[...all]', '/:all(.*)', { all: ParamValue<true> }, { all: ParamValue<false> }>,
-    '/category/all': RouteRecordInfo<'/category/all', '/category/all', Record<never, never>, Record<never, never>>,
-    '/category/essays': RouteRecordInfo<'/category/essays', '/category/essays', Record<never, never>, Record<never, never>>,
-    '/category/notes': RouteRecordInfo<'/category/notes', '/category/notes', Record<never, never>, Record<never, never>>,
+    '/media': RouteRecordInfo<'/media', '/media', Record<never, never>, Record<never, never>>,
+    '/posts/': RouteRecordInfo<'/posts/', '/posts', Record<never, never>, Record<never, never>>,
+    '/posts/nuxt4-tips': RouteRecordInfo<'/posts/nuxt4-tips', '/posts/nuxt4-tips', Record<never, never>, Record<never, never>>,
     '/projects': RouteRecordInfo<'/projects', '/projects', Record<never, never>, Record<never, never>>,
   }
 
@@ -45,16 +45,16 @@ declare module 'vue-router/auto-routes' {
       routes: '/[...all]'
       views: never
     }
-    'pages/category/all.vue': {
-      routes: '/category/all'
+    'pages/media.md': {
+      routes: '/media'
       views: never
     }
-    'pages/category/essays.vue': {
-      routes: '/category/essays'
+    'pages/posts/index.vue': {
+      routes: '/posts/'
       views: never
     }
-    'pages/category/notes.vue': {
-      routes: '/category/notes'
+    'pages/posts/nuxt4-tips.md': {
+      routes: '/posts/nuxt4-tips'
       views: never
     }
     'pages/projects.vue': {

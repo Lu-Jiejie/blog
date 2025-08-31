@@ -9,24 +9,23 @@ import { toggleDark } from '~/logic'
       flex w="100%" items-center z-40 text-lg
       print:op-0 select-none p-8 box-border
     >
-      <!-- <RouterLink to="/" title="鹿巢">
-        <Logo
-          h-7 op-75 hover:op-100 transition duration-400 ease
-        />
-      </RouterLink> -->
       <div flex-1 />
       <div class="right" flex items-center gap-4>
         <RouterLink to="/" title="Me">
-          <span lt-md:hidden font-serif text-xl>Me</span>
+          <span lt-md:hidden>Me</span>
           <div i-carbon-home md:hidden />
         </RouterLink>
-        <RouterLink to="/category/all" title="Posts">
-          <span lt-md:hidden font-serif text-xl>Posts</span>
+        <RouterLink to="/posts" title="Posts">
+          <span lt-md:hidden>Posts</span>
           <div i-ri-article-line md:hidden />
         </RouterLink>
         <RouterLink to="/projects" title="Projects">
-          <span lt-md:hidden font-serif text-xl>Projects</span>
-          <div i-ri-git-repository-line md:hidden />
+          <span lt-md:hidden>Projects</span>
+          <div i-ri-lightbulb-line md:hidden />
+        </RouterLink>
+        <RouterLink to="/media" title="Media">
+          <span lt-md:hidden>Media</span>
+          <div i-mingcute-film-line md:hidden />
         </RouterLink>
         <!-- <RouterLink to="/tags" title="标签">
           <span lt-md:hidden>标签</span>

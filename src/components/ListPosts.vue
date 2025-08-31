@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { Post } from '~/types'
+import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { formatDate } from '~/logic'
 
@@ -8,29 +9,32 @@ type PostRoute = {
 } & Post
 
 const props = defineProps<{
-  category?: string
+  type?: string
   categories: Array<{ name: string, label: string }>
 }>()
 
 const router = useRouter()
-const posts: PostRoute[] = router.getRoutes()
-  .filter(r =>
-    r.path.startsWith('/posts')
-    && !r.path.endsWith('.html')
-    && r.meta.frontmatter.date
-    && (
-      props.category === undefined
-      || r.meta.frontmatter.category === props.category
-    ),
-  )
-  .map(r => ({
-    path: r.path,
-    ...(r.meta.frontmatter),
-  }))
-  .sort((a, b) => Number(new Date(b.date)) - Number(new Date(a.date)))
+const posts = computed<PostRoute[]>(() =>
+  router.getRoutes()
+    .filter(r =>
+      r.path.startsWith('/posts/')
+      && !r.path.endsWith('.html')
+      && r.meta.frontmatter
+      && r.meta.frontmatter.date
+      && (
+        props.type === undefined
+        || props.type === 'all'
+        || r.meta.frontmatter.type === props.type
+      ),
+    )
+    .map(r => ({
+      path: r.path,
+      ...(r.meta.frontmatter),
+    }))
+    .sort((a, b) => Number(new Date(b.date)) - Number(new Date(a.date))),
+)
 
 function getYear(date: Date | string | number) {
-  // console.log(date, new Date(date).getFullYear())
   return new Date(date).getFullYear()
 }
 function isSameYear(date1?: Date | string | number, date2?: Date | string | number) {
@@ -72,14 +76,14 @@ function isSameYear(date1?: Date | string | number, date2?: Date | string | numb
           block font-normal m="b-6 t-2"
         >
           <li flex="~ col gap-2 md:row md:items-center">
-            <!-- category & title -->
+            <!-- type & title -->
             <div leading-1.2em relative>
               <span text-lg block>
                 {{ post.title }}
               </span>
 
               <span
-                v-if="!category"
+                v-if="!type"
                 absolute right="full" top="0.3em"
                 inline-block rounded bg-hex-a1a1a150
                 text-xs text-hex-555 dark:text-hex-bbb
@@ -87,7 +91,7 @@ function isSameYear(date1?: Date | string | number, date2?: Date | string | numb
                 text-right hidden md:important-block
                 whitespace-nowrap
               >
-                {{ props.categories.find(c => c.name === post.category)?.label }}
+                {{ props.categories.find(c => c.name === post.type)?.label }}
               </span>
             </div>
 
@@ -101,13 +105,13 @@ function isSameYear(date1?: Date | string | number, date2?: Date | string | numb
                 {{ post.place }}
               </span>
               <span
-                v-if="!category"
+                v-if="!type"
                 align-middle flex-none rounded bg-hex-a1a1a150
                 text-xs text-hex-555 dark:text-hex-bbb
                 p="x-1 y-0.5" m="y-auto"
                 md:hidden
               >
-                {{ props.categories.find(c => c.name === post.category)?.label }}
+                {{ props.categories.find(c => c.name === post.type)?.label }}
               </span>
             </div>
           </li>

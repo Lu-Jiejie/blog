@@ -3,15 +3,17 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const needBackPath = ['/projects', '/category', '/posts']
+const needBackPath = ['/projects', '/media', '/posts']
 
 const to = computed(() => {
   if (route.path.startsWith('/posts/')) {
-    const historyState = window.history.state
-    if (historyState && historyState.back && historyState.back.startsWith('/category/')) {
-      return historyState.back
+    if (typeof window !== 'undefined') {
+      const historyState = window.history.state
+      if (historyState && historyState.back && historyState.back.startsWith('/posts')) {
+        return historyState.back
+      }
     }
-    return `/category/${route.meta.frontmatter.category}`
+    return `/posts?type=${route.meta.frontmatter.type}`
   }
 
   return route.path.split('/').slice(0, -1).join('/') || '/'
