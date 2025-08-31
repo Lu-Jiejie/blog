@@ -22,7 +22,7 @@ const to = computed(() => {
   <div
     v-if="needBackPath.some(p => route.path.startsWith(p))"
     class="prose" select-none
-    m="t-8 b-8" m-auto slide-enter animate-delay-500 print:hidden
+    m="t-8 b-8" m-auto print:hidden
   >
     <span op-50 mr-2> > </span>
     <RouterLink
