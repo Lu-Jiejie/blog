@@ -22,6 +22,10 @@ interface BangumiInfo {
   toWatch: AnimeItem[]
 }
 
+const { limit = 6 } = defineProps<{
+  limit?: number
+}>()
+
 const API = getGithubCDNUrl({
   owner: 'lu-jiejie',
   repo: 'static',
@@ -34,7 +38,7 @@ const prepared = computed(() => storage.value !== null)
 const watchingList = computed(() => {
   if (!storage.value)
     return []
-  return storage.value.watching.slice(0, 6)
+  return storage.value.watching.slice(0, limit)
 })
 
 async function fetchBangumi() {

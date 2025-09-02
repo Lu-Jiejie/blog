@@ -12,6 +12,10 @@ interface GameItem {
   icon: string
 }
 
+const { limit = 6 } = defineProps<{
+  limit?: number
+}>()
+
 const API = getGithubCDNUrl({
   owner: 'lu-jiejie',
   repo: 'static',
@@ -48,7 +52,7 @@ const formatGames = computed(() => {
 
   return [...storage.value].sort((a, b) => {
     return b.timeLastPlayed - a.timeLastPlayed
-  }).filter(i => i.playtimeForever > 1000)
+  }).filter(i => i.playtimeForever > 1000).slice(0, limit)
 })
 
 onMounted(async () => {
@@ -77,7 +81,7 @@ onMounted(async () => {
     <template v-if="prepared">
       <div grid="~ cols-1  gap-2" mt-2>
         <a
-          v-for="item in formatGames.slice(0, 6)" :key="item.id" :title="item.name"
+          v-for="item in formatGames" :key="item.id" :title="item.name"
           :href="`https://store.steampowered.com/app/${item.id}`" target="_blank" rel="noopener noreferrer"
           class="item" flex="~" h-16 box-content p-2
           cursor-pointer bg-card-item-link

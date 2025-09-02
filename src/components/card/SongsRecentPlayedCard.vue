@@ -12,17 +12,20 @@ interface MusicItem {
   score: number
 }
 
+const { limit = 6 } = defineProps<{
+  limit?: number
+}>()
+
 const API = getGithubCDNUrl({
   owner: 'lu-jiejie',
   repo: 'static',
   path: 'data/netease.json',
 })
 const CACHE_KEY = 'songs-recent-played'
-const list = useStorageByUTC<MusicItem[]>(CACHE_KEY)
-const LIMIT = 6
+const storage = useStorageByUTC<MusicItem[]>(CACHE_KEY)
 
 const prepared = computed(() => {
-  return list.value !== null
+  return storage.value !== null
 })
 
 async function fetchMusicList() {
@@ -40,13 +43,20 @@ async function fetchMusicList() {
   }
 }
 
+const list = computed(() => {
+  if (!storage.value) {
+    return []
+  }
+  return storage.value.slice(0, limit)
+})
+
 onMounted(async () => {
   const loadMusicList = async () => {
     try {
       if (!prepared.value) {
         const data = await fetchMusicList()
         if (data) {
-          list.value = data.slice(0, LIMIT)
+          storage.value = data
         }
       }
     }
