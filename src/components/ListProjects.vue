@@ -49,14 +49,13 @@ const { projects } = defineProps<{
         >
           <!-- rounded-lg hover:bg-hex-88888820 -->
           <div p="t-2 r-5">
-            <div v-if="p.icon.startsWith('i-')" :class="p.icon" text-3xl op-40 />
-            <div v-else-if="p.icon.startsWith('project_icons/')" w-9 h-9 flex="~ items-center">
+            <div v-if="p.icon.startsWith('project_icons/')" w-9 h-9 flex="~ items-center">
               <img
                 :src="p.icon" alt=""
                 w-full h-full :class="p.icon_css!"
               >
             </div>
-
+            <div v-else :class="p.icon" text-3xl op-40 />
           </div>
           <div>
             <div>{{ p.name }}</div>
