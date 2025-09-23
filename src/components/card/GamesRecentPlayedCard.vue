@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
-import { formatDate, getGithubCDNUrl, useStorageByUTC } from '~/logic'
+import { computed, onMounted, ref } from 'vue'
+import { formatDate, getGithubCDNUrl } from '~/logic'
 
 interface GameItem {
   id: string
@@ -21,54 +21,47 @@ const API = getGithubCDNUrl({
   repo: 'static',
   path: 'data/steam.json',
 })
-const CACHE_KEY = 'games-recent-played'
-const storage = useStorageByUTC<GameItem[]>(CACHE_KEY)
+
+const gamesData = ref<GameItem[] | null>(null)
+const isLoading = ref(true)
 
 async function fetchRecentGames() {
   try {
+    isLoading.value = true
     const response = await fetch(API)
     if (!response.ok) {
       throw new Error('Network response was not ok')
     }
 
     const data = (await response.json()).games as GameItem[]
-
+    gamesData.value = data
     return data
   }
   catch (err) {
     console.error('Failed to fetch recent games:', err)
     return null
   }
+  finally {
+    isLoading.value = false
+  }
 }
 
 const prepared = computed(() => {
-  return storage.value !== null
+  return gamesData.value !== null
 })
 
 const formatGames = computed(() => {
-  if (!storage.value) {
+  if (!gamesData.value) {
     return []
   }
 
-  return [...storage.value].sort((a, b) => {
+  return [...gamesData.value].sort((a, b) => {
     return b.timeLastPlayed - a.timeLastPlayed
   }).filter(i => i.playtimeForever > 10).slice(0, limit)
 })
 
 onMounted(async () => {
-  const loadRecentGames = async () => {
-    try {
-      if (storage.value === null) {
-        const data = await fetchRecentGames()
-        if (data) {
-          storage.value = data
-        }
-      }
-    }
-    catch {
-    }
-  }
-  await loadRecentGames()
+  await fetchRecentGames()
 })
 </script>
 
@@ -76,7 +69,7 @@ onMounted(async () => {
   <CardTemplate
     title="Games I've Played Recently"
     icon="i-simple-icons-steam color-hex-04699D"
-    :prepared="prepared"
+    :prepared="!isLoading && prepared"
   >
     <template v-if="prepared">
       <div grid="~ cols-1  gap-2" mt-2>

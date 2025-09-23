@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
-import { getGithubCDNUrl, useStorageByUTC } from '~/logic'
+import { computed, onMounted, ref } from 'vue'
+import { getGithubCDNUrl } from '~/logic'
 
 type LanguageDistribution = Record<string, {
   bytes: number
@@ -14,51 +14,44 @@ const API = getGithubCDNUrl({
   path: 'data/github.json',
 })
 
-const CACHE_KEY = 'github-language-distribution'
-const storage = useStorageByUTC<LanguageDistribution>(CACHE_KEY)
+const languageData = ref<LanguageDistribution | null>(null)
+const isLoading = ref(true)
 
 const prepared = computed(() => {
-  return storage.value !== null
+  return languageData.value !== null
 })
 
 const sortedLanguages = computed(() => {
-  if (!storage.value) {
+  if (!languageData.value) {
     return []
   }
 
-  return Object.entries(storage.value)
+  return Object.entries(languageData.value)
     .sort((a, b) => b[1].bytes - a[1].bytes)
 })
 
 async function fetchLanguageDistribution() {
   try {
+    isLoading.value = true
     const response = await fetch(API)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
     const res = (await response.json()).languageDistribution as LanguageDistribution
+    languageData.value = res
     return res
   }
   catch (err) {
     console.error('Failed to fetch language distribution:', err)
     return null
   }
+  finally {
+    isLoading.value = false
+  }
 }
 
 onMounted(async () => {
-  const loadLanguageDistribution = async () => {
-    try {
-      if (!prepared.value) {
-        const data = await fetchLanguageDistribution()
-        if (data) {
-          storage.value = data
-        }
-      }
-    }
-    catch {
-    }
-  }
-  loadLanguageDistribution()
+  await fetchLanguageDistribution()
 })
 </script>
 
@@ -66,7 +59,7 @@ onMounted(async () => {
   <CardTemplate
     title="GitHub Language Distribution"
     icon="i-simple-icons-github"
-    :prepared="prepared"
+    :prepared="!isLoading && prepared"
   >
     <template v-if="prepared">
       <div flex flex-col gap-2 mt-2>

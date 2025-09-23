@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
-import { getGithubCDNUrl, useStorageByUTC } from '~/logic'
+import { computed, onMounted, ref } from 'vue'
+import { getGithubCDNUrl } from '~/logic'
 
 interface AnimeItem {
   id: number
@@ -31,36 +31,39 @@ const API = getGithubCDNUrl({
   repo: 'static',
   path: 'data/bangumi.json',
 })
-const CACHE_KEY = 'anime-recent-watching'
-const storage = useStorageByUTC<BangumiInfo>(CACHE_KEY)
-const prepared = computed(() => storage.value !== null)
+
+const animeData = ref<BangumiInfo | null>(null)
+const isLoading = ref(true)
+
+const prepared = computed(() => animeData.value !== null)
 
 const watchingList = computed(() => {
-  if (!storage.value)
+  if (!animeData.value)
     return []
-  return storage.value.watching.slice(0, limit)
+  return animeData.value.watching.slice(0, limit)
 })
 
 async function fetchBangumi() {
   try {
+    isLoading.value = true
     const response = await fetch(API)
     if (!response.ok)
       throw new Error('Network response was not ok')
     const data = await response.json()
-    return data as BangumiInfo
+    animeData.value = data as BangumiInfo
+    return data
   }
   catch (err) {
     console.error('Failed to fetch bangumi:', err)
     return null
   }
+  finally {
+    isLoading.value = false
+  }
 }
 
 onMounted(async () => {
-  if (!prepared.value) {
-    const data = await fetchBangumi()
-    if (data)
-      storage.value = data
-  }
+  await fetchBangumi()
 })
 </script>
 
@@ -69,7 +72,7 @@ onMounted(async () => {
   <CardTemplate
     title="Anime I'm Watching"
     icon=""
-    :prepared="prepared"
+    :prepared="!isLoading && prepared"
   >
     <template v-if="prepared">
       <div grid="~ cols-1 sm:cols-2 gap-2" mt-2>

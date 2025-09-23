@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { getGithubCDNUrl, isDark, useStorageByUTC } from '~/logic'
+import { getGithubCDNUrl, isDark } from '~/logic'
 
 interface ContributionDay {
   date: string
@@ -21,47 +21,40 @@ const API = getGithubCDNUrl({
   repo: 'static',
   path: 'data/github.json',
 })
-const CACHE_KEY = 'github_contributions'
-const storage = useStorageByUTC<ContributionsInfo>(CACHE_KEY)
+
+const contributions = ref<ContributionsInfo | null>(null)
+const isLoading = ref(true)
 
 async function fetchContributions() {
   try {
+    isLoading.value = true
     const response = await fetch(API)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
 
     const data = (await response.json()).lastYearContributions as ContributionsInfo
-
+    contributions.value = data
     return data
   }
   catch (error) {
     console.error('Failed to fetch contributions:', error)
     return null
   }
+  finally {
+    isLoading.value = false
+  }
 }
 
 const prepared = computed(() => {
-  return storage.value !== null
+  return contributions.value !== null
 })
 
 const scrollContainer = ref<HTMLDivElement | null>(null)
 
 onMounted(async () => {
-  const loadContributions = async () => {
-    try {
-      if (!prepared.value) {
-        const data = await fetchContributions()
-        if (data) {
-          storage.value = data
-        }
-      }
-    }
-    catch {
-    }
-  }
+  await fetchContributions()
 
-  await loadContributions()
   // 数据加载后自动滚动到最右侧
   if (scrollContainer.value) {
     scrollContainer.value.scrollLeft = scrollContainer.value.scrollWidth
@@ -71,16 +64,16 @@ onMounted(async () => {
 
 <template>
   <CardTemplate
-    :title="prepared ? `${storage?.total} GitHub contributions in the last year` : 'GitHub contributions in the last year'"
+    :title="prepared ? `${contributions?.total} GitHub contributions in the last year` : 'GitHub contributions in the last year'"
     icon="i-simple-icons-github"
-    :prepared="prepared"
+    :prepared="!isLoading && prepared"
   >
     <template v-if="prepared">
       <div ref="scrollContainer" overflow-x-auto overflow-y-hidden>
         <!-- heatmap -->
         <div flex gap-0.49 min-w-0>
           <div
-            v-for="(week, weekIndex) in storage?.weeks"
+            v-for="(week, weekIndex) in contributions?.weeks"
             :key="weekIndex"
             flex flex-col gap-0.5 flex-shrink-0 w-11px
           >

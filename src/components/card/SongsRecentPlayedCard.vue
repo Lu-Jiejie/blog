@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue'
-import { getGithubCDNUrl, useStorageByUTC } from '~/logic'
+import { computed, onMounted, ref } from 'vue'
+import { getGithubCDNUrl } from '~/logic'
 
 interface MusicItem {
   name: string
@@ -21,49 +21,43 @@ const API = getGithubCDNUrl({
   repo: 'static',
   path: 'data/netease.json',
 })
-const CACHE_KEY = 'songs-recent-played'
-const storage = useStorageByUTC<MusicItem[]>(CACHE_KEY)
+
+const musicData = ref<MusicItem[] | null>(null)
+const isLoading = ref(true)
 
 const prepared = computed(() => {
-  return storage.value !== null
+  return musicData.value !== null
 })
 
 async function fetchMusicList() {
   try {
+    isLoading.value = true
     const response = await fetch(API)
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
     const res = (await response.json()).favorite as MusicItem[]
+    musicData.value = res
     return res
   }
   catch (err) {
     console.error('Failed to fetch music list:', err)
     return null
   }
+  finally {
+    isLoading.value = false
+  }
 }
 
 const list = computed(() => {
-  if (!storage.value) {
+  if (!musicData.value) {
     return []
   }
-  return storage.value.slice(0, limit)
+  return musicData.value.slice(0, limit)
 })
 
 onMounted(async () => {
-  const loadMusicList = async () => {
-    try {
-      if (!prepared.value) {
-        const data = await fetchMusicList()
-        if (data) {
-          storage.value = data
-        }
-      }
-    }
-    catch {
-    }
-  }
-  loadMusicList()
+  await fetchMusicList()
 })
 </script>
 
@@ -71,7 +65,7 @@ onMounted(async () => {
   <CardTemplate
     title="Songs I'm Enjoying"
     icon="i-simple-icons-neteasecloudmusic color-hex-FC3D49"
-    :prepared="prepared"
+    :prepared="!isLoading && prepared"
   >
     <template v-if="prepared">
       <div grid="~ cols-1 sm:cols-2 gap-2" mt-2>
