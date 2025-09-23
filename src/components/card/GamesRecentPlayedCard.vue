@@ -52,7 +52,7 @@ const formatGames = computed(() => {
 
   return [...storage.value].sort((a, b) => {
     return b.timeLastPlayed - a.timeLastPlayed
-  }).filter(i => i.playtimeForever > 1000).slice(0, limit)
+  }).filter(i => i.playtimeForever > 10).slice(0, limit)
 })
 
 onMounted(async () => {
@@ -74,7 +74,7 @@ onMounted(async () => {
 
 <template>
   <CardTemplate
-    title="Games Recently Played"
+    title="Games I've Played Recently"
     icon="i-simple-icons-steam color-hex-04699D"
     :prepared="prepared"
   >

@@ -34,7 +34,7 @@ async function fetchMusicList() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
-    const res = (await response.json()).recentPlayed as MusicItem[]
+    const res = (await response.json()).favorite as MusicItem[]
     return res
   }
   catch (err) {
@@ -69,7 +69,7 @@ onMounted(async () => {
 
 <template>
   <CardTemplate
-    title="Songs Recently Played"
+    title="Songs I'm Enjoying"
     icon="i-simple-icons-neteasecloudmusic color-hex-FC3D49"
     :prepared="prepared"
   >
@@ -80,7 +80,7 @@ onMounted(async () => {
           v-for="(item, index) in list" :key="index" :title="`${item.name} - ${item.artist}`"
           class="item" flex="~" h-16 box-content p-2
           cursor-pointer bg-card-item-link
-          rounded-md transition important-op-100
+          rounded-md transition important-op-100 overflow-hidden
         >
           <div w-16 flex-shrink-0>
             <img

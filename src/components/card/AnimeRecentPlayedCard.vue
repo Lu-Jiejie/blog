@@ -65,9 +65,10 @@ onMounted(async () => {
 </script>
 
 <template>
+  <!-- icon="i-simple-icons-bilibili color-hex-00A1D6" -->
   <CardTemplate
-    title="Anime Watching"
-    icon="i-simple-icons-bilibili color-hex-00A1D6"
+    title="Anime I'm Watching"
+    icon=""
     :prepared="prepared"
   >
     <template v-if="prepared">

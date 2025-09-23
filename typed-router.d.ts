@@ -45,7 +45,7 @@ declare module 'vue-router/auto-routes' {
       routes: '/[...all]'
       views: never
     }
-    'pages/media.md': {
+    'pages/media.vue': {
       routes: '/media'
       views: never
     }

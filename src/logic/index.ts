@@ -165,7 +165,29 @@ export function getGithubCDNUrl({
 }) {
   // 1-1: https://cdn.jsdelivr.net/gh/Lu-Jiejie/static@main/data/netease.json
   // 1-2: https://testingcf.jsdelivr.net/gh/Lu-Jiejie/static@main/data/netease.json
+  // 1-3: https://gcore.jsdelivr.net/gh/Lu-Jiejie/static@main/data/netease.json
   // 2: https://github.com/sky22333/hubproxy  https://demo.52013120.xyz/
-  // return `https://gcore.jsdelivr.net/gh/${owner}/${repo}@${branch}/${path}`
-  return `https://demo.52013120.xyz/https://raw.githubusercontent.com/${owner}/${repo}/${branch}/${path}`
+  return `https://cdn.jsdmirror.com/gh/${owner}/${repo}@${branch}/${path}`
+}
+
+export async function purgeJsDelivrCache({
+  owner,
+  repo,
+  path,
+  branch = 'main',
+}: {
+  owner: string
+  repo: string
+  path: string
+  branch?: string
+}) {
+  const url = `https://purge.jsdelivr.net/gh/${owner}/${repo}@${branch}/${path}`
+  try {
+    const response = await fetch(url, { method: 'GET' })
+    return await response.json()
+  }
+  catch (error) {
+    console.error('Failed to purge jsDelivr cache:', error)
+    return null
+  }
 }

@@ -9,11 +9,15 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AnimeRecentPlayedCard: typeof import('./src/components/card/AnimeRecentPlayedCard.vue')['default']
+    Bilibili: typeof import('./src/components/card/Bilibili.vue')['default']
+    BilibiliEmbed: typeof import('./src/components/card/BilibiliEmbed.vue')['default']
+    BilibiliMusicCard: typeof import('./src/components/card/BilibiliMusicCard.vue')['default']
     CardLoading: typeof import('./src/components/card/CardLoading.vue')['default']
     CardTemplate: typeof import('./src/components/card/CardTemplate.vue')['default']
     GamesRecentPlayedCard: typeof import('./src/components/card/GamesRecentPlayedCard.vue')['default']
     GithubHeatmapCard: typeof import('./src/components/card/GithubHeatmapCard.vue')['default']
     GithubLanguageBarCard: typeof import('./src/components/card/GithubLanguageBarCard.vue')['default']
+    ListMedia: typeof import('./src/components/ListMedia.vue')['default']
     ListPosts: typeof import('./src/components/ListPosts.vue')['default']
     ListProjects: typeof import('./src/components/ListProjects.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']

@@ -47,7 +47,7 @@ useHead(computed(() => ({
     >
       <template v-for="c in categories" :key="c.name">
         <RouterLink
-          :to="`/posts?type=${c.name}`"
+          :to="{ query: { type: c.name } }"
           :class="type === c.name ? 'op-100' : 'op-20 hover:op-50'"
           important-border-none
         >

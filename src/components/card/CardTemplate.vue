@@ -11,7 +11,7 @@ defineProps<{
     slide-enter select-none mx-auto w-full p-2 rounded-md
     border="~ base"
   >
-    <div flex="~ items-center justify-between">
+    <div flex="~ items-center justify-between" min-h-6>
       <span text-sm op-90 block>
         {{ title }}
       </span>
