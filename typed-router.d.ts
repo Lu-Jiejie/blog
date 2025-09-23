@@ -22,7 +22,6 @@ declare module 'vue-router/auto-routes' {
     '/[...all]': RouteRecordInfo<'/[...all]', '/:all(.*)', { all: ParamValue<true> }, { all: ParamValue<false> }>,
     '/media': RouteRecordInfo<'/media', '/media', Record<never, never>, Record<never, never>>,
     '/posts/': RouteRecordInfo<'/posts/', '/posts', Record<never, never>, Record<never, never>>,
-    '/posts/nuxt4-tips': RouteRecordInfo<'/posts/nuxt4-tips', '/posts/nuxt4-tips', Record<never, never>, Record<never, never>>,
     '/projects': RouteRecordInfo<'/projects', '/projects', Record<never, never>, Record<never, never>>,
   }
 
@@ -51,10 +50,6 @@ declare module 'vue-router/auto-routes' {
     }
     'pages/posts/index.vue': {
       routes: '/posts/'
-      views: never
-    }
-    'pages/posts/nuxt4-tips.md': {
-      routes: '/posts/nuxt4-tips'
       views: never
     }
     'pages/projects.vue': {

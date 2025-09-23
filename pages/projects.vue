@@ -84,6 +84,13 @@ const projects: Projects = {
       icon: 'project_icons/multi-translate.png',
       icon_css: 'grayscale op-50 dark:op-70',
     },
+    {
+      name: 'Trending',
+      link: 'https://github.com/Lu-Jiejie/raycast-trending',
+      description: 'A Raycast extension for exploring trending content and more.',
+      icon: 'project_icons/trending.png',
+      icon_css: 'grayscale contrast-80 op-60',
+    },
   ],
   'VSCode Extensions': [
     {

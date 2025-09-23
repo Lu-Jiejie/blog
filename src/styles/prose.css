@@ -47,7 +47,7 @@ html.dark .prose {
   border-radius: 4px;
 }
 
-.prose a {
+.prose a:not(.no-prose) {
   font-weight: inherit;
   text-decoration: none;
   border-bottom: 1px solid rgba(125, 125, 125, 0.4);
@@ -56,7 +56,7 @@ html.dark .prose {
   font-weight: 500;
 }
 
-.prose a:hover {
+.prose a:not(.no-prose):hover {
   border-bottom: 1px solid var(--fg);
 }
 

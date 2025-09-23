@@ -10,14 +10,15 @@ I am enthusiastic about open-source development, you can find a selection of my 
 
 I wanted a space to capture the moments of my life and leave traces of my existence, which is why I created this blog.
 
-<BilibiliMusicCard />
 <div py-2 />
 <GithubHeatmapCard />
 <div py-2 />
 <GithubLanguageBarCard />
 <div py-2 />
-<SongsRecentPlayedCard />
+<SongsRecentPlayedCard limit="4" />
 <div py-2 />
-<GamesRecentPlayedCard />
+<BilibiliMusicCard />
 <div py-2 />
-<AnimeRecentPlayedCard />
+<GamesRecentPlayedCard limit="4"/>
+<div py-2 />
+<AnimeRecentPlayedCard limit="4"/>
