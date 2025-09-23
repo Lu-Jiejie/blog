@@ -1,16 +1,26 @@
 <script setup lang="ts">
 import { useWindowScroll } from '@vueuse/core'
-import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 
+// 检查是否在浏览器环境中
+const isBrowser = typeof window !== 'undefined'
+
+// 回到顶部函数
 function toTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  if (isBrowser)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-const { y: scrollY } = useWindowScroll()
+// 初始化数据，避免SSR报错
+const scrollY = ref(0)
 const documentHeight = ref(0)
+const scrollPercentage = ref(0)
 
 // 更新文档高度
 function updateDocumentHeight() {
+  if (!isBrowser)
+    return
+
   documentHeight.value = Math.max(
     document.body.scrollHeight,
     document.documentElement.scrollHeight,
@@ -21,25 +31,50 @@ function updateDocumentHeight() {
   )
 }
 
-// 监听窗口大小变化以更新文档高度
-onMounted(() => {
-  updateDocumentHeight()
-  window.addEventListener('resize', updateDocumentHeight)
-  window.addEventListener('scroll', updateDocumentHeight)
-})
+// 计算滚动百分比
+function calculateScrollPercentage() {
+  if (!isBrowser)
+    return
 
-onUnmounted(() => {
-  window.removeEventListener('resize', updateDocumentHeight)
-  window.removeEventListener('scroll', updateDocumentHeight)
-})
-
-const scrollPercentage = computed(() => {
   const windowHeight = window.innerHeight
   const scrollable = documentHeight.value - windowHeight
-  if (scrollable <= 0)
-    return 0
-  return Math.min(Math.round((scrollY.value / scrollable) * 100), 100)
-})
+  if (scrollable <= 0) {
+    scrollPercentage.value = 0
+    return
+  }
+
+  scrollPercentage.value = Math.min(Math.round((scrollY.value / scrollable) * 100), 100)
+}
+
+// 浏览器环境下的逻辑
+if (isBrowser) {
+  // 使用 vueuse 的 windowScroll 获取滚动位置
+  const { y } = useWindowScroll()
+
+  // 监听滚动更新值
+  const updateScrollY = () => {
+    scrollY.value = y.value
+    calculateScrollPercentage()
+  }
+
+  // 组件挂载时设置
+  onMounted(() => {
+    updateScrollY()
+    updateDocumentHeight()
+    calculateScrollPercentage()
+
+    window.addEventListener('scroll', updateScrollY)
+    window.addEventListener('resize', updateDocumentHeight)
+    window.addEventListener('scroll', updateDocumentHeight)
+  })
+
+  // 组件卸载时移除监听器
+  onUnmounted(() => {
+    window.removeEventListener('scroll', updateScrollY)
+    window.removeEventListener('resize', updateDocumentHeight)
+    window.removeEventListener('scroll', updateDocumentHeight)
+  })
+}
 </script>
 
 <template>
