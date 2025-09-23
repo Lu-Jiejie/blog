@@ -9,7 +9,7 @@ type LanguageDistribution = Record<string, {
 }>
 
 const API = getGithubCDNUrl({
-  owner: 'lu-jiejie',
+  owner: 'Lu-Jiejie',
   repo: 'static',
   path: 'data/github.json',
 })

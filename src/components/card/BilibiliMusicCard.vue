@@ -4,7 +4,7 @@ import { getGithubCDNUrl } from '~/logic'
 
 // B站收藏夹数据API
 const API = getGithubCDNUrl({
-  owner: 'lu-jiejie',
+  owner: 'Lu-Jiejie',
   repo: 'static',
   path: 'data/bilibili.json',
 })

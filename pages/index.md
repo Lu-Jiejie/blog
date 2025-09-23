@@ -15,10 +15,10 @@ I wanted a space to capture the moments of my life and leave traces of my existe
 <div py-2 />
 <GithubLanguageBarCard />
 <div py-2 />
-<SongsRecentPlayedCard limit="4" />
+<SongsRecentPlayedCard :limit="4" />
 <div py-2 />
 <BilibiliMusicCard />
 <div py-2 />
-<GamesRecentPlayedCard limit="4"/>
+<GamesRecentPlayedCard :limit="4"/>
 <div py-2 />
-<AnimeRecentPlayedCard limit="4"/>
+<AnimeRecentPlayedCard :limit="4"/>

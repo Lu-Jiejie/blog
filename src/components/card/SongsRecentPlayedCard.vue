@@ -17,7 +17,7 @@ const { limit = 6 } = defineProps<{
 }>()
 
 const API = getGithubCDNUrl({
-  owner: 'lu-jiejie',
+  owner: 'Lu-Jiejie',
   repo: 'static',
   path: 'data/netease.json',
 })
