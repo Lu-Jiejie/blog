@@ -32,7 +32,7 @@ const $t = useI18n({
 
 function getWikiUrl(item: MediaItem) {
   // zh
-  if (isZh) {
+  if (isZh.value) {
     if (item.wikiKeywordZh) {
       return `${wikiBaseUrlZh}${item.wikiKeywordZh}`
     }
