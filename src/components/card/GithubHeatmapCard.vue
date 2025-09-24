@@ -65,6 +65,7 @@ onMounted(async () => {
 <template>
   <CardTemplate
     :title="prepared ? `${contributions?.total} GitHub contributions in the last year` : 'GitHub contributions in the last year'"
+    :title-zh="prepared ? `过去一年在 GitHub 上的 ${contributions?.total} 次贡献` : '过去一年在 GitHub 上的贡献'"
     icon="i-simple-icons-github"
     :prepared="!isLoading && prepared"
   >

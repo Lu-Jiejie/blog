@@ -72,6 +72,7 @@ export default defineConfig({
       exposeExcerpt: false,
       markdownItOptions: {
         quotes: '""\'\'',
+
       },
       async markdownItSetup(md) {
         // shiki markdown it

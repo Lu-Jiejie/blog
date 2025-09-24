@@ -68,6 +68,7 @@ onMounted(async () => {
 <template>
   <CardTemplate
     title="Games I've Played Recently"
+    title-zh="我最近玩的游戏"
     icon="i-simple-icons-steam color-hex-04699D"
     :prepared="!isLoading && prepared"
   >

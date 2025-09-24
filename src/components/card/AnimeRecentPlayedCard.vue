@@ -71,6 +71,7 @@ onMounted(async () => {
   <!-- icon="i-simple-icons-bilibili color-hex-00A1D6" -->
   <CardTemplate
     title="Anime I'm Watching"
+    title-zh="我最近在追的番剧"
     icon=""
     :prepared="!isLoading && prepared"
   >

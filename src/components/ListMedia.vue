@@ -2,6 +2,7 @@
 import type { Media, MediaItem, MediaType } from '~/data/media'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { isZh, useI18n } from '~/logic/i18n'
 
 const { media } = defineProps<{
   media: Media
@@ -11,16 +12,40 @@ const queryType = computed(() => {
   return route.query.type as MediaType || 'anime'
 })
 const typeKeys = computed(() => Object.keys(media) as MediaType[])
-const wikipediaBaseUrl = 'https://en.wikipedia.org/wiki/'
+const wikiBaseUrl = 'https://en.wikipedia.org/wiki/'
+const wikiBaseUrlZh = 'https://zh.wikipedia.org/wiki/'
+
+const $t = useI18n({
+  en: {
+    anime: 'Anime',
+    movie: 'Movie',
+    book: 'Book',
+    game: 'Game',
+  },
+  zh: {
+    anime: '动画',
+    movie: '电影',
+    book: '书籍',
+    game: '游戏',
+  },
+})
 
 function getWikiUrl(item: MediaItem) {
-  if (item.wikiKeywordEN) {
-    return `${wikipediaBaseUrl}${item.wikiKeywordEN}`
+  // zh
+  if (isZh) {
+    if (item.wikiKeywordZh) {
+      return `${wikiBaseUrlZh}${item.wikiKeywordZh}`
+    }
+    return `${wikiBaseUrlZh}${item.nameZh || item.name}`
+  }
+  // en
+  if (item.wikiKeywordEn) {
+    return `${wikiBaseUrl}${item.wikiKeywordEn}`
   }
   if (item.wikiUrlFallback) {
     return item.wikiUrlFallback
   }
-  return `${wikipediaBaseUrl}${item.name}`
+  return `${wikiBaseUrl}${item.name}`
 }
 </script>
 
@@ -35,7 +60,7 @@ function getWikiUrl(item: MediaItem) {
           ? 'bg-hex-050505 dark:bg-white text-white! dark:text-hex-050505!'
           : 'op-70 hover:op-100'"
       >
-        {{ type }}
+        {{ $t[type] }}
       </RouterLink>
     </div>
 
@@ -50,13 +75,13 @@ function getWikiUrl(item: MediaItem) {
       >
         <tbody>
           <template v-for="i of media[type]" :key="i.name">
-            <tr :lang="i.lang">
+            <tr :lang="isZh ? 'zh' : i.lang">
               <!-- <td>{{ i.name }}</td> -->
               <td>
                 <a
                   :href="getWikiUrl(i)"
                   class="no-prose" target="_blank"
-                >{{ i.name }}</a>
+                >{{ isZh ? i.nameZh : i.name }}</a>
               </td>
               <td v-if="i.creator" text-right>
                 <template v-if="typeof i.creator === 'string'">

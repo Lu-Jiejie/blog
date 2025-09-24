@@ -1,6 +1,22 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
 import { toggleDark } from '~/logic'
+import { useI18n } from '~/logic/i18n'
+
+const $t = useI18n({
+  en: {
+    me: 'Me',
+    posts: 'Posts',
+    projects: 'Projects',
+    media: 'Media',
+  },
+  zh: {
+    me: '我',
+    posts: '文章',
+    projects: '项目',
+    media: '媒介',
+  },
+})
 </script>
 
 <template>
@@ -12,19 +28,19 @@ import { toggleDark } from '~/logic'
       <div flex-1 />
       <div class="right" flex items-center gap-4>
         <RouterLink to="/" title="Me">
-          <span lt-sm:hidden>Me</span>
+          <span lt-sm:hidden>{{ $t.me }}</span>
           <div i-icon-park-outline-home sm:hidden scale-x-110 />
         </RouterLink>
         <RouterLink to="/posts" title="Posts">
-          <span lt-sm:hidden>Posts</span>
+          <span lt-sm:hidden>{{ $t.posts }}</span>
           <div i-icon-park-outline-align-text-right-one sm:hidden />
         </RouterLink>
         <RouterLink to="/projects" title="Projects">
-          <span lt-sm:hidden>Projects</span>
+          <span lt-sm:hidden>{{ $t.projects }}</span>
           <div i-icon-park-outline-blocks-and-arrows sm:hidden scale-y-95 />
         </RouterLink>
         <RouterLink to="/media" title="Media">
-          <span lt-sm:hidden>Media</span>
+          <span lt-sm:hidden>{{ $t.media }}</span>
           <div i-icon-park-outline-film sm:hidden scale-y-95 />
         </RouterLink>
 

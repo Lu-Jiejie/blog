@@ -2,6 +2,7 @@
 import { useHead } from '@vueuse/head'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { isZh } from '~/logic/i18n'
 
 type CategoryType = 'all' | 'essays' | 'notes'
 
@@ -11,9 +12,9 @@ const type = computed<CategoryType>(() => {
 })
 
 const categories = [
-  { name: 'all', label: 'All Posts' },
-  { name: 'essays', label: 'Essays' },
-  { name: 'notes', label: 'Notes' },
+  { name: 'all', label: 'All Posts', labelZh: '所有' },
+  { name: 'essays', label: 'Essays', labelZh: '随笔' },
+  { name: 'notes', label: 'Notes', labelZh: '笔记' },
 ]
 
 const metaMap: Record<CategoryType, { title: string, description: string }> = {
@@ -51,7 +52,7 @@ useHead(computed(() => ({
           :class="type === c.name ? 'op-100' : 'op-20 hover:op-50'"
           important-border-none
         >
-          {{ c.label }}
+          {{ isZh ? c.labelZh : c.label }}
         </RouterLink>
       </template>
     </div>

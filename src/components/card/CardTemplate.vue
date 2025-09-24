@@ -1,6 +1,9 @@
 <script setup lang="ts">
+import { isZh } from '~/logic/i18n'
+
 defineProps<{
   title: string
+  titleZh: string
   icon: string
   prepared: boolean
 }>()
@@ -13,7 +16,7 @@ defineProps<{
   >
     <div flex="~ items-center justify-between" min-h-6>
       <span text-sm op-90 block>
-        {{ title }}
+        {{ isZh ? titleZh : title }}
       </span>
       <div :class="icon" text-xl />
     </div>

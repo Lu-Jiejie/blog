@@ -27,7 +27,7 @@ export const createApp = ViteSSG(
   // vue-router options
   { routes },
   // function to have custom setups
-  ({ router }) => {
+  async ({ router }) => {
     dayjs.extend(LocalizedFormat)
 
     if (!import.meta.env.SSR) {

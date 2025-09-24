@@ -58,6 +58,7 @@ onMounted(async () => {
 <template>
   <CardTemplate
     title="GitHub Language Distribution"
+    title-zh="GitHub 语言分布"
     icon="i-simple-icons-github"
     :prepared="!isLoading && prepared"
   >

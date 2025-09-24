@@ -3,6 +3,7 @@ import type { Post } from '~/types'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { formatDate } from '~/logic'
+import { isZh } from '~/logic/i18n'
 
 type PostRoute = {
   path: string
@@ -45,7 +46,7 @@ function isSameYear(date1?: Date | string | number, date2?: Date | string | numb
 <template>
   <ul>
     <div v-if="!posts.length" py-2 op-50>
-      Nothing to see here yet.
+      {{ isZh ? '什么都没有。' : 'Nothing to see here yet.' }}
     </div>
     <template v-for="post, idx in posts" v-else :key="post.title">
       <!-- Post Year Header -->

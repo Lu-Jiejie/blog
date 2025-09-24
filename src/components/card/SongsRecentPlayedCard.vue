@@ -64,6 +64,7 @@ onMounted(async () => {
 <template>
   <CardTemplate
     title="Songs I'm Enjoying"
+    title-zh="我最近喜欢的音乐"
     icon="i-simple-icons-neteasecloudmusic color-hex-FC3D49"
     :prepared="!isLoading && prepared"
   >
