@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Media, MediaType } from '~/types'
+import type { Media, MediaItem, MediaType } from '~/data/media'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
@@ -11,6 +11,17 @@ const queryType = computed(() => {
   return route.query.type as MediaType || 'anime'
 })
 const typeKeys = computed(() => Object.keys(media) as MediaType[])
+const wikipediaBaseUrl = 'https://en.wikipedia.org/wiki/'
+
+function getWikiUrl(item: MediaItem) {
+  if (item.wikiKeywordEN) {
+    return `${wikipediaBaseUrl}${item.wikiKeywordEN}`
+  }
+  if (item.wikiUrlFallback) {
+    return item.wikiUrlFallback
+  }
+  return `${wikipediaBaseUrl}${item.name}`
+}
 </script>
 
 <template>
@@ -34,14 +45,19 @@ const typeKeys = computed(() => Object.keys(media) as MediaType[])
     >
       <table
         v-show="type === queryType" font-400
-        :lang="type === 'anime' ? 'ja' : ''"
+        lang="ja"
         important-mt-4
       >
         <tbody>
           <template v-for="i of media[type]" :key="i.name">
             <tr :lang="i.lang">
-              <td>{{ i.name }}</td>
-
+              <!-- <td>{{ i.name }}</td> -->
+              <td>
+                <a
+                  :href="getWikiUrl(i)"
+                  class="no-prose" target="_blank"
+                >{{ i.name }}</a>
+              </td>
               <td v-if="i.creator" text-right>
                 <template v-if="typeof i.creator === 'string'">
                   {{ i.creator }}

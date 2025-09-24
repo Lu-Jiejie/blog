@@ -1,18 +1,5 @@
 <script setup lang="ts">
-import type { Media } from '~/types'
-
-const media: Media = {
-  anime: [
-    { name: '四月は君の嘘', creator: '新川直司' },
-    { name: '葬送のフリーレン', creator: ['山田鐘人', 'アベツカサ'] },
-    { name: 'ラブライブ!' },
-    { name: 'ダンダダン', creator: '龍幸伸' },
-  ],
-  movie: [],
-  book: [],
-  manga: [],
-  game: [],
-}
+import { media } from '~/data/media'
 </script>
 
 <template>
