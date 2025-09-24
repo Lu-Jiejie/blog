@@ -1,5 +1,5 @@
 ---
-title: Me - Lu Jiejie
+title: Lu Jiejie
 display: Lu Jiejie
 description: Portfolio of Lu Jiejie
 ---
