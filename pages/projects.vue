@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Projects } from '~/types'
 import { useHead } from '@vueuse/head'
+import { useI18n } from '~/logic/i18n'
 
 useHead({
   title: 'Projects - Lu Jiejie',
@@ -153,10 +154,34 @@ const projects: Projects = {
       icon: 'i-simple-icons-starship',
     },
   ],
-
 }
+
+const $t = useI18n({
+  en: {
+    title: 'Projects',
+    contents: [
+      'These are some of the projects maintained by me.',
+      'You can see all projects on my <a target=\"_blank\" href=\"https://github.com/Lu-Jiejie\">GitHub</a> page.',
+    ],
+  },
+  zh: {
+    title: '项目',
+    contents: [
+      '下面是我维护的一部分项目。',
+      '你可以在我的 <a target=\"_blank\" href=\"https://github.com/Lu-Jiejie\">GitHub</a> 上找到全部项目。',
+    ],
+  },
+})
 </script>
 
 <template>
+  <div class="prose" max-width-70ch m-auto mb-8>
+    <h1 text-4xl>
+      {{ $t.title }}
+    </h1>
+  </div>
+  <div class="prose" max-width-70ch m-auto mb-8>
+    <p v-for="(c, cidx) in $t.contents" :key="cidx" v-html="c" />
+  </div>
   <ListProjects :projects="projects" />
 </template>

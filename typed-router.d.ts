@@ -21,7 +21,9 @@ declare module 'vue-router/auto-routes' {
     '/': RouteRecordInfo<'/', '/', Record<never, never>, Record<never, never>>,
     '/[...all]': RouteRecordInfo<'/[...all]', '/:all(.*)', { all: ParamValue<true> }, { all: ParamValue<false> }>,
     '/media': RouteRecordInfo<'/media', '/media', Record<never, never>, Record<never, never>>,
+    '/photos': RouteRecordInfo<'/photos', '/photos', Record<never, never>, Record<never, never>>,
     '/posts/': RouteRecordInfo<'/posts/', '/posts', Record<never, never>, Record<never, never>>,
+    '/posts/hey': RouteRecordInfo<'/posts/hey', '/posts/hey', Record<never, never>, Record<never, never>>,
     '/projects': RouteRecordInfo<'/projects', '/projects', Record<never, never>, Record<never, never>>,
   }
 
@@ -48,8 +50,16 @@ declare module 'vue-router/auto-routes' {
       routes: '/media'
       views: never
     }
+    'pages/photos.vue': {
+      routes: '/photos'
+      views: never
+    }
     'pages/posts/index.vue': {
       routes: '/posts/'
+      views: never
+    }
+    'pages/posts/hey.md': {
+      routes: '/posts/hey'
       views: never
     }
     'pages/projects.vue': {

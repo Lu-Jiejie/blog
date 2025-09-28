@@ -9,12 +9,14 @@ const $t = useI18n({
     posts: 'Posts',
     projects: 'Projects',
     media: 'Media',
+    photos: 'Photos',
   },
   zh: {
     me: '我',
     posts: '文章',
     projects: '项目',
     media: '媒介',
+    photos: '相片',
   },
 })
 </script>
@@ -29,7 +31,7 @@ const $t = useI18n({
       <div class="right" flex items-center gap-4>
         <RouterLink to="/" title="Me">
           <span lt-sm:hidden>{{ $t.me }}</span>
-          <div i-icon-park-outline-home sm:hidden scale-x-110 />
+          <div i-icon-park-outline-home sm:hidden scale-x-115 />
         </RouterLink>
         <RouterLink to="/posts" title="Posts">
           <span lt-sm:hidden>{{ $t.posts }}</span>
@@ -41,7 +43,11 @@ const $t = useI18n({
         </RouterLink>
         <RouterLink to="/media" title="Media">
           <span lt-sm:hidden>{{ $t.media }}</span>
-          <div i-icon-park-outline-film sm:hidden scale-y-95 />
+          <div i-icon-park-outline-film sm:hidden scale-y-94 />
+        </RouterLink>
+        <RouterLink to="/photos" title="Photos">
+          <span lt-sm:hidden>{{ $t.photos }}</span>
+          <div i-icon-park-outline-camera sm:hidden />
         </RouterLink>
 
         <a href="https://github.com/Lu-Jiejie" target="_blank" title="GitHub">

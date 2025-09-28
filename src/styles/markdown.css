@@ -153,11 +153,13 @@ h6:focus .header-anchor {
   background-position: center;
   border-radius: 2px;
 }
-.markdown-magic-link.markdown-magic-link-github-at {
+.markdown-magic-link.markdown-magic-link-github-at,
+.markdown-magic-link.markdown-magic-link-bili-at {
   transform: translateY(6px);
   --uno: pl0 py0 pr2 ml0.5 text-sm gap-1.2 rounded-full;
 }
-.markdown-magic-link.markdown-magic-link-github-at .markdown-magic-link-image {
+.markdown-magic-link.markdown-magic-link-github-at .markdown-magic-link-image,
+.markdown-magic-link.markdown-magic-link-bili-at .markdown-magic-link-image {
   height: 1.6em;
   width: 1.6em;
   border-radius: 50%;

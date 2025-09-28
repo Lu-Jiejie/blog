@@ -18,6 +18,7 @@ declare module 'vue' {
     ListMedia: typeof import('./src/components/ListMedia.vue')['default']
     ListPosts: typeof import('./src/components/ListPosts.vue')['default']
     ListProjects: typeof import('./src/components/ListProjects.vue')['default']
+    PhotoGallery: typeof import('./src/components/PhotoGallery.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SongsRecentPlayedCard: typeof import('./src/components/card/SongsRecentPlayedCard.vue')['default']

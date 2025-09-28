@@ -1,20 +1,31 @@
 <script setup lang="ts">
+import { useHead } from '@vueuse/head'
 import { media } from '~/data/media'
 import { useI18n } from '~/logic/i18n'
+
+useHead({
+  title: 'Media Consumption - Lu Jiejie',
+  meta: [
+    {
+      name: 'description',
+      content: 'Media consumed by Lu Jiejie',
+    },
+  ],
+})
 
 const $t = useI18n({
   en: {
     title: 'Media Consumption',
     contents: [
-      'This page simply records the media I’ve enjoyed — partly for my own memory, partly to share what resonates with me.',
-      'What’s listed here is but a small selection of what I’ve enjoyed.',
+      'Here I gather the media that once moved me — for memory, for sharing, for the joy of resonance.',
+      'What’s recorded is but a glimpse of the many works that have accompanied me along the way.',
     ],
   },
   zh: {
     title: '媒介消费',
     contents: [
-      '这个页面用来记录我所喜爱的媒介——既是为了自己的回忆，也希望能分享那些令我共鸣的内容。',
-      '这里展示的只是我所喜爱的众多内容中的一小部分。',
+      '这里收录了那些曾打动我的作品——为记忆，为分享，也为共鸣的喜悦。',
+      '所呈现的，不过是陪伴我旅途的众多作品中的一隅。',
     ],
   },
 } as const)

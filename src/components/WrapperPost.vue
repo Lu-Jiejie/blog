@@ -70,6 +70,12 @@ onMounted(() => {
     if (!navigate()) {
       setTimeout(navigate, 1000)
     }
+
+    //
+    const imgs = content.value?.querySelectorAll('img')
+    imgs?.forEach((img, idx) => {
+      img.dataset.imageIndex = idx.toString()
+    })
   })
 })
 </script>

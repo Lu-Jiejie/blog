@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 
 import path from 'node:path'
+import MDMagicLink from '@lu-jiejie/markdown-it-magic-link'
 import MDShiki from '@shikijs/markdown-it'
 import { transformerNotationDiff, transformerNotationHighlight, transformerNotationWordHighlight } from '@shikijs/transformers'
 import { rendererRich, transformerTwoslash } from '@shikijs/twoslash'
@@ -11,7 +12,6 @@ import MDAnchor from 'markdown-it-anchor'
 import MDCopyCode from 'markdown-it-copy-code'
 import MDGithubAlerts from 'markdown-it-github-alerts'
 import MDLinkAttributes from 'markdown-it-link-attributes'
-import MDMagicLink from 'markdown-it-magic-link'
 import MDTableOfContents from 'markdown-it-toc-done-right'
 import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
@@ -122,7 +122,17 @@ export default defineConfig({
         })
 
         // 魔法链接
-        md.use(MDMagicLink, {})
+        md.use(MDMagicLink, {
+          // platformUsers: {
+          //   bili: {
+          //     'lu-jiejie': {
+          //       link: '',
+          //       avatarUrl: '//wsrv.nl/?url=https://i0.hdslb.com/bfs/face/9eeb889c3a709a94f3893ceda8e1f0d3c222f698.jpg',
+          //       displayName: 'Lu Jiejie',
+          //     },
+          //   },
+          // },
+        })
 
         // GitHub 提示块
         md.use(MDGithubAlerts)
