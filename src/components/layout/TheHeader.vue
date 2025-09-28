@@ -27,6 +27,11 @@ const $t = useI18n({
       flex w="100%" items-center z-40 text-lg
       print:op-0 select-none p-8 box-border
     >
+      <!-- <div class="left">
+        <RouterLink to="/" class="logo-link">
+          <TheLogo />
+        </RouterLink>
+      </div> -->
       <div flex-1 />
       <div class="right" flex items-center gap-4>
         <RouterLink to="/" title="Me">
@@ -65,6 +70,10 @@ const $t = useI18n({
 </template>
 
 <style scoped>
+.logo-link {
+  --uno: op-80 hover-op100 transition duration-200 ease cursor-pointer no-underline;
+}
+
 .right > a {
   --uno: op-60 hover-op100 transition duration-200 ease cursor-pointer;
 }

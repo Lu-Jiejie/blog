@@ -138,7 +138,7 @@ h6:focus .header-anchor {
   transform: translateY(3px);
   line-height: 100%;
   color: var(--fg-light) !important;
-  --uno: gap-1 transition rounded px1.5 py1 important-border-0 important-font-bold font-serif;
+  --uno: gap-1 transition rounded px1.5 py1 important-border-0 important-font-bold font-condensed;
 }
 .markdown-magic-link:hover {
   background: #8883;

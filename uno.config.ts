@@ -33,8 +33,8 @@ export default defineConfig({
     presetWebFonts({
       fonts: {
         sans: 'Inter',
-        serif: 'Newsreader',
         mono: 'Fira Code',
+        condensed: 'Roboto Condensed',
       },
       processors: createLocalFontProcessor(),
     }),

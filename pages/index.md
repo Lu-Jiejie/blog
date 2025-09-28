@@ -16,7 +16,7 @@ const messages = {
   zh: {
     hello: "你好，我是陆解解（Lu Jiejie/鹿姐姐）。",
     desc: "我热衷于开源开发，你可以在 <a href=\"/projects\">这里</a> 看到我的部分项目，或在 <a target=\"_blank\" href=\"https://github.com/Lu-Jiejie\">GitHub</a> 上浏览全部。",
-    why: "我想要一个空间记录生活的点滴，留下存在的痕迹，所以创建了这个博客。"
+    why: "我想要一个空间来记录生活的点滴，留下存在的痕迹，这正是我创建这个博客的原因。"
   }
 }
 const t = useI18n(messages)
