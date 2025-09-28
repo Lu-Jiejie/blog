@@ -191,3 +191,8 @@ export async function purgeJsDelivrCache({
     return null
   }
 }
+
+export function imgProxy(url: string, params?: string) {
+  const cleanUrl = url.replace(/^https?:\/\//, '')
+  return `https://images.weserv.nl/?url=${encodeURIComponent(cleanUrl)}${params ? `&${params}` : ''}`
+}

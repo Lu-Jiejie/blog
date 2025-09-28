@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { getGithubCDNUrl } from '~/logic'
+import { getGithubCDNUrl, imgProxy } from '~/logic'
 
 const API = getGithubCDNUrl({
   owner: 'Lu-Jiejie',
@@ -31,7 +31,7 @@ const cover = ref<string | null>(null)
 const isLoading = ref(true)
 
 const prepared = computed(() => {
-  return musicVideo.value !== null && cover.value !== null
+  return musicVideo.value !== null
 })
 
 async function fetchFavoriteMusic() {
@@ -46,11 +46,11 @@ async function fetchFavoriteMusic() {
 
     if (data.musicLiked && data.musicLiked.length > 0) {
       musicVideo.value = data.musicLiked[0]
-      cover.value = getGithubCDNUrl({
-        owner: 'lu-jiejie',
-        repo: 'static',
-        path: `data/bilibili/${musicVideo.value?.bvid}.jpg`,
-      })
+      // cover.value = getGithubCDNUrl({
+      //   owner: 'lu-jiejie',
+      //   repo: 'static',
+      //   path: `data/bilibili/${musicVideo.value?.bvid}.jpg`,
+      // })
     }
   }
   catch (err) {
@@ -106,7 +106,7 @@ onMounted(() => {
             <img
               @click="togglePlayer"
               @load="handleImgLoad"
-              :src="cover!" :alt="musicVideo.title"
+              :src="imgProxy(musicVideo.cover)" :alt="musicVideo.title"
               w-full h-full object-cover rounded-md important-m-0
               class="cursor-pointer"
             >

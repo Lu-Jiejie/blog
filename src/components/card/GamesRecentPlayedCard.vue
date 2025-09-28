@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { formatDate, getGithubCDNUrl } from '~/logic'
+import { formatDate, getGithubCDNUrl, imgProxy } from '~/logic'
 
 interface GameItem {
   id: string
@@ -83,7 +83,7 @@ onMounted(async () => {
         >
           <div flex-shrink-0>
             <img
-              :src="item.icon" alt="cover"
+              :src="imgProxy(item.icon)" alt="cover"
               important-m-0 rounded-sm h-full
             >
           </div>

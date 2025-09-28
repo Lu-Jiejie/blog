@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { getGithubCDNUrl } from '~/logic'
+import { getGithubCDNUrl, imgProxy } from '~/logic'
 
 interface AnimeItem {
   id: number
@@ -85,7 +85,7 @@ onMounted(async () => {
           rounded-md transition important-op-100
         >
           <div w-16 h-16 flex-shrink-0 flex items-center justify-center>
-            <img :src="item.pic" alt="cover" w-full h-full object-cover rounded-sm shadow-sm>
+            <img :src="imgProxy(item.pic)" alt="cover" w-full h-full object-cover rounded-sm shadow-sm>
           </div>
           <div flex="~ col justify-center" ml-2 h-full overflow-hidden>
             <span class="name" op-80 transition leading-tight mb-1>

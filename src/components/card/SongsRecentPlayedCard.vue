@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { getGithubCDNUrl } from '~/logic'
+import { getGithubCDNUrl, imgProxy } from '~/logic'
 
 interface MusicItem {
   name: string
@@ -77,9 +77,10 @@ onMounted(async () => {
           cursor-pointer bg-card-item-link
           rounded-md transition important-op-100 overflow-hidden
         >
+          <!-- `${item.pic}?param=100y100` -->
           <div w-16 flex-shrink-0>
             <img
-              :src="`${item.pic}?param=100y100`" alt="cover"
+              :src="imgProxy(`${item.pic}?param=100y100`)" alt="cover"
               important-m-0 rounded-sm
             >
           </div>
