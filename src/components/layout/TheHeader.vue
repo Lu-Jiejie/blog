@@ -8,14 +8,14 @@ const $t = useI18n({
     me: 'Me',
     posts: 'Posts',
     projects: 'Projects',
-    media: 'Media',
+    favorites: 'Favorites',
     photos: 'Photos',
   },
   zh: {
     me: '我',
     posts: '文章',
     projects: '项目',
-    media: '媒介',
+    favorites: '收藏',
     photos: '相片',
   },
 })
@@ -41,8 +41,8 @@ const $t = useI18n({
           <span lt-sm:hidden>{{ $t.projects }}</span>
           <div i-icon-park-outline-blocks-and-arrows sm:hidden scale-y-95 />
         </RouterLink>
-        <RouterLink to="/media" title="Media">
-          <span lt-sm:hidden>{{ $t.media }}</span>
+        <RouterLink to="/favorites" title="Favorites">
+          <span lt-sm:hidden>{{ $t.favorites }}</span>
           <div i-icon-park-outline-film sm:hidden scale-y-94 />
         </RouterLink>
         <RouterLink to="/photos" title="Photos">

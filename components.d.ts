@@ -15,7 +15,7 @@ declare module 'vue' {
     GamesRecentPlayedCard: typeof import('./src/components/card/GamesRecentPlayedCard.vue')['default']
     GithubHeatmapCard: typeof import('./src/components/card/GithubHeatmapCard.vue')['default']
     GithubLanguageBarCard: typeof import('./src/components/card/GithubLanguageBarCard.vue')['default']
-    ListMedia: typeof import('./src/components/ListMedia.vue')['default']
+    ListFavorites: typeof import('./src/components/ListFavorites.vue')['default']
     ListPosts: typeof import('./src/components/ListPosts.vue')['default']
     ListProjects: typeof import('./src/components/ListProjects.vue')['default']
     PhotoGallery: typeof import('./src/components/PhotoGallery.vue')['default']

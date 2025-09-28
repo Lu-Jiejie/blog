@@ -1,31 +1,31 @@
 <script setup lang="ts">
 import { useHead } from '@vueuse/head'
-import { media } from '~/data/media'
+import { favorites } from '~/data/favorites'
 import { useI18n } from '~/logic/i18n'
 
 useHead({
-  title: 'Media Consumption - Lu Jiejie',
+  title: 'Favorites - Lu Jiejie',
   meta: [
     {
       name: 'description',
-      content: 'Media consumed by Lu Jiejie',
+      content: 'Favorites curated by Lu Jiejie',
     },
   ],
 })
 
 const $t = useI18n({
   en: {
-    title: 'Media Consumption',
+    title: 'Favorites',
     contents: [
-      'Here I gather the media that once moved me — for memory, for sharing, for the joy of resonance.',
-      'What’s recorded is but a glimpse of the many works that have accompanied me along the way.',
+      'Here I collect works that have touched me — for memory, for sharing, and for the joy of resonance.',
+      'What you see here is just a small part of the many favorites that have accompanied me along the way.',
     ],
   },
   zh: {
-    title: '媒介消费',
+    title: '收藏',
     contents: [
       '这里收录了那些曾打动我的作品——为记忆，为分享，也为共鸣的喜悦。',
-      '所呈现的，不过是陪伴我旅途的众多作品中的一隅。',
+      '呈现于此的，只是旅途中陪伴我的众多作品之一角。',
     ],
   },
 } as const)
@@ -37,6 +37,6 @@ const $t = useI18n({
   </div>
   <div class="prose slide-enter-content" m-auto>
     <p v-for="(c, cidx) in $t.contents" :key="cidx" v-html="c" />
-    <ListMedia :media="media" />
+    <ListFavorites :favorites="favorites" />
   </div>
 </template>

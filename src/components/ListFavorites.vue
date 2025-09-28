@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import type { Media, MediaItem, MediaType } from '~/data/media'
+import type { Favorites, FavoritesItem, FavoritesType } from '~/data/favorites'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { isZh, useI18n } from '~/logic/i18n'
 
-const { media } = defineProps<{
-  media: Media
+const { favorites } = defineProps<{
+  favorites: Favorites
 }>()
 const route = useRoute()
 const queryType = computed(() => {
-  return route.query.type as MediaType || 'anime'
+  return route.query.type as FavoritesType || 'anime'
 })
-const typeKeys = computed(() => Object.keys(media) as MediaType[])
+const typeKeys = computed(() => Object.keys(favorites) as FavoritesType[])
 const wikiBaseUrl = 'https://en.wikipedia.org/wiki/'
 const wikiBaseUrlZh = 'https://zh.wikipedia.org/wiki/'
 
@@ -30,7 +30,7 @@ const $t = useI18n({
   },
 })
 
-function getWikiUrl(item: MediaItem) {
+function getWikiUrl(item: FavoritesItem) {
   // zh
   if (isZh.value) {
     if (item.wikiKeywordZh) {
@@ -74,7 +74,7 @@ function getWikiUrl(item: MediaItem) {
         important-mt-4
       >
         <tbody>
-          <template v-for="i of media[type]" :key="i.name">
+          <template v-for="i of favorites[type]" :key="i.name">
             <tr :lang="isZh ? 'zh' : i.lang">
               <!-- <td>{{ i.name }}</td> -->
               <td>

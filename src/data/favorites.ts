@@ -1,5 +1,5 @@
-export type MediaType = 'anime' | 'movie' | 'book' | 'game'
-export interface MediaItem {
+export type FavoritesType = 'anime' | 'movie' | 'book' | 'game'
+export interface FavoritesItem {
   name: string
   nameZh?: string
   creator?: string | string[]
@@ -9,9 +9,9 @@ export interface MediaItem {
   wikiKeywordZh?: string
   wikiUrlFallback?: string
 }
-export type Media = Record<MediaType, MediaItem[]>
+export type Favorites = Record<FavoritesType, FavoritesItem[]>
 
-export const media: Media = {
+export const favorites: Favorites = {
   // jp by default
   anime: [
     { name: '四月は君の嘘', nameZh: '四月是你的谎言', creator: '新川直司' },
