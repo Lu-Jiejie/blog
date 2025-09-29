@@ -1,3 +1,10 @@
+/**
+ * Simple pattern matcher for route paths.
+ * Supports '/foo/*' for prefix match and '!/bar/*' for negation.
+ * Example:
+ *   matchPatterns(['/posts/*', '!/posts/private/*'], '/posts/abc') // true
+ *   matchPatterns(['/posts/*', '!/posts/private/*'], '/posts/private/xyz') // false
+ */
 import type { Ref } from 'vue'
 import { useDark, useStorage, useToggle } from '@vueuse/core'
 import dayjs from 'dayjs'
@@ -167,7 +174,8 @@ export function getGithubCDNUrl({
   // 1-2: https://testingcf.jsdelivr.net/gh/Lu-Jiejie/static@main/data/netease.json
   // 1-3: https://gcore.jsdelivr.net/gh/Lu-Jiejie/static@main/data/netease.json
   // 2: https://github.com/sky22333/hubproxy  https://demo.52013120.xyz/
-  return `https://cdn.jsdmirror.com/gh/${owner}/${repo}@${branch}/${path}`
+  // return `https://cdn.jsdmirror.com/gh/${owner}/${repo}@${branch}/${path}`
+  return `https://testingcf.jsdelivr.net/gh/${owner}/${repo}@${branch}/${path}`
 }
 
 export async function purgeJsDelivrCache({
@@ -195,4 +203,31 @@ export async function purgeJsDelivrCache({
 export function imgProxy(url: string, params?: string) {
   const cleanUrl = url.replace(/^https?:\/\//, '')
   return `https://images.weserv.nl/?url=${encodeURIComponent(cleanUrl)}${params ? `&${params}` : ''}`
+}
+
+export function matchPatterns(patterns: string[], path: string): boolean {
+  let matched = false
+  for (const pattern of patterns) {
+    if (pattern.startsWith('!')) {
+      const pat = pattern.slice(1, -2)
+      if (pattern.endsWith('/*')) {
+        if (path === pat || path.startsWith(`${pat}/`))
+          return false
+      }
+      else {
+        if (path === pattern.slice(1))
+          return false
+      }
+    }
+    else if (pattern.endsWith('/*')) {
+      const pat = pattern.slice(0, -2)
+      if (path === pat || path.startsWith(`${pat}/`))
+        matched = true
+    }
+    else {
+      if (path === pattern)
+        matched = true
+    }
+  }
+  return matched
 }

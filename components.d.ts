@@ -22,6 +22,7 @@ declare module 'vue' {
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SongsRecentPlayedCard: typeof import('./src/components/card/SongsRecentPlayedCard.vue')['default']
+    Stars: typeof import('./src/components/background/Stars.vue')['default']
     TheBack: typeof import('./src/components/layout/TheBack.vue')['default']
     TheFooter: typeof import('./src/components/layout/TheFooter.vue')['default']
     TheHeader: typeof import('./src/components/layout/TheHeader.vue')['default']

@@ -11,7 +11,7 @@ defineProps<{
 
 <template>
   <div
-    slide-enter select-none mx-auto w-full p-2 rounded-md
+    slide-enter select-none mx-auto w-full p-2 rounded-md bg-white dark:bg-hex-050505
     border="~ base"
   >
     <div flex="~ items-center justify-between" min-h-6>
