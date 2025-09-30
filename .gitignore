@@ -13,4 +13,4 @@ public/assets/fonts
 # Local Netlify folder
 .netlify
 
-photos/backup/*
+src/photos/backup/*

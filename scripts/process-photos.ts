@@ -1,3 +1,4 @@
+import url from 'node:url'
 import * as BlurHash from 'blurhash'
 import ExifReader from 'exifreader'
 import fg from 'fast-glob'
@@ -6,7 +7,8 @@ import path from 'pathe'
 import sharp from 'sharp'
 import { compressImage } from './compress-image'
 
-const photoFolder = 'photos'
+// const photoFolder = 'photos'
+const photoFolder = url.fileURLToPath(new URL('../src/photos', import.meta.url))
 const backupFolder = path.join(photoFolder, 'backup')
 // 确保备份目录存在
 await fs.mkdir(backupFolder, { recursive: true })

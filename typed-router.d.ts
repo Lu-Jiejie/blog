@@ -38,31 +38,31 @@ declare module 'vue-router/auto-routes' {
    * @internal
    */
   export interface _RouteFileInfoMap {
-    'pages/index.md': {
+    'src/pages/index.md': {
       routes: '/'
       views: never
     }
-    'pages/[...all].vue': {
+    'src/pages/[...all].vue': {
       routes: '/[...all]'
       views: never
     }
-    'pages/favorites.vue': {
+    'src/pages/favorites.vue': {
       routes: '/favorites'
       views: never
     }
-    'pages/photos.vue': {
+    'src/pages/photos.vue': {
       routes: '/photos'
       views: never
     }
-    'pages/posts/index.vue': {
+    'src/pages/posts/index.vue': {
       routes: '/posts/'
       views: never
     }
-    'pages/posts/hey.md': {
+    'src/pages/posts/hey.md': {
       routes: '/posts/hey'
       views: never
     }
-    'pages/projects.vue': {
+    'src/pages/projects.vue': {
       routes: '/projects'
       views: never
     }

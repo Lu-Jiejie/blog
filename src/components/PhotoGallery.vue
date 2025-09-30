@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { PhotoData } from '~/../photos/data'
+import type { PhotoData } from '~/photos/data'
 import { blurhashToCssGradientString } from '@unpic/placeholder'
 import { useWindowSize } from '@vueuse/core'
 import { computed } from 'vue'
-import photos from '~/../photos/data'
 import { isZh } from '~/logic/i18n'
+import photos from '~/photos/data'
 
 const indexedPhotos = photos.map((p, i) => ({ ...p, index: i }))
 const breakpoints = [1280, 1024, 768]
