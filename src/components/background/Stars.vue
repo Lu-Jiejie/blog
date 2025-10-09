@@ -1,22 +1,22 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { tryOnMounted } from '@vueuse/core'
+import { shallowRef } from 'vue'
 
 const CONFIG = {
   // Star density configuration
   SMALL_STARS_COUNT: 1200,
   MEDIUM_STARS_COUNT: 800,
   LARGE_STARS_COUNT: 400,
+  // Maximum width coverage
+  MAX_WIDTH: 2560,
+  // Maximum height coverage (including animation distance)
+  MAX_HEIGHT: 4000,
+} as const
 
-  // Coverage area configuration
-  MAX_WIDTH: 2560, // Maximum width coverage
-  MAX_HEIGHT: 4000, // Maximum height coverage (including animation distance)
-}
+const starsSmall = shallowRef('')
+const starsMedium = shallowRef('')
+const starsLarge = shallowRef('')
 
-const starsSmall = ref('')
-const starsMedium = ref('')
-const starsLarge = ref('')
-
-// Generate random star box-shadow string
 function generateStarShadows(count: number, maxX: number, maxY: number): string {
   const shadows: string[] = []
 
@@ -29,19 +29,13 @@ function generateStarShadows(count: number, maxX: number, maxY: number): string 
   return shadows.join(', ')
 }
 
-// Initialize stars
-function initStars() {
-  // Generate three different levels of stars
+function initStars(): void {
   starsSmall.value = generateStarShadows(CONFIG.SMALL_STARS_COUNT, CONFIG.MAX_WIDTH, CONFIG.MAX_HEIGHT)
   starsMedium.value = generateStarShadows(CONFIG.MEDIUM_STARS_COUNT, CONFIG.MAX_WIDTH, CONFIG.MAX_HEIGHT)
   starsLarge.value = generateStarShadows(CONFIG.LARGE_STARS_COUNT, CONFIG.MAX_WIDTH, CONFIG.MAX_HEIGHT)
 }
 
-onMounted(() => {
-  initStars()
-
-  // Do not listen to resize, keep star positions fixed
-})
+tryOnMounted(initStars)
 </script>
 
 <template>

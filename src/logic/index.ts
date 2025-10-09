@@ -205,8 +205,12 @@ export function imgProxy(url: string, params?: string) {
   return `https://images.weserv.nl/?url=${encodeURIComponent(cleanUrl)}${params ? `&${params}` : ''}`
 }
 
-export function matchPatterns(patterns: string[], path: string): boolean {
+export function matchPatterns(patterns: string[] | string, path: string): boolean {
   let matched = false
+  if (typeof patterns === 'string')
+    patterns = [patterns]
+  if (!patterns || patterns.length === 0)
+    return false
   for (const pattern of patterns) {
     if (pattern.startsWith('!')) {
       const pat = pattern.slice(1, -2)

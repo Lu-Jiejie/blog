@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import type { Fn } from '@vueuse/core'
 import { useEventListener } from '@vueuse/core'
-import { computed, defineAsyncComponent, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { matchPatterns } from './logic'
 
 const route = useRoute()
 
@@ -89,20 +88,10 @@ watch(imageModel, (val) => {
   }
   lastVal = val
 })
-
-const enablePath = ['/']
-const BgComponent = computed(() => {
-  if (matchPatterns(enablePath, route.path)) {
-    return defineAsyncComponent(() => import('./components/background/Stars.vue'))
-  }
-  return undefined
-})
 </script>
 
 <template>
-  <ClientOnly v-if="BgComponent">
-    <component :is="BgComponent" />
-  </ClientOnly>
+  <Background />
   <TheToTop />
   <TheHeader />
   <main p="x-7 y-10" overflow-x-hidden>
