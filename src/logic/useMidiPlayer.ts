@@ -24,7 +24,14 @@ export function useMidiPlayer() {
   function updateCurrentTime() {
     const transport = Tone.getTransport()
     if (isPlaying.value && transport.state === 'started') {
-      currentTime.value = transport.seconds
+      const seconds = transport.seconds
+      // 如果超过了歌曲长度，重置到开头（处理循环播放）
+      if (duration.value > 0 && seconds >= duration.value) {
+        currentTime.value = seconds % duration.value
+      }
+      else {
+        currentTime.value = seconds
+      }
       animationFrameId = requestAnimationFrame(updateCurrentTime)
     }
   }

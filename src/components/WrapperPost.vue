@@ -118,6 +118,4 @@ onMounted(() => {
   >
     <slot />
   </article>
-
-  <TheToTop />
 </template>
