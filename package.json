@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@lu-jiejie/markdown-it-magic-link": "^0.2.3",
+    "@tonejs/midi": "^2.0.28",
     "@vueuse/core": "^13.9.0",
     "@vueuse/head": "^2.0.0",
     "dayjs": "^1.11.18",
@@ -23,6 +24,7 @@
     "pixi.js": "^8.14.0",
     "shiki": "^3.13.0",
     "simplex-noise": "^4.0.3",
+    "tone": "^15.1.22",
     "vue": "^3.5.22",
     "vue-router": "^4.5.1",
     "vue-router-better-scroller": "^0.0.0"

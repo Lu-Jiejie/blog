@@ -20,6 +20,7 @@ declare module 'vue' {
     ListFavorites: typeof import('./src/components/ListFavorites.vue')['default']
     ListPosts: typeof import('./src/components/ListPosts.vue')['default']
     ListProjects: typeof import('./src/components/ListProjects.vue')['default']
+    MusicPlayer: typeof import('./src/components/MusicPlayer.vue')['default']
     Particle: typeof import('./src/components/background/Particle.vue')['default']
     PhotoGallery: typeof import('./src/components/PhotoGallery.vue')['default']
     Plum: typeof import('./src/components/background/Plum.vue')['default']

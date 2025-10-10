@@ -93,6 +93,7 @@ watch(imageModel, (val) => {
 <template>
   <Background />
   <TheToTop />
+  <MusicPlayer />
   <TheHeader />
   <main p="x-7 y-10" overflow-x-hidden>
     <RouterView />
