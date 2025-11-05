@@ -4,19 +4,6 @@ import * as ToneMidi from '@tonejs/midi'
 import * as Tone from 'tone'
 import { readonly, ref, shallowRef } from 'vue'
 
-// Use Vite's glob import to get all sample URLs.
-// This is robust for both dev and prod environments.
-const samples = import.meta.glob('../data/sample/*.mp3', { eager: true, as: 'url' })
-
-// Create the note-to-URL mapping for Tone.Sampler
-const urls: Record<string, string> = {}
-for (const path in samples) {
-  const fileName = path.split('/').pop()!
-  // Convert file name (e.g., "As1.mp3") to note name (e.g., "A#1")
-  const noteName = fileName.replace('.mp3', '').replace('s', '#')
-  urls[noteName] = samples[path]
-}
-
 export function useMidiPlayer() {
   // Public state
   const isPlaying = ref(false)
@@ -93,13 +80,96 @@ export function useMidiPlayer() {
       // 当前实现所有音符都用第一个采样器播放（可扩展为多轨分流）。
       midi.tracks.forEach((midiTrack) => {
         // 创建一个钢琴采样器，映射 88 键所有音符到本地采样文件。
-        const synth = new Tone.Sampler(
-          urls,
-          {
-            release: 1,
-            volume: volume.value,
-          },
-        ).toDestination()
+        const synth = new Tone.Sampler({
+          'A1': '/src/data/sample/A1.mp3',
+          'A#1': '/src/data/sample/As1.mp3',
+          'B1': '/src/data/sample/B1.mp3',
+          'C1': '/src/data/sample/C1.mp3',
+          'C#1': '/src/data/sample/Cs1.mp3',
+          'D1': '/src/data/sample/D1.mp3',
+          'D#1': '/src/data/sample/Ds1.mp3',
+          'E1': '/src/data/sample/E1.mp3',
+          'F1': '/src/data/sample/F1.mp3',
+          'F#1': '/src/data/sample/Fs1.mp3',
+          'G1': '/src/data/sample/G1.mp3',
+          'G#1': '/src/data/sample/Gs1.mp3',
+          'A2': '/src/data/sample/A2.mp3',
+          'A#2': '/src/data/sample/As2.mp3',
+          'B2': '/src/data/sample/B2.mp3',
+          'C2': '/src/data/sample/C2.mp3',
+          'C#2': '/src/data/sample/Cs2.mp3',
+          'D2': '/src/data/sample/D2.mp3',
+          'D#2': '/src/data/sample/Ds2.mp3',
+          'E2': '/src/data/sample/E2.mp3',
+          'F2': '/src/data/sample/F2.mp3',
+          'F#2': '/src/data/sample/Fs2.mp3',
+          'G2': '/src/data/sample/G2.mp3',
+          'G#2': '/src/data/sample/Gs2.mp3',
+          'A3': '/src/data/sample/A3.mp3',
+          'A#3': '/src/data/sample/As3.mp3',
+          'B3': '/src/data/sample/B3.mp3',
+          'C3': '/src/data/sample/C3.mp3',
+          'C#3': '/src/data/sample/Cs3.mp3',
+          'D3': '/src/data/sample/D3.mp3',
+          'D#3': '/src/data/sample/Ds3.mp3',
+          'E3': '/src/data/sample/E3.mp3',
+          'F3': '/src/data/sample/F3.mp3',
+          'F#3': '/src/data/sample/Fs3.mp3',
+          'G3': '/src/data/sample/G3.mp3',
+          'G#3': '/src/data/sample/Gs3.mp3',
+          'A4': '/src/data/sample/A4.mp3',
+          'A#4': '/src/data/sample/As4.mp3',
+          'B4': '/src/data/sample/B4.mp3',
+          'C4': '/src/data/sample/C4.mp3',
+          'C#4': '/src/data/sample/Cs4.mp3',
+          'D4': '/src/data/sample/D4.mp3',
+          'D#4': '/src/data/sample/Ds4.mp3',
+          'E4': '/src/data/sample/E4.mp3',
+          'F4': '/src/data/sample/F4.mp3',
+          'F#4': '/src/data/sample/Fs4.mp3',
+          'G4': '/src/data/sample/G4.mp3',
+          'G#4': '/src/data/sample/Gs4.mp3',
+          'A5': '/src/data/sample/A5.mp3',
+          'A#5': '/src/data/sample/As5.mp3',
+          'B5': '/src/data/sample/B5.mp3',
+          'C5': '/src/data/sample/C5.mp3',
+          'C#5': '/src/data/sample/Cs5.mp3',
+          'D5': '/src/data/sample/D5.mp3',
+          'D#5': '/src/data/sample/Ds5.mp3',
+          'E5': '/src/data/sample/E5.mp3',
+          'F5': '/src/data/sample/F5.mp3',
+          'F#5': '/src/data/sample/Fs5.mp3',
+          'G5': '/src/data/sample/G5.mp3',
+          'G#5': '/src/data/sample/Gs5.mp3',
+          'A6': '/src/data/sample/A6.mp3',
+          'A#6': '/src/data/sample/As6.mp3',
+          'B6': '/src/data/sample/B6.mp3',
+          'C6': '/src/data/sample/C6.mp3',
+          'C#6': '/src/data/sample/Cs6.mp3',
+          'D6': '/src/data/sample/D6.mp3',
+          'D#6': '/src/data/sample/Ds6.mp3',
+          'E6': '/src/data/sample/E6.mp3',
+          'F6': '/src/data/sample/F6.mp3',
+          'F#6': '/src/data/sample/Fs6.mp3',
+          'G6': '/src/data/sample/G6.mp3',
+          'G#6': '/src/data/sample/Gs6.mp3',
+          'A7': '/src/data/sample/A7.mp3',
+          'A#7': '/src/data/sample/As7.mp3',
+          'B7': '/src/data/sample/B7.mp3',
+          'C7': '/src/data/sample/C7.mp3',
+          'C#7': '/src/data/sample/Cs7.mp3',
+          'D7': '/src/data/sample/D7.mp3',
+          'D#7': '/src/data/sample/Ds7.mp3',
+          'E7': '/src/data/sample/E7.mp3',
+          'F7': '/src/data/sample/F7.mp3',
+          'F#7': '/src/data/sample/Fs7.mp3',
+          'G7': '/src/data/sample/G7.mp3',
+          'G#7': '/src/data/sample/Gs7.mp3',
+          'C8': '/src/data/sample/C8.mp3',
+        }, {
+          release: 1,
+          volume: volume.value,
+        }).toDestination()
 
         newSamplers.push(synth)
 
