@@ -33,8 +33,8 @@ const t = useI18n(messages)
 <div py-2 />
 <SongsRecentPlayedCard :limit="4" />
 <div py-2 />
-<BilibiliMusicCard />
-<div py-2 />
 <GamesRecentPlayedCard :limit="4"/>
 <div py-2 />
 <AnimeRecentPlayedCard :limit="4"/>
+<div py-2 />
+<BilibiliMusicCard />

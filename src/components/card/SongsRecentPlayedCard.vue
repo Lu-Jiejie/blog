@@ -84,7 +84,7 @@ onMounted(async () => {
               important-m-0 rounded-sm
             >
           </div>
-          <div flex="~ col justify-center" ml-2 h-full>
+          <div flex="~ col justify-center" ml-2 h-full w-0 flex-1 min-w-0>
             <span
               class="name" op-80 transition mb-1 leading-tight text-truncate
             >{{ item.name }}</span>
