@@ -75,6 +75,9 @@ export const favorites: Favorites = {
     { name: '悪意', nameZh: '恶意', creator: '东野圭吾', wikiUrlFallback: 'https://ja.wikipedia.org/wiki/悪意 (小説)' },
   ],
   game: [
+    { name: 'Danganronpa 2: Goodbye Despair', nameZh: '超级弹丸论破2 再见绝望学园', creator: 'Spike Chunsoft' },
+    { name: 'Ace Attorney', nameZh: '逆转裁判系列', creator: 'Capcom' },
+    { name: 'The Great Ace Attorney', nameZh: '大逆转裁判系列', creator: 'Capcom', wikiKeywordZh: '大逆轉裁判_-成步堂龍之介的冒險-' },
     { name: 'Ys Origin', nameZh: '伊苏：起源', creator: 'Falcom' },
     { name: 'Pokémon X & Y', nameZh: '宝可梦 X／Y', creator: 'Game Freak' },
     { name: 'Pokémon Emerald', nameZh: '宝可梦 绿宝石', creator: 'Game Freak' },
@@ -86,8 +89,6 @@ export const favorites: Favorites = {
     { name: 'Stardew Valley', nameZh: '星露谷物语', creator: 'ConcernedApe' },
     { name: 'Elden Ring', nameZh: '艾尔登法环', creator: 'FromSoftware' },
     { name: 'Ori and the Will of the Wisps', nameZh: '奥日与精灵意志', creator: 'Moon Studios' },
-    { name: 'Danganronpa', nameZh: '弹丸论破', creator: 'Spike Chunsoft' },
     { name: 'Terraria', nameZh: '泰拉瑞亚', creator: 'Re-Logic' },
-    { name: 'Phoenix Wright: Ace Attorney', nameZh: '逆转裁判', creator: 'Capcom' },
   ],
 }
