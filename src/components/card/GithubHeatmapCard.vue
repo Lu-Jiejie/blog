@@ -19,7 +19,7 @@ const darkColor = ['#8883', '#003820', '#00602d', '#10983d', '#27d545']
 const API = getGithubCDNUrl({
   owner: 'Lu-Jiejie',
   repo: 'static',
-  path: 'data/github.json',
+  path: 'data/github/lastYearContributions.json',
 })
 
 const contributions = ref<ContributionsInfo | null>(null)
@@ -33,7 +33,7 @@ async function fetchContributions() {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
 
-    const data = (await response.json()).lastYearContributions as ContributionsInfo
+    const data = (await response.json()) as ContributionsInfo
     contributions.value = data
     return data
   }

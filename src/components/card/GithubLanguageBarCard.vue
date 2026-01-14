@@ -11,7 +11,7 @@ type LanguageDistribution = Record<string, {
 const API = getGithubCDNUrl({
   owner: 'Lu-Jiejie',
   repo: 'static',
-  path: 'data/github.json',
+  path: 'data/github/languageDistribution.json',
 })
 
 const languageData = ref<LanguageDistribution | null>(null)
@@ -37,7 +37,7 @@ async function fetchLanguageDistribution() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
-    const res = (await response.json()).languageDistribution as LanguageDistribution
+    const res = (await response.json()) as LanguageDistribution
     languageData.value = res
     return res
   }

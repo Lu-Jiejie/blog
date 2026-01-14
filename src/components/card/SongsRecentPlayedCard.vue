@@ -19,7 +19,7 @@ const { limit = 6 } = defineProps<{
 const API = getGithubCDNUrl({
   owner: 'Lu-Jiejie',
   repo: 'static',
-  path: 'data/netease.json',
+  path: 'data/netease/favorite.json',
 })
 
 const musicData = ref<MusicItem[] | null>(null)
@@ -36,7 +36,7 @@ async function fetchMusicList() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
-    const res = (await response.json()).favorite as MusicItem[]
+    const res = (await response.json()) as MusicItem[]
     musicData.value = res
     return res
   }

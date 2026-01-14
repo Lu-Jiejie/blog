@@ -31,10 +31,10 @@ const t = useI18n(messages)
 <div py-2 />
 <GithubLanguageBarCard />
 <div py-2 />
-<SongsRecentPlayedCard :limit="4" />
+<SongsRecentPlayedCard />
 <div py-2 />
-<GamesRecentPlayedCard :limit="4"/>
+<GamesRecentPlayedCard />
 <div py-2 />
-<AnimeRecentPlayedCard :limit="4"/>
-<div py-2 />
-<BilibiliMusicCard />
+<AnimeRecentPlayedCard />
+<!-- <div py-2 />
+<BilibiliMusicCard /> -->

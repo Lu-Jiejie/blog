@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { getGithubCDNUrl, imgProxy } from '~/logic'
+import { isZh } from '~/logic/i18n'
 
 interface AnimeItem {
   id: number
@@ -16,11 +17,7 @@ interface AnimeItem {
   updated_at: string
 }
 
-interface BangumiInfo {
-  watching: AnimeItem[]
-  watched: AnimeItem[]
-  toWatch: AnimeItem[]
-}
+type BangumiInfo = AnimeItem[]
 
 const { limit = 6 } = defineProps<{
   limit?: number
@@ -29,7 +26,7 @@ const { limit = 6 } = defineProps<{
 const API = getGithubCDNUrl({
   owner: 'Lu-Jiejie',
   repo: 'static',
-  path: 'data/bangumi.json',
+  path: 'data/bangumi/watched.json',
 })
 
 const animeData = ref<BangumiInfo | null>(null)
@@ -40,7 +37,7 @@ const prepared = computed(() => animeData.value !== null)
 const watchingList = computed(() => {
   if (!animeData.value)
     return []
-  return animeData.value.watching.slice(0, limit)
+  return animeData.value.slice(0, limit)
 })
 
 async function fetchBangumi() {
@@ -70,9 +67,9 @@ onMounted(async () => {
 <template>
   <!-- icon="i-simple-icons-bilibili color-hex-00A1D6" -->
   <CardTemplate
-    title="Anime I'm Watching"
-    title-zh="我最近在追的番剧"
-    icon=""
+    title="Anime I've Watched Recently"
+    title-zh="我最近看过的动画"
+    icon="i-mingcute-video-fill color-hex-4065ba"
     :prepared="!isLoading && prepared"
   >
     <template v-if="prepared">
@@ -89,7 +86,7 @@ onMounted(async () => {
           </div>
           <div flex="~ col justify-center" ml-2 h-full overflow-hidden>
             <span class="name" op-80 transition leading-tight mb-1>
-              {{ item.name }}
+              {{ isZh ? item.name_cn : item.name }}
             </span>
             <!-- <span text-sm op-60 text-truncate leading-tight mb-1>
               {{ item.summary }}

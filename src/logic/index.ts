@@ -174,8 +174,9 @@ export function getGithubCDNUrl({
   // 1-2: https://testingcf.jsdelivr.net/gh/Lu-Jiejie/static@main/data/netease.json
   // 1-3: https://gcore.jsdelivr.net/gh/Lu-Jiejie/static@main/data/netease.json
   // 2: https://github.com/sky22333/hubproxy  https://demo.52013120.xyz/
+  // 3: https://cdn.jsdmirror.com/gh/Lu-Jiejie/static@main/data/netease/favorite.json
   // return `https://cdn.jsdmirror.com/gh/${owner}/${repo}@${branch}/${path}`
-  return `https://testingcf.jsdelivr.net/gh/${owner}/${repo}@${branch}/${path}`
+  return `https://cdn.jsdmirror.com/gh/${owner}/${repo}@${branch}/${path}`
 }
 
 export async function purgeJsDelivrCache({

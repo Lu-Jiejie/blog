@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { formatDate, getGithubCDNUrl, imgProxy } from '~/logic'
+import { isZh } from '~/logic/i18n'
 
 interface GameItem {
   id: string
@@ -19,7 +20,7 @@ const { limit = 6 } = defineProps<{
 const API = getGithubCDNUrl({
   owner: 'Lu-Jiejie',
   repo: 'static',
-  path: 'data/steam.json',
+  path: 'data/steam/games.json',
 })
 
 const gamesData = ref<GameItem[] | null>(null)
@@ -33,7 +34,7 @@ async function fetchRecentGames() {
       throw new Error('Network response was not ok')
     }
 
-    const data = (await response.json()).games as GameItem[]
+    const data = (await response.json()) as GameItem[]
     gamesData.value = data
     return data
   }
@@ -89,7 +90,7 @@ onMounted(async () => {
           </div>
           <div flex="~ col justify-center" ml-2 h-full overflow-hidden>
             <span class="name" op-80 text-truncate transition leading-tight mb-1.5>
-              {{ item.name }}
+              {{ isZh ? item.nameCN : item.name }}
             </span>
             <span text-sm op-60 text-truncate leading-tight mb-1>
               Playtime:

@@ -5,7 +5,7 @@ import { getGithubCDNUrl, imgProxy } from '~/logic'
 const API = getGithubCDNUrl({
   owner: 'Lu-Jiejie',
   repo: 'static',
-  path: 'data/bilibili.json',
+  path: 'data/bilibili/musicLiked.json',
 })
 
 const showPlayer = ref(false)
@@ -44,8 +44,8 @@ async function fetchFavoriteMusic() {
 
     const data = await response.json()
 
-    if (data.musicLiked && data.musicLiked.length > 0) {
-      musicVideo.value = data.musicLiked[0]
+    if (data && data.length > 0) {
+      musicVideo.value = data[0]
       // cover.value = getGithubCDNUrl({
       //   owner: 'lu-jiejie',
       //   repo: 'static',
