@@ -72,9 +72,18 @@ function isSameYear(date1?: Date | string | number, date2?: Date | string | numb
           '--enter-step': '60ms',
         }"
       >
-        <RouterLink
+        <!-- <RouterLink
           :to="post.path" class="item"
           block font-normal m="b-6 t-2"
+        > -->
+        <component
+          :is="post.path.includes('://') ? 'a' : 'RouterLink'"
+          v-bind="
+            post.path.includes('://')
+              ? { href: post.path, target: '_blank', rel: 'noopener' }
+              : { to: post.path }
+          "
+          block font-normal m="b-6 t-2" no-underline class="item"
         >
           <li flex="~ col gap-2 md:row md:items-center">
             <!-- type & title -->
@@ -116,7 +125,9 @@ function isSameYear(date1?: Date | string | number, date2?: Date | string | numb
               </span>
             </div>
           </li>
-        </RouterLink>
+        </component>
+
+        <!-- </RouterLink> -->
       </div>
     </template>
   </ul>

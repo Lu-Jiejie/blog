@@ -96,7 +96,7 @@ h6:focus .header-anchor {
   z-index: 200;
   overflow-y: auto;
   /* lg 及以下隐藏，xl 及以上显示 */
-  --uno: hidden xl: flex flex-col xl: w-300px;
+  /* --uno: hidden xl: flex flex-col xl: w-300px; */
 }
 .table-of-contents > ul {
   text-overflow: ellipsis;

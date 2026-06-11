@@ -117,6 +117,7 @@ export default defineConfig({
           slugify,
           listType: 'ul',
           level: [1, 2, 3, 4],
+          containerHeaderHtml: '<div class="table-of-contents-anchor"><div class="i-ri-menu-2-fill" /></div>',
         })
 
         // 魔法链接

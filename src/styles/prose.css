@@ -1,3 +1,9 @@
+:root {
+  --prose-max-width: 65ch;
+  --prose-width: min(var(--prose-max-width), 100%);
+  --prose-margin: calc(calc(100vw - var(--prose-width)) / 2);
+}
+
 .prose {
   --fg-light: #888;
   --fg: #555;
@@ -5,7 +11,7 @@
   --fg-deeper: #000;
 
   color: var(--fg);
-  max-width: 70ch;
+  max-width: var(--prose-max-width);
   font-size: 1rem;
   line-height: 1.75;
 }
