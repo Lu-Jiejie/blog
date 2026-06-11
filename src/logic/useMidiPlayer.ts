@@ -6,7 +6,7 @@ import { readonly, ref, shallowRef } from 'vue'
 
 // Use Vite's glob import to get all sample URLs.
 // This is robust for both dev and prod environments.
-const samples = import.meta.glob('../data/sample/*.mp3', { eager: true, as: 'url' })
+const samples = import.meta.glob('../data/sample/*.mp3', { eager: true, query: '?url', import: 'default' })
 
 // Create the note-to-URL mapping for Tone.Sampler
 const urls: Record<string, string> = {}
@@ -14,7 +14,7 @@ for (const path in samples) {
   const fileName = path.split('/').pop()!
   // Convert file name (e.g., "As1.mp3") to note name (e.g., "A#1")
   const noteName = fileName.replace('.mp3', '').replace('s', '#')
-  urls[noteName] = samples[path]
+  urls[noteName] = samples[path] as string
 }
 
 export function useMidiPlayer() {

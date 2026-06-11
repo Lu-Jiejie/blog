@@ -1,5 +1,3 @@
-/// <reference types="vitest" />
-
 import path from 'node:path'
 import MDMagicLink from '@lu-jiejie/markdown-it-magic-link'
 import MDShiki from '@shikijs/markdown-it'
@@ -16,8 +14,8 @@ import MDTableOfContents from 'markdown-it-toc-done-right'
 import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
 import Markdown from 'unplugin-vue-markdown/vite'
-import VueRouter from 'unplugin-vue-router/vite'
 import { defineConfig } from 'vite'
+import VueRouter from 'vue-router/vite'
 import { slugify } from './scripts/slugify'
 
 export default defineConfig({
@@ -38,7 +36,7 @@ export default defineConfig({
 
     VueRouter({
       extensions: ['.vue', '.md'],
-      routesFolder: 'src/pages',
+      routesFolder: 'pages',
       extendRoute(route) {
         const path = route.components.get('default')
 
@@ -92,10 +90,10 @@ export default defineConfig({
             transformerNotationHighlight(),
             transformerNotationWordHighlight(),
           ],
-        }))
+        }) as any)
 
         // 标题锚点
-        md.use(MDAnchor, {
+        md.use(MDAnchor as any, {
           slugify,
           permalink: MDAnchor.permalink.linkInsideHeader({
             symbol: '#',
@@ -106,7 +104,7 @@ export default defineConfig({
         })
 
         // 链接属性
-        md.use(MDLinkAttributes, {
+        md.use(MDLinkAttributes as any, {
           matcher: (link: string) => link.startsWith('http'),
           attrs: {
             target: '_blank',
@@ -115,14 +113,14 @@ export default defineConfig({
         })
 
         // 目录生成
-        md.use(MDTableOfContents, {
+        md.use(MDTableOfContents as any, {
           slugify,
           listType: 'ul',
           level: [1, 2, 3, 4],
         })
 
         // 魔法链接
-        md.use(MDMagicLink, {
+        md.use(MDMagicLink as any, {
           // platformUsers: {
           //   bili: {
           //     'lu-jiejie': {
@@ -135,10 +133,10 @@ export default defineConfig({
         })
 
         // GitHub 提示块
-        md.use(MDGithubAlerts)
+        md.use(MDGithubAlerts as any)
 
         // 代码复制
-        md.use(MDCopyCode, {})
+        md.use(MDCopyCode as any, {})
       },
     }),
 

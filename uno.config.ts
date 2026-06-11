@@ -1,4 +1,5 @@
 import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
+import transformerVariantGroup from '@unocss/transformer-variant-group'
 
 import {
   defineConfig,
@@ -32,8 +33,9 @@ export default defineConfig({
     }),
     presetWebFonts({
       fonts: {
-        sans: 'Inter',
-        mono: 'Fira Code',
+        sans: ['Inter', 'Noto Sans SC'],
+        mono: ['Fira Code', 'Noto Sans SC'],
+        serif: ['DM Serif Display', 'Noto Serif SC'],
         condensed: 'Roboto Condensed',
       },
       processors: createLocalFontProcessor(),
@@ -41,5 +43,6 @@ export default defineConfig({
   ],
   transformers: [
     transformerDirectives(),
+    transformerVariantGroup(),
   ],
 })

@@ -10,13 +10,13 @@ export const tracks: MidiTrack[] = [
     name: '成歩堂龍太郎~異議あり!',
     nameZh: '成步堂龙太郎~异议!',
     artist: '北川保昌',
-    path: new URL('./成歩堂龍太郎~異議あり!.mid', import.meta.url).href,
+    path: new URL('./Naruhodo-Objection.mid', import.meta.url).href,
   },
   {
     name: '新世界に咲く花',
     nameZh: '新世界绽放的花',
     artist: '前馬宏充',
-    path: new URL('./新世界に咲く花.mid', import.meta.url).href,
+    path: new URL('./Flower-in-New-World.mid', import.meta.url).href,
   },
   {
     name: 'Tearforged Blossoms',

@@ -1,2 +1,23 @@
+allowBuilds:
+  esbuild: set this to true or false
+  exifreader: set this to true or false
+  simple-git-hooks: set this to true or false
+minimumReleaseAgeExclude:
+  - '@iconify/json@2.2.485'
+  - '@types/node@25.9.3'
+  - '@vue/compiler-core@3.5.38'
+  - '@vue/compiler-dom@3.5.38'
+  - '@vue/compiler-sfc@3.5.38'
+  - '@vue/compiler-ssr@3.5.38'
+  - '@vue/reactivity@3.5.38'
+  - '@vue/runtime-core@3.5.38'
+  - '@vue/runtime-dom@3.5.38'
+  - '@vue/server-renderer@3.5.38'
+  - '@vue/shared@3.5.38'
+  - vue@3.5.38
+shellEmulator: true
+
+trustPolicy: no-downgrade
+
 ignoredBuiltDependencies:
   - sharp
