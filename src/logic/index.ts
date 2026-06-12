@@ -1,17 +1,23 @@
-/**
- * Simple pattern matcher for route paths.
- * Supports '/foo/*' for prefix match and '!/bar/*' for negation.
- * Example:
- *   matchPatterns(['/posts/*', '!/posts/private/*'], '/posts/abc') // true
- *   matchPatterns(['/posts/*', '!/posts/private/*'], '/posts/private/xyz') // false
- */
 import type { Ref } from 'vue'
-import { useDark, useStorage, useToggle } from '@vueuse/core'
+import { useDark, useStorage } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { computed, ref } from 'vue'
 
 export const isDark = useDark()
-export const toggleDark = useToggle(isDark)
+
+export function toggleDark() {
+  // check if View Transitions API is supported
+  if (!document.startViewTransition) {
+    // If the View Transitions API is not supported, simply toggle the theme without animation
+    isDark.value = !isDark.value
+    return
+  }
+
+  // Use the View Transitions API to animate the theme change
+  document.startViewTransition(() => {
+    isDark.value = !isDark.value
+  })
+}
 
 export function formatDate(d: string | number | Date, onlyDate = true) {
   const date = dayjs(d)

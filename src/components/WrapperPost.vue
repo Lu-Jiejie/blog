@@ -1,13 +1,14 @@
 <script setup lang="ts">
-import type { Post } from '~/types'
+import type { PostFrontmatter } from '~/types'
 import { useEventListener } from '@vueuse/core'
 import { useCopyCode } from 'markdown-it-copy-code'
 import { nextTick, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import TableOfContents from '~/components/toc/TableOfContents.vue'
 import { formatDate } from '~/logic'
 
 const { frontmatter } = defineProps<{
-  frontmatter: Post
+  frontmatter: PostFrontmatter
 }>()
 
 const content = ref<HTMLDivElement>()
@@ -81,7 +82,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div
+  <header
     v-if="frontmatter.display || frontmatter.title"
     class="prose" m-auto mb-8
   >
@@ -111,11 +112,11 @@ onMounted(() => {
         </RouterLink>
       </div>
     </div>
-  </div>
+  </header>
 
-  <article
-    ref="content"
-  >
+  <TableOfContents />
+
+  <article ref="content" m-auto class="prose slide-enter-content">
     <slot />
   </article>
 </template>

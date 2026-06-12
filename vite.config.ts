@@ -10,12 +10,12 @@ import MDAnchor from 'markdown-it-anchor'
 import MDCopyCode from 'markdown-it-copy-code'
 import MDGithubAlerts from 'markdown-it-github-alerts'
 import MDLinkAttributes from 'markdown-it-link-attributes'
-import MDTableOfContents from 'markdown-it-toc-done-right'
 import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
 import Markdown from 'unplugin-vue-markdown/vite'
 import { defineConfig } from 'vite'
 import VueRouter from 'vue-router/vite'
+import extractToc from './scripts/extractToc'
 import { slugify } from './scripts/slugify'
 
 export default defineConfig({
@@ -41,9 +41,14 @@ export default defineConfig({
         const path = route.components.get('default')
 
         if (path && path.endsWith('.md')) {
-          const { data } = matter(fs.readFileSync(path, 'utf-8'))
+          const content = fs.readFileSync(path, 'utf-8')
+          const { data } = matter(content)
+          // Get the table of contents and add it to route meta
+          const { toc } = extractToc(path)
+
           route.addToMeta({
             frontmatter: data,
+            toc,
           })
         }
       },
@@ -58,19 +63,12 @@ export default defineConfig({
 
     Markdown({
       wrapperComponent: 'WrapperPost',
-      wrapperClasses: (_, code) => {
-        if (code.includes('@layout-full-width')) {
-          return ''
-        }
-        return 'prose m-auto slide-enter-content'
-      },
       headEnabled: true,
       exportFrontmatter: false,
       exposeFrontmatter: false,
       exposeExcerpt: false,
       markdownItOptions: {
         quotes: '""\'\'',
-
       },
       async markdownItSetup(md) {
         // shiki markdown it
@@ -110,14 +108,6 @@ export default defineConfig({
             target: '_blank',
             rel: 'noopener noreferrer',
           },
-        })
-
-        // 目录生成
-        md.use(MDTableOfContents as any, {
-          slugify,
-          listType: 'ul',
-          level: [1, 2, 3, 4],
-          containerHeaderHtml: '<div class="table-of-contents-anchor"><div class="i-ri-menu-2-fill" /></div>',
         })
 
         // 魔法链接

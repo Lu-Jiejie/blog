@@ -1,38 +1,23 @@
 <script setup lang="ts">
-import type { Post } from '~/types'
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { formatDate } from '~/logic'
-import { isZh } from '~/logic/i18n'
-
-type PostRoute = {
-  path: string
-} & Post
 
 const props = defineProps<{
-  type?: string
-  categories: Array<{ name: string, label: string }>
+  type?: 'essays' | 'notes'
 }>()
 
 const router = useRouter()
-const posts = computed<PostRoute[]>(() =>
-  router.getRoutes()
-    .filter(r =>
-      r.path.startsWith('/posts/')
-      && !r.path.endsWith('.html')
-      && r.meta.frontmatter
-      && r.meta.frontmatter.date
-      && (
-        props.type === undefined
-        || props.type === 'all'
-        || r.meta.frontmatter.type === props.type
-      ),
-    )
+const routes = router.getRoutes()
+
+const posts = computed(() =>
+  routes
+    .filter(r => r.path.startsWith(`/${props.type}/`) && r.meta.frontmatter)
     .map(r => ({
       path: r.path,
-      ...(r.meta.frontmatter),
+      ...r.meta.frontmatter!,
     }))
-    .sort((a, b) => Number(new Date(b.date)) - Number(new Date(a.date))),
+    .sort((a, b) => +new Date(b.date) - +new Date(a.date)),
 )
 
 function getYear(date: Date | string | number) {
@@ -46,7 +31,7 @@ function isSameYear(date1?: Date | string | number, date2?: Date | string | numb
 <template>
   <ul>
     <div v-if="!posts.length" py-2 op-50>
-      {{ isZh ? '什么都没有。' : 'Nothing to see here yet.' }}
+      Nothing to see here yet.
     </div>
     <template v-for="post, idx in posts" v-else :key="post.title">
       <!-- Post Year Header -->
@@ -72,36 +57,15 @@ function isSameYear(date1?: Date | string | number, date2?: Date | string | numb
           '--enter-step': '60ms',
         }"
       >
-        <!-- <RouterLink
+        <RouterLink
           :to="post.path" class="item"
           block font-normal m="b-6 t-2"
-        > -->
-        <component
-          :is="post.path.includes('://') ? 'a' : 'RouterLink'"
-          v-bind="
-            post.path.includes('://')
-              ? { href: post.path, target: '_blank', rel: 'noopener' }
-              : { to: post.path }
-          "
-          block font-normal m="b-6 t-2" no-underline class="item"
         >
           <li flex="~ col gap-2 md:row md:items-center">
             <!-- type & title -->
             <div leading-1.2em relative>
               <span text-lg block>
                 {{ post.title }}
-              </span>
-
-              <span
-                v-if="!type"
-                absolute right="full" top="0.3em"
-                inline-block rounded bg-hex-a1a1a150
-                text-xs text-hex-555 dark:text-hex-bbb
-                p="x-1 y-0.5" m="r-2"
-                text-right hidden md:important-block
-                whitespace-nowrap
-              >
-                {{ props.categories.find(c => c.name === post.type)?.label }}
               </span>
             </div>
 
@@ -114,20 +78,9 @@ function isSameYear(date1?: Date | string | number, date2?: Date | string | numb
               <span v-if="post.place" op-50>
                 {{ post.place }}
               </span>
-              <span
-                v-if="!type"
-                align-middle flex-none rounded bg-hex-a1a1a150
-                text-xs text-hex-555 dark:text-hex-bbb
-                p="x-1 y-0.5" m="y-auto"
-                md:hidden
-              >
-                {{ props.categories.find(c => c.name === post.type)?.label }}
-              </span>
             </div>
           </li>
-        </component>
-
-        <!-- </RouterLink> -->
+        </RouterLink>
       </div>
     </template>
   </ul>

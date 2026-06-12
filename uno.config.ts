@@ -20,6 +20,15 @@ export default defineConfig({
       '--enter-stage': n,
     })],
   ],
+  extendTheme: (theme) => {
+    return {
+      ...theme,
+      breakpoint: {
+        ...theme.breakpoint,
+        toc: '1228px',
+      },
+    }
+  },
   presets: [
     presetWind4(),
     presetAttributify(),

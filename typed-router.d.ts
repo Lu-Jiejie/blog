@@ -45,6 +45,20 @@ declare module 'vue-router/auto-routes' {
       { all: ParamValue<false> },
       | never
     >,
+    '/essays/': RouteRecordInfo<
+      '/essays/',
+      '/essays',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/essays/test-styles': RouteRecordInfo<
+      '/essays/test-styles',
+      '/essays/test-styles',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/favorites': RouteRecordInfo<
       '/favorites',
       '/favorites',
@@ -52,30 +66,23 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/notes/': RouteRecordInfo<
+      '/notes/',
+      '/notes',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/notes/test-styles': RouteRecordInfo<
+      '/notes/test-styles',
+      '/notes/test-styles',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/photos': RouteRecordInfo<
       '/photos',
       '/photos',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/posts/': RouteRecordInfo<
-      '/posts/',
-      '/posts',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/posts/1': RouteRecordInfo<
-      '/posts/1',
-      '/posts/1',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/posts/hey': RouteRecordInfo<
-      '/posts/hey',
-      '/posts/hey',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -116,6 +123,22 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | 'all'
     }
+    'pages/essays/index.md': {
+      routes:
+        | '/essays/'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'pages/essays/test-styles.md': {
+      routes:
+        | '/essays/test-styles'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
     'pages/favorites.vue': {
       routes:
         | '/favorites'
@@ -124,33 +147,25 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | never
     }
+    'pages/notes/index.md': {
+      routes:
+        | '/notes/'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'pages/notes/test-styles.md': {
+      routes:
+        | '/notes/test-styles'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
     'pages/photos.vue': {
       routes:
         | '/photos'
-      views:
-        | never
-      pathParamNames:
-        | never
-    }
-    'pages/posts/index.vue': {
-      routes:
-        | '/posts/'
-      views:
-        | never
-      pathParamNames:
-        | never
-    }
-    'pages/posts/1.md': {
-      routes:
-        | '/posts/1'
-      views:
-        | never
-      pathParamNames:
-        | never
-    }
-    'pages/posts/hey.md': {
-      routes:
-        | '/posts/hey'
       views:
         | never
       pathParamNames:

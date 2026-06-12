@@ -6,42 +6,63 @@
 
 html.dark {
   --c-bg: #050505;
-  --c-scrollbar: #222;
-  --c-scrollbar-hover: #333;
+  --c-scrollbar: #333;
+  --c-scrollbar-hover: #555;
   color-scheme: dark;
 }
 
 html {
   background-color: var(--c-bg);
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
+  scroll-behavior: smooth;
 }
 
-::selection {
-  background: #8884;
+/* View Transitions API 配置 - 主题切换时整页 crossfade */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
 }
 
-/* scrollbar */
-* {
-  scrollbar-color: var(--c-scrollbar) transparent;
+::view-transition-old(root) {
+  animation-name: fade-out;
 }
-::-webkit-scrollbar {
-  width: 6px;
+
+::view-transition-new(root) {
+  animation-name: fade-in;
 }
-::-webkit-scrollbar:horizontal {
-  height: 6px;
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
 }
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-corner {
-  background: var(--c-bg);
-  border-radius: 10px;
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
 }
-::-webkit-scrollbar-thumb {
-  background: var(--c-scrollbar);
-  border-radius: 10px;
+
+/* OverlayScrollbars 专属现代滚动条美化 */
+.os-theme-dark,
+[data-overlayscrollbars-initialize] {
+  --os-handle-bg: var(--c-scrollbar) !important;
+  --os-handle-bg-hover: var(--c-scrollbar-hover) !important;
+  --os-handle-bg-active: var(--c-scrollbar-hover) !important;
+
+  --os-size: 10px !important;
+
+  --os-handle-border-radius: 10px !important;
+  --os-handle-border: none !important;
+  --os-handle-border-hover: none !important;
+  --os-handle-border-active: none !important;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: var(--c-scrollbar-hover);
+.os-scrollbar {
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease !important;
 }
 
 /* selection */
@@ -93,6 +114,7 @@ html:not(.dark) [img-dark] {
     transform: translateY(0);
   }
 }
+
 @media (prefers-reduced-motion: no-preference) {
   html:not(.no-sliding) [slide-enter],
   html:not(.no-sliding) .slide-enter,

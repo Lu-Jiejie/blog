@@ -12,6 +12,7 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     AnimeRecentPlayedCard: typeof import('./src/components/card/AnimeRecentPlayedCard.vue')['default']
+    Backdrop: typeof import('./src/components/Backdrop.vue')['default']
     Background: typeof import('./src/components/background/Background.vue')['default']
     BilibiliMusicCard: typeof import('./src/components/card/BilibiliMusicCard.vue')['default']
     CardLoading: typeof import('./src/components/card/CardLoading.vue')['default']
@@ -30,10 +31,15 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     SongsRecentPlayedCard: typeof import('./src/components/card/SongsRecentPlayedCard.vue')['default']
     Stars: typeof import('./src/components/background/Stars.vue')['default']
+    TableOfContents: typeof import('./src/components/toc/TableOfContents.vue')['default']
     TheBack: typeof import('./src/components/layout/TheBack.vue')['default']
     TheControls: typeof import('./src/components/layout/TheControls.vue')['default']
     TheFooter: typeof import('./src/components/layout/TheFooter.vue')['default']
     TheHeader: typeof import('./src/components/layout/TheHeader.vue')['default']
+    TheScrollbar: typeof import('./src/components/layout/TheScrollbar.vue')['default']
+    TocButton: typeof import('./src/components/toc/TocButton.vue')['default']
+    TocPanel: typeof import('./src/components/toc/TocPanel.vue')['default']
+    TocSidebar: typeof import('./src/components/toc/TocSidebar.vue')['default']
     WrapperPost: typeof import('./src/components/WrapperPost.vue')['default']
   }
 }

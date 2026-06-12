@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const needTopPath = ['/posts/']
+const needTopPath = ['/notes/', '/essays/']
 const needBackPath = ['/projects', '/media', '/posts']
 
 function toTop() {
@@ -11,15 +11,15 @@ function toTop() {
 }
 
 const to = computed(() => {
-  if (route.path.startsWith('/posts/')) {
-    if (typeof window !== 'undefined') {
-      const historyState = window.history.state
-      if (historyState && historyState.back && historyState.back.startsWith('/posts')) {
-        return historyState.back
-      }
-    }
-    return `/posts?type=${route.meta.frontmatter.type}`
-  }
+  // if (route.path.startsWith('/posts/')) {
+  //   if (typeof window !== 'undefined') {
+  //     const historyState = window.history.state
+  //     if (historyState && historyState.back && historyState.back.startsWith('/posts')) {
+  //       return historyState.back
+  //     }
+  //   }
+  //   return `/posts?type=${route.meta.frontmatter.type}`
+  // }
 
   return route.path.split('/').slice(0, -1).join('/') || '/'
 })

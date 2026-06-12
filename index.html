@@ -6,6 +6,15 @@
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <meta name="referrer" content="no-referrer" />
     <title>Lu Jiejie</title>
+    <style>
+      /* 在 OverlayScrollbars 加载前隐藏原生滚动条，防止页面抖动 */
+      body {
+        overflow: hidden;
+      }
+      body[data-overlayscrollbars-initialize] {
+        overflow: visible;
+      }
+    </style>
     <script>
       ;(function () {
         const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches

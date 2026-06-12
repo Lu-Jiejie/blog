@@ -38,7 +38,7 @@ const $t = useI18n({
           <span lt-sm:hidden>{{ $t.me }}</span>
           <div i-icon-park-outline-home sm:hidden scale-x-115 />
         </RouterLink>
-        <RouterLink to="/posts" title="Posts">
+        <RouterLink to="/notes" title="Posts">
           <span lt-sm:hidden>{{ $t.posts }}</span>
           <div i-icon-park-outline-align-text-right-one sm:hidden />
         </RouterLink>

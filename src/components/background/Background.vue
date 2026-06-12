@@ -17,7 +17,7 @@ const routeBgMap: Record<string, string> = {
 }
 
 const BgComponent = computed(() => {
-  let art = route.meta.frontmatter?.background || routeBgMap[route.path]
+  let art = (route.meta.frontmatter as any).background || routeBgMap[route.path]
 
   if (art === undefined) {
     return undefined

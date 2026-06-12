@@ -32,8 +32,7 @@ useEventListener('click', async (e) => {
   if (first.tagName !== 'IMG'
     || first.classList.contains('no-preview')
     || path.some(el => el instanceof HTMLElement && ['A', 'BUTTON'].includes(el.tagName))
-    || !path.some(el => el instanceof HTMLElement && (el.classList.contains('prose') || el.classList.contains('photos')))
-  ) {
+    || !path.some(el => el instanceof HTMLElement && (el.classList.contains('prose') || el.classList.contains('photos')))) {
     return
   }
 
@@ -59,8 +58,7 @@ watch(imageModel, (val) => {
     })
     nextImageEvent.value = useEventListener('keydown', (e) => {
       if (imageModel.value?.dataset.imageIndex == null
-        || !(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'] as const).includes(e.key as any)
-      ) {
+        || !(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'] as const).includes(e.key as any)) {
         return
       }
 
@@ -91,7 +89,6 @@ watch(imageModel, (val) => {
 </script>
 
 <template>
-  <Background />
   <TheControls />
   <TheHeader />
   <main p="x-7 y-10" overflow-x-hidden>
@@ -103,7 +100,7 @@ watch(imageModel, (val) => {
 
   <Transition name="fade">
     <div v-if="imageModel" fixed top-0 bottom-0 left-0 right-0 z-500 backdrop-blur-7 @click="imageModel = undefined">
-      <div absolute top-0 bottom-0 left-0 right-0 bg-black:50 z--1 />
+      <div absolute top-0 bottom-0 left-0 right-0 bg-[#ffffffcc] dark:bg-[#000000cc] z--1 />
       <img
         :src="imageModel.src" :alt="imageModel.alt" :class="imageModel.className"
         max-w-screen max-h-screen w-full h-full object-contain
