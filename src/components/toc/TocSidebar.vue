@@ -2,7 +2,7 @@
 import type { TocItem } from '~/types'
 import { useElementHover, useScroll } from '@vueuse/core'
 import { computed, ref } from 'vue'
-import TheScrollbar from '../layout/TheScrollbar.vue'
+import TheScrollbar from '../base/Scrollbar.vue'
 
 defineProps<{
   headings: TocItem[]

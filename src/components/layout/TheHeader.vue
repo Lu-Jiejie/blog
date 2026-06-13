@@ -5,58 +5,46 @@ import { useI18n } from '~/logic/i18n'
 
 const $t = useI18n({
   en: {
-    me: 'Me',
-    posts: 'Posts',
+    notes: 'Notes',
+    essays: 'Essays',
     projects: 'Projects',
-    favorites: 'Favorites',
-    photos: 'Photos',
   },
   zh: {
-    me: '我',
-    posts: '文章',
+    notes: '笔记',
+    essays: '随笔',
     projects: '项目',
-    favorites: '收藏',
-    photos: '相片',
   },
 })
 </script>
 
 <template>
-  <header>
-    <nav
-      flex w="100%" items-center z-40 text-lg
-      print:op-0 select-none p-8 box-border
-    >
-      <!-- <div class="left">
-        <RouterLink to="/" class="logo-link">
-          <TheLogo />
-        </RouterLink>
-      </div> -->
-      <div flex-1 />
-      <div class="right" flex items-center gap-4>
-        <RouterLink to="/" title="Me">
-          <span lt-sm:hidden>{{ $t.me }}</span>
-          <div i-icon-park-outline-home sm:hidden scale-x-115 />
-        </RouterLink>
-        <RouterLink to="/notes" title="Posts">
-          <span lt-sm:hidden>{{ $t.posts }}</span>
+  <header z-40 flex items-center gap-6 p="x-8 y-7" lt-md:p-7>
+    <RouterLink to="/" scale-160 md:scale-190 translate-x-1 lg:fixed>
+      <TheLogo />
+    </RouterLink>
+    <nav flex items-center w-full justify-end aria-label="Main menu">
+      <div grid="~ flow-col items-center gap-4.5" print:op-0>
+        <RouterLink to="/notes" title="Notes">
+          <span lt-sm:hidden>{{ $t.notes }}</span>
           <div i-icon-park-outline-align-text-right-one sm:hidden />
+        </RouterLink>
+        <RouterLink to="/essays" title="Essays">
+          <span lt-sm:hidden>{{ $t.essays }}</span>
+          <div i-mingcute-quill-pen-ai-line sm:hidden />
         </RouterLink>
         <RouterLink to="/projects" title="Projects">
           <span lt-sm:hidden>{{ $t.projects }}</span>
           <div i-icon-park-outline-blocks-and-arrows sm:hidden scale-y-95 />
         </RouterLink>
         <RouterLink to="/favorites" title="Favorites">
-          <span lt-sm:hidden>{{ $t.favorites }}</span>
-          <div i-icon-park-outline-film sm:hidden scale-y-94 />
+          <div i-ri-film-line />
         </RouterLink>
         <RouterLink to="/photos" title="Photos">
-          <span lt-sm:hidden>{{ $t.photos }}</span>
-          <div i-icon-park-outline-camera sm:hidden />
+          <div i-ri-camera-ai-line />
         </RouterLink>
-
+        <div nav-divider aria-hidden="true" />
         <a href="https://github.com/Lu-Jiejie" target="_blank" title="GitHub">
-          <div i-icon-park-outline-github-one scale-95 />
+          <div i-uil-github-alt scale-96 />
         </a>
         <a href="/feed.xml" target="_blank" title="RSS" lt-sm:hidden>
           <div i-la-rss-square scale-115 />
@@ -70,11 +58,7 @@ const $t = useI18n({
 </template>
 
 <style scoped>
-.logo-link {
-  --uno: op-80 hover-op100 transition duration-200 ease cursor-pointer no-underline;
-}
-
-.right > a {
-  --uno: op-60 hover-op100 transition duration-200 ease cursor-pointer;
+a {
+  --uno: op-60 hover-op100 transition-opacity duration-300 cursor-pointer;
 }
 </style>

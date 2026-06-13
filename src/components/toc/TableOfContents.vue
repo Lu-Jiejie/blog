@@ -3,7 +3,7 @@ import { useScroll, useScrollLock } from '@vueuse/core'
 import { computed, nextTick, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
 import { hasTocHeadings, isTocOpen } from '~/composables/useToc'
-import Backdrop from '../Backdrop.vue'
+import Backdrop from '../base/Backdrop.vue'
 import TocPanel from './TocPanel.vue'
 import TocSidebar from './TocSidebar.vue'
 

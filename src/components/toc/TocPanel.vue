@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TocItem } from '~/types'
 import { useScroll } from '@vueuse/core'
-import TheScrollbar from '../layout/TheScrollbar.vue'
+import TheScrollbar from '../base/Scrollbar.vue'
 
 defineProps<{
   headings: TocItem[]
@@ -42,7 +42,7 @@ function scrollToHeading(event: Event, id: string) {
     w="[90%]" max-h="[80vh]"
     p="x-6 y-4" rounded-lg
     flex="~ col" bg="[var(--c-bg)]"
-    shadow="[0_0_10px_0_rgba(0,0,0,0.2)] dark:[0_0_10px_0_rgba(255,255,255,0.25)]"
+    shadow="[0_0_10px_0_rgba(0,0,0,0.2)] dark:[0_0_10px_0_rgba(255,255,255,0.2)]"
     transition="opacity duration-300"
     :class="visible ? 'op-100' : 'op-0 pointer-events-none'"
     aria-label="Table of contents"

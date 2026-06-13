@@ -7,7 +7,7 @@ import { setupRouterScroller } from 'vue-router-better-scroller'
 import { routes } from 'vue-router/auto-routes'
 
 import App from './App.vue'
-import { globalScrollbarOptions } from './components/layout/TheScrollbar.vue'
+import { globalScrollbarOptions } from './components/base/Scrollbar.vue'
 import 'markdown-it-github-alerts/styles/github-colors-light.css'
 import 'markdown-it-github-alerts/styles/github-colors-dark-class.css'
 
