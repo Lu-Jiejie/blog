@@ -1,6 +1,5 @@
 ---
 title: Lu Jiejie
-display: Lu Jiejie
 description: Portfolio of Lu Jiejie
 ---
 
@@ -27,14 +26,14 @@ const t = useI18n(messages)
 <p v-html="t.why"></p>
 
 <div py-2 />
-<GithubHeatmapCard />
+<CardGithubHeatmap />
 <div py-2 />
-<GithubLanguageBarCard />
+<CardGithubLanguageBar />
 <div py-2 />
-<SongsRecentPlayedCard />
+<CardSongsRecentPlayed />
 <div py-2 />
-<GamesRecentPlayedCard />
+<CardGamesRecentPlayed />
 <div py-2 />
-<AnimeRecentPlayedCard />
+<CardAnimeRecentPlayed />
 <!-- <div py-2 />
 <BilibiliMusicCard /> -->

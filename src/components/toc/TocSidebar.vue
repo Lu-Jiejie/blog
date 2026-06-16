@@ -55,10 +55,9 @@ function scrollToHeading(event: Event, id: string) {
       flex-1 min-h-0
     >
       <li v-for="heading in headings" :key="heading.slug">
-        <a
+        <Link
           :href="`#${heading.slug}`"
-          block py-1 decoration-none leading-5
-          transition-colors pr-4
+          py-1 pr-4
           :aria-current="activeId === heading.slug ? 'true' : undefined"
           :class="[
             heading.depth === 2 && 'pl-0',
@@ -68,7 +67,7 @@ function scrollToHeading(event: Event, id: string) {
           @click="scrollToHeading($event, heading.slug)"
         >
           <span line-clamp-2>{{ heading.text }}</span>
-        </a>
+        </Link>
       </li>
     </TheScrollbar>
   </nav>

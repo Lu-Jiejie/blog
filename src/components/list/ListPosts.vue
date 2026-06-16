@@ -57,9 +57,8 @@ function isSameYear(date1?: Date | string | number, date2?: Date | string | numb
           '--enter-step': '60ms',
         }"
       >
-        <RouterLink
-          :to="post.path" class="item"
-          block font-normal m="b-6 t-2"
+        <Link
+          :href="post.path" block font-normal m="b-6 t-2"
         >
           <li flex="~ col gap-2 md:row md:items-center">
             <!-- type & title -->
@@ -80,7 +79,7 @@ function isSameYear(date1?: Date | string | number, date2?: Date | string | numb
               </span>
             </div>
           </li>
-        </RouterLink>
+        </Link>
       </div>
     </template>
   </ul>

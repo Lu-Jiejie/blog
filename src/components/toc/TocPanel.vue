@@ -57,7 +57,7 @@ function scrollToHeading(event: Event, id: string) {
       defer
     >
       <li v-for="heading in headings" :key="heading.slug">
-        <a
+        <Link
           :href="`#${heading.slug}`"
           block py-1 decoration-none
           transition-opacity
@@ -71,7 +71,7 @@ function scrollToHeading(event: Event, id: string) {
           @click="scrollToHeading($event, heading.slug)"
         >
           {{ heading.text }}
-        </a>
+        </Link>
       </li>
     </TheScrollbar>
   </nav>

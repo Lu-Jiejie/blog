@@ -75,9 +75,9 @@ onMounted(async () => {
   >
     <template v-if="prepared">
       <div grid="~ cols-1  gap-2" mt-2>
-        <a
+        <Link
           v-for="item in formatGames" :key="item.id" :title="item.name"
-          :href="`https://store.steampowered.com/app/${item.id}`" target="_blank" rel="noopener noreferrer"
+          :href="`https://store.steampowered.com/app/${item.id}`" external
           class="item" flex="~" h-16 box-content p-2
           cursor-pointer bg-card-item-link
           rounded-md transition important-op-100
@@ -101,7 +101,7 @@ onMounted(async () => {
               <span op-70>{{ formatDate(item.timeLastPlayed * 1000) }}</span>
             </span>
           </div>
-        </a>
+        </Link>
       </div>
     </template>
   </CardTemplate>

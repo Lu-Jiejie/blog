@@ -1,6 +1,5 @@
 ---
-title: Essays - Lu Jiejie
-display: Essays
+title: Essays
 ---
 
 <ListPosts type="essays" />

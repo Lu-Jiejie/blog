@@ -5,11 +5,17 @@ import { useCopyCode } from 'markdown-it-copy-code'
 import { nextTick, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import TableOfContents from '~/components/toc/TableOfContents.vue'
+import { usePageHead } from '~/composables/usePageHead'
 import { formatDate } from '~/logic'
 
 const { frontmatter } = defineProps<{
   frontmatter: PostFrontmatter
 }>()
+
+usePageHead({
+  title: frontmatter.title,
+  description: frontmatter.description,
+})
 
 const content = ref<HTMLDivElement>()
 const router = useRouter()
@@ -83,15 +89,15 @@ onMounted(() => {
 
 <template>
   <header
-    v-if="frontmatter.display || frontmatter.title"
+    v-if="frontmatter.title"
     class="prose" m-auto mb-8
   >
     <h1 mb-0>
-      {{ frontmatter.display || frontmatter.title }}
+      {{ frontmatter.title }}
     </h1>
 
-    <p v-if="frontmatter.subtitle" m="t--5! b-6!" op-80 italic>
-      {{ frontmatter.subtitle }}
+    <p v-if="frontmatter.description" m="t--4!" op-70 italic>
+      {{ frontmatter.description }}
     </p>
 
     <div

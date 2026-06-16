@@ -1,6 +1,5 @@
 ---
-title: Notes - Lu Jiejie
-display: Notes
+title: Notes
 ---
 
 <ListPosts type="notes"/>

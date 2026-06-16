@@ -11,6 +11,7 @@ import MDCopyCode from 'markdown-it-copy-code'
 import MDGithubAlerts from 'markdown-it-github-alerts'
 import MDLinkAttributes from 'markdown-it-link-attributes'
 import UnoCSS from 'unocss/vite'
+import TurboConsole from 'unplugin-turbo-console/vite'
 import Components from 'unplugin-vue-components/vite'
 import Markdown from 'unplugin-vue-markdown/vite'
 import { defineConfig } from 'vite'
@@ -62,7 +63,12 @@ export default defineConfig({
     }),
 
     Markdown({
-      wrapperComponent: 'WrapperPost',
+      wrapperComponent: (id) => {
+        console.log(id)
+        if (id.endsWith('projects/index.md'))
+          return 'WrapperPage'
+        return 'WrapperPost'
+      },
       headEnabled: true,
       exportFrontmatter: false,
       exposeFrontmatter: false,
@@ -135,6 +141,8 @@ export default defineConfig({
       extensions: ['vue', 'md'],
       dts: true,
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
+    }),
+    TurboConsole({
     }),
   ],
 

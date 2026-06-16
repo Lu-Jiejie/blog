@@ -1,9 +1,17 @@
 <script setup lang="ts">
-import type { Projects } from '~/types'
+import type { Projects } from '~/../pages/projects/data'
+import { isDark } from '~/logic'
 
 const { projects } = defineProps<{
   projects: Projects
 }>()
+
+function getHoverClass(hoverClasses?: string) {
+  if (!hoverClasses)
+    return ''
+  // 将 "color-red op-100" 转换为 "group-hover:color-red group-hover:op-100"
+  return hoverClasses.split(' ').map(cls => `group-hover:${cls}!`).join(' ')
+}
 </script>
 
 <template>
@@ -35,27 +43,38 @@ const { projects } = defineProps<{
         w-max max-w-500 py-2 mx-auto
         grid="~ cols-1 gap-4 md:cols-2 lg:cols-3"
       >
-        <a
-          v-for="p, pidx in projects[key]" :key="pidx"
-          class="item" :href="p.link" target="_blank" :title="p.name"
+        <Link
+          v-for="p, pidx in projects[key]" :key="pidx" :href="p.link"
+          external class="group"
           relative flex items-center bg-transparent
           text-1.1rem w-87.5 lg:w-75 xl:w-87.5 max-w-full p="y-2 x-3.5"
         >
           <!-- rounded-lg hover:bg-hex-88888820 -->
           <div p="t-2 r-5">
+            <!-- 图片 icon -->
             <div v-if="p.icon.startsWith('project_icons/')" w-9 h-9 flex="~ items-center">
               <img
-                :src="p.icon" alt=""
-                w-full h-full :class="p.icon_css!"
+                :src="isDark ? p.icon_dark || p.icon : p.icon" alt=""
+                w-full h-full
+                :class="[p.icon_css, p.icon_hover_css ? getHoverClass(p.icon_hover_css) : '']"
+                transition="all duration-300"
               >
             </div>
-            <div v-else :class="p.icon" text-3xl op-40 />
+            <!-- UnoCSS icon -->
+            <div
+              v-else
+              :class="[p.icon, p.icon_css, p.icon_hover_css ? getHoverClass(p.icon_hover_css) : '']"
+              text-3xl op-40
+              transition="all duration-300"
+            />
           </div>
           <div>
             <div>{{ p.name }}</div>
-            <div text-sm op-50>{{ p.description }}</div>
+            <div text-sm op-50>
+              {{ p.description }}
+            </div>
           </div>
-        </a>
+        </Link>
       </div>
     </div>
   </div>

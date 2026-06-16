@@ -74,9 +74,9 @@ onMounted(async () => {
   >
     <template v-if="prepared">
       <div grid="~ cols-1 sm:cols-2 gap-2" mt-2>
-        <a
+        <Link
           v-for="item in watchingList" :key="item.id" :title="item.name"
-          :href="`https://bgm.tv/subject/${item.id}`" target="_blank" rel="noopener noreferrer"
+          :href="`https://bgm.tv/subject/${item.id}`" external
           class="item" flex="~" h-16 box-content p-2
           cursor-pointer bg-card-item-link
           rounded-md transition important-op-100
@@ -95,7 +95,7 @@ onMounted(async () => {
               {{ formatDate(item.date) }}
             </span> -->
           </div>
-        </a>
+        </Link>
       </div>
     </template>
   </CardTemplate>

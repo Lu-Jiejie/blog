@@ -89,13 +89,13 @@ watch(imageModel, (val) => {
 </script>
 
 <template>
-  <TheControls />
-  <TheHeader />
+  <FloatingControls />
+  <Header />
   <main p="x-7 y-10" overflow-x-hidden>
     <RouterView />
 
-    <TheBack />
-    <TheFooter :key="route.path" />
+    <BackButton />
+    <Footer :key="route.path" />
   </main>
 
   <Transition name="fade">

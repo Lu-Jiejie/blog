@@ -75,11 +75,11 @@ onMounted(async () => {
         </div>
         <!-- Language Tags -->
         <div flex="~ wrap gap-1" mt-1>
-          <a
+          <Link
             v-for="([lang, item]) in sortedLanguages"
             :key="lang" class="item"
             :href="`https://github.com/search?q=owner:Lu-Jiejie++language:${lang}`"
-            target="_blank" rel="noopener noreferrer"
+            external
             flex="~ items-center" text-xs p="x-1 y-0.5"
             rounded-sm transition cursor-pointer
             bg-card-item-link important-op-100
@@ -90,7 +90,7 @@ onMounted(async () => {
             />
             <span class="language" op-70 mr-0.5 transition>{{ lang }}</span>
             <span op-50>{{ item.percentage.toFixed(1) }}%</span>
-          </a>
+          </Link>
         </div>
       </div>
     </template>

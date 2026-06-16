@@ -1,6 +1,5 @@
 ---
 title: 测试文章样式与目录功能
-subtitle: 用于测试各种 Markdown 样式和 TOC 组件
 date: 2024-01-15
 type: blog
 tags: [测试, 样式, Markdown]

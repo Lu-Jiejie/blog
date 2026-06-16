@@ -70,8 +70,8 @@ onMounted(async () => {
   >
     <template v-if="prepared">
       <div grid="~ cols-1 sm:cols-2 gap-2" mt-2>
-        <a
-          :href="item.url" target="_blank" rel="noopener noreferrer"
+        <Link
+          :href="item.url" external
           v-for="(item, index) in list" :key="index" :title="`${item.name} - ${item.artist}`"
           class="item" flex="~" h-16 box-content p-2
           cursor-pointer bg-card-item-link
@@ -91,7 +91,7 @@ onMounted(async () => {
             <span text-sm op-60 mb-1 leading-tight text-truncate>{{ item.album }}</span>
             <span text-sm op-40 leading-tight text-truncate>{{ item.artist }}</span>
           </div>
-        </a>
+        </Link>
       </div>
     </template>
   </CardTemplate>

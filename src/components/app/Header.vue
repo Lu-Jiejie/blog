@@ -18,9 +18,9 @@ const $t = useI18n({
 </script>
 
 <template>
-  <header z-40 flex items-center gap-6 p="x-8 y-7" lt-md:p-7>
-    <RouterLink to="/" scale-160 md:scale-190 translate-x-1 lg:fixed>
-      <TheLogo />
+  <header z-40 flex items-center gap-6 p="x-8 t-7 b-8" lt-md:px-7>
+    <RouterLink to="/" scale-160 translate-x-1 md:scale-190 md:translate-x-3 lg:fixed op-100!>
+      <Logo />
     </RouterLink>
     <nav flex items-center w-full justify-end aria-label="Main menu">
       <div grid="~ flow-col items-center gap-4.5" print:op-0>
@@ -43,12 +43,12 @@ const $t = useI18n({
           <div i-ri-camera-ai-line />
         </RouterLink>
         <div nav-divider aria-hidden="true" />
-        <a href="https://github.com/Lu-Jiejie" target="_blank" title="GitHub">
+        <Link href="https://github.com/Lu-Jiejie" external title="GitHub">
           <div i-uil-github-alt scale-96 />
-        </a>
-        <a href="/feed.xml" target="_blank" title="RSS" lt-sm:hidden>
+        </Link>
+        <Link href="/feed.xml" external title="RSS" lt-sm:hidden>
           <div i-la-rss-square scale-115 />
-        </a>
+        </Link>
         <a title="Toggle Theme Mode" @click.prevent="toggleDark()">
           <div i-ri-sun-line dark:i-ri-moon-line scale-95 />
         </a>

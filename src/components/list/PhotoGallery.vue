@@ -19,7 +19,7 @@ const masonryCols = computed(() => {
 })
 const masonryColumns = computed(() => {
   const cols: (PhotoData & { index: number })[][] = Array.from({ length: masonryCols.value }, () => [])
-  const colHeights = Array.from({ length: masonryCols.value }, () => 0)
+  const colHeights = Array.from({ length: masonryCols.value }).fill(0)
   const tolerance = 150
   indexedPhotos.forEach((img) => {
     const minHeight = Math.min(...colHeights)
