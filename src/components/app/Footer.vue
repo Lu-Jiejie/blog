@@ -13,12 +13,13 @@ import { isZh, toggleLang } from '~/logic/i18n'
 
       <span mr-3 mb-2>2025-PRESENT © Lu Jiejie</span>
       <!-- i18n toggle -->
-      <button
+      <Link
+        href="" :border="true"
+        important-color-inherit op-100!
         @click.prevent="toggleLang"
-        cursor-pointer hover:border-b-1
       >
         {{ isZh ? 'Switch to English' : '切换为简体中文' }}
-      </button>
+      </Link>
     </span>
     <div flex-auto />
   </div>

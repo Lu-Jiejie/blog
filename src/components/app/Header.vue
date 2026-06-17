@@ -19,7 +19,7 @@ const $t = useI18n({
 
 <template>
   <header z-40 flex items-center gap-6 p="x-8 t-7 b-8" lt-md:px-7>
-    <RouterLink to="/" scale-160 translate-x-1 md:scale-190 md:translate-x-3 lg:fixed op-100!>
+    <RouterLink to="/" class="typewriter-logo" lg:fixed !>
       <Logo />
     </RouterLink>
     <nav flex items-center w-full justify-end aria-label="Main menu">
@@ -60,5 +60,10 @@ const $t = useI18n({
 <style scoped>
 a {
   --uno: op-60 hover-op100 transition-opacity duration-300 cursor-pointer;
+}
+
+.typewriter-logo {
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 </style>
