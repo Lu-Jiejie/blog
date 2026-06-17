@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import type { TocItem } from '~/types'
 import { useScroll } from '@vueuse/core'
-import TheScrollbar from '../base/Scrollbar.vue'
 
 defineProps<{
   headings: TocItem[]
@@ -50,7 +49,7 @@ function scrollToHeading(event: Event, id: string) {
     <div pb-1 border-b op-60>
       Table of Contents
     </div>
-    <TheScrollbar
+    <Scrollbar
       element="ul"
       text-sm mt-3
       style="max-height: calc(80vh - 4rem); overflow: hidden;"
@@ -73,6 +72,6 @@ function scrollToHeading(event: Event, id: string) {
           {{ heading.text }}
         </Link>
       </li>
-    </TheScrollbar>
+    </Scrollbar>
   </nav>
 </template>

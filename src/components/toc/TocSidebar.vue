@@ -57,7 +57,8 @@ function scrollToHeading(event: Event, id: string) {
       <li v-for="heading in headings" :key="heading.slug">
         <Link
           :href="`#${heading.slug}`"
-          py-1 pr-4
+          block py-1 decoration-none leading-5
+          transition-colors pr-4
           :aria-current="activeId === heading.slug ? 'true' : undefined"
           :class="[
             heading.depth === 2 && 'pl-0',
