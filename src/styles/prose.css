@@ -5,26 +5,14 @@
 }
 
 .prose {
-  --fg-light: #888;
-  --fg: #555;
-  --fg-deep: #222;
-  --fg-deeper: #000;
-
-  color: var(--fg);
+  color: var(--c-fg);
   max-width: var(--prose-max-width);
   font-size: 1rem;
   line-height: 1.75;
 }
 
-html.dark .prose {
-  --fg-light: #888;
-  --fg: #bbb;
-  --fg-deep: #ddd;
-  --fg-deeper: #fff;
-}
-
 .prose [class~='lead'] {
-  color: #4b5563;
+  color: var(--c-text-lead);
   font-size: 1.25em;
   line-height: 1.6;
   margin-top: 1.2em;
@@ -33,7 +21,7 @@ html.dark .prose {
 
 /* Shiki Transformers */
 .prose code .highlighted {
-  background-color: #8881;
+  background-color: var(--c-highlight-bg);
   width: calc(100% + 48px);
   display: inline-block;
   transition: background-color 0.5s;
@@ -46,8 +34,8 @@ html.dark .prose {
 }
 
 .prose .highlighted-word {
-  background-color: #8881;
-  border: 1px solid #8885;
+  background-color: var(--c-highlight-bg);
+  border: 1px solid var(--c-highlight-border);
   padding: 1px 3px;
   margin: -1px -3px;
   border-radius: 4px;
@@ -56,18 +44,18 @@ html.dark .prose {
 .prose a:not(.no-prose) {
   font-weight: inherit;
   text-decoration: none;
-  border-bottom: 1px solid rgba(125, 125, 125, 0.4);
+  border-bottom: 1px solid var(--c-border-medium);
   transition: border 0.3s ease-in-out;
-  color: var(--fg-deeper);
+  color: var(--c-fg-deeper);
   font-weight: 500;
 }
 
 .prose a:not(.no-prose):hover {
-  border-bottom: 1px solid var(--fg);
+  border-bottom: 1px solid var(--c-fg);
 }
 
 .prose strong {
-  color: var(--fg-deep);
+  color: var(--c-fg-deep);
   font-weight: 600;
 }
 
@@ -106,7 +94,7 @@ html.dark .prose {
   content: counter(list-item, var(--list-counter-style, decimal)) '.';
   position: absolute;
   font-weight: 400;
-  color: #6b7280;
+  color: var(--c-list-marker);
   left: 0;
 }
 .prose ul > li {
@@ -116,7 +104,7 @@ html.dark .prose {
 .prose ul > li::before {
   content: '';
   position: absolute;
-  background-color: #d1d5db;
+  background-color: var(--c-list-bullet-bg);
   border-radius: 50%;
   width: 0.375em;
   height: 0.375em;
@@ -125,7 +113,7 @@ html.dark .prose {
 }
 
 .prose hr {
-  border-color: rgba(125, 125, 125, 0.3);
+  border-color: var(--c-border-light);
   width: 50px;
   margin: 2em auto;
 }
@@ -135,7 +123,7 @@ html.dark .prose {
   font-style: normal;
   color: inherit;
   border-left-width: 0.25rem;
-  border-color: rgba(125, 125, 125, 0.3);
+  border-color: var(--c-border-light);
   margin-top: 1.6em;
   margin-bottom: 1.6em;
   padding: 0.5em 1em;
@@ -159,7 +147,7 @@ html.dark .prose {
 }
 
 .prose h1 {
-  color: var(--fg-deeper);
+  color: var(--c-fg-deeper);
   font-weight: 800;
   font-size: 2.25em;
   margin-top: 0;
@@ -167,7 +155,7 @@ html.dark .prose {
   line-height: 1.1111111;
 }
 .prose h2 {
-  color: var(--fg-deep);
+  color: var(--c-fg-deep);
   font-weight: 700;
   font-size: 1.5em;
   margin-top: 2em;
@@ -200,7 +188,7 @@ html.dark .prose {
 }
 
 .prose figure figcaption {
-  color: #6b7280;
+  color: var(--c-text-muted);
   font-size: 0.875em;
   line-height: 1.4285714;
   margin-top: 0.8571429em;
@@ -208,10 +196,10 @@ html.dark .prose {
 
 .prose code {
   --uno: font-mono;
-  color: var(--fg-deep);
+  color: var(--c-fg-deep);
   font-weight: 500;
   font-size: 0.92em;
-  background-color: #aaaaaa18;
+  background-color: var(--c-code-bg);
   border-radius: 0.25rem;
   padding: 0.2em 0.3em;
   margin: -0.2em 0;
@@ -221,7 +209,7 @@ html.dark .prose {
 }
 
 .prose pre {
-  color: #e5e7eb;
+  color: var(--c-code-text);
   overflow-x: auto;
   font-size: 0.875em;
   line-height: 1.7142857;
@@ -272,10 +260,10 @@ html.dark .prose {
   line-height: 1.7142857;
 }
 .prose thead {
-  color: var(--fg-deep);
+  color: var(--c-fg-deep);
   font-weight: 600;
   border-bottom-width: 1px;
-  border-bottom-color: #8882;
+  border-bottom-color: var(--c-border-table);
 }
 .prose thead th {
   vertical-align: bottom;
@@ -291,7 +279,7 @@ html.dark .prose {
 }
 .prose tbody tr {
   border-bottom-width: 1px;
-  border-bottom-color: #8882;
+  border-bottom-color: var(--c-border-table);
 }
 .prose tbody tr:last-child {
   border-bottom-width: 0;
@@ -398,11 +386,11 @@ html.dark .prose {
 }
 
 .prose b {
-  color: var(--fg-deep);
+  color: var(--c-fg-deep);
 }
 .prose em {
   --uno: font-serif;
-  color: var(--fg-deep);
+  color: var(--c-fg-deep);
   font-size: 1.05em;
 }
 

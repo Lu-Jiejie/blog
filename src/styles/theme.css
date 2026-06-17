@@ -1,0 +1,71 @@
+/* 主题颜色变量定义 */
+:root {
+  /* 背景色 */
+  --c-bg: #fff;
+
+  /* 文本颜色 - 亮色模式 */
+  --c-fg-light: #888;
+  --c-fg: #555;
+  --c-fg-deep: #222;
+  --c-fg-deeper: #000;
+
+  /* 特殊文本颜色 */
+  --c-text-lead: #4b5563;
+  --c-text-muted: #6b7280;
+
+  /* 代码高亮 */
+  --c-code-bg: #aaaaaa18;
+  --c-code-text: #e5e7eb;
+  --c-highlight-bg: #8881;
+  --c-highlight-border: #8885;
+
+  /* Shiki 代码块 */
+  --c-shiki-bg: #f6f6f6;
+  --c-twoslash-popup-bg: #f6f6f6;
+  --c-twoslash-border: #8884;
+
+  /* 边框和分割线 */
+  --c-border-light: rgba(125, 125, 125, 0.3);
+  --c-border-medium: rgba(125, 125, 125, 0.4);
+  --c-border-table: #8882;
+
+  /* 列表标记 */
+  --c-list-marker: #6b7280;
+  --c-list-bullet-bg: #d1d5db;
+
+  /* 交互元素 */
+  --c-selection-bg: #8884;
+  --c-magic-link-bg: #8882;
+  --c-magic-link-bg-hover: #8883;
+
+  /* 滚动条 */
+  --c-scrollbar: #ccc;
+  --c-scrollbar-hover: #aaa;
+
+  /* 进度条 */
+  --c-nprogress: #888;
+}
+
+/* 暗色模式 */
+html.dark {
+  /* 背景色 */
+  --c-bg: #050505;
+
+  /* 文本颜色 - 暗色模式 */
+  --c-fg-light: #888;
+  --c-fg: #bbb;
+  --c-fg-deep: #ddd;
+  --c-fg-deeper: #fff;
+
+  /* Shiki 代码块 */
+  --c-shiki-bg: #151515;
+  --c-twoslash-popup-bg: #151515;
+  --c-twoslash-border: #8884;
+
+  /* 滚动条 */
+  --c-scrollbar: #333;
+  --c-scrollbar-hover: #555;
+
+  /* 配色方案 */
+  color-scheme: dark;
+}

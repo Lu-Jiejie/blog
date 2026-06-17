@@ -1,22 +1,22 @@
 .dark .shiki,
 .dark .shiki span {
   color: var(--s-dark, inherit);
-  --twoslash-popup-bg: #151515;
-  --twoslash-border-color: #8884;
+  --twoslash-popup-bg: var(--c-twoslash-popup-bg);
+  --twoslash-border-color: var(--c-twoslash-border);
 }
 .dark .shiki {
   /* background-color: #0e0e0e; */
-  background-color: #151515;
+  background-color: var(--c-shiki-bg);
 }
 
 html:not(.dark) .shiki {
-  background-color: #f6f6f6;
+  background-color: var(--c-shiki-bg);
 }
 
 html:not(.dark) .shiki,
 html:not(.dark) .shiki span {
   color: var(--s-light, inherit);
-  --twoslash-popup-bg: #f6f6f6;
+  --twoslash-popup-bg: var(--c-twoslash-popup-bg);
 }
 
 .twoslash ul {
@@ -34,13 +34,6 @@ html:not(.dark) .shiki span {
 
 .twoslash-query-presisted .twoslash-popup-info {
   transform: translate(0, 1.6em);
-}
-
-html.dark .prose {
-  --fg-light: #888;
-  --fg: #bbb;
-  --fg-deep: #ddd;
-  --fg-deeper: #fff;
 }
 
 /* a.item {
@@ -133,15 +126,15 @@ h6:focus .header-anchor {
 .markdown-magic-link {
   display: inline-flex;
   align-items: center;
-  background: #8882;
+  background: var(--c-magic-link-bg);
   transform: translateY(3px);
   line-height: 100%;
-  color: var(--fg-light) !important;
+  color: var(--c-fg-light) !important;
   --uno: gap-1 transition rounded px1.5 py1 important-border-0 important-font-bold font-condensed;
 }
 .markdown-magic-link:hover {
-  background: #8883;
-  color: var(--fg) !important;
+  background: var(--c-magic-link-bg-hover);
+  color: var(--c-fg) !important;
 }
 .markdown-magic-link-image {
   display: inline-block;
