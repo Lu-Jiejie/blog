@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 
 interface Props {
-  href: string
+  href?: string
   title?: string
   rel?: string
   external?: boolean
@@ -16,8 +16,13 @@ const props = withDefaults(defineProps<Props>(), {
   border: false,
 })
 
-const isExternal = computed(() => props.external || /^https?:\/\/|\/\//i.test(props.href))
-const componentTag = computed(() => isExternal.value ? 'a' : 'RouterLink')
+const isExternal = computed(() => props.external || (props.href && /^https?:\/\/|\/\//i.test(props.href)))
+const isAnchor = computed(() => props.href?.startsWith('#'))
+const componentTag = computed(() => {
+  if (isExternal.value || isAnchor.value || !props.href)
+    return 'a'
+  return 'RouterLink'
+})
 
 const dynamicAttrs = computed(() => {
   if (isExternal.value) {
@@ -25,6 +30,11 @@ const dynamicAttrs = computed(() => {
       href: props.href,
       target: '_blank',
       rel: `noopener noreferrer ${props.rel || ''}`.trim(),
+    }
+  }
+  if (isAnchor.value || !props.href) {
+    return {
+      href: props.href || '#',
     }
   }
   return { to: props.href }

@@ -14,7 +14,7 @@ import { isZh, toggleLang } from '~/logic/i18n'
       <span mr-3 mb-2>2025-PRESENT © Lu Jiejie</span>
       <!-- i18n toggle -->
       <Link
-        href="" :border="true"
+        :border="true"
         important-color-inherit op-100!
         @click.prevent="toggleLang"
       >

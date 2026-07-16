@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import type { TocItem } from '~/types'
 import { useElementHover, useScroll } from '@vueuse/core'
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import TheScrollbar from '../base/Scrollbar.vue'
 
-defineProps<{
+const props = defineProps<{
   headings: TocItem[]
   activeId: string
 }>()
@@ -37,6 +37,22 @@ function scrollToHeading(event: Event, id: string) {
     history.replaceState(null, '', `#${id}`)
   }
 }
+
+// 当 activeId 变化时，滚动到对应的 TOC 项
+watch(() => props.activeId, async (newId) => {
+  if (!newId || !tocEl.value)
+    return
+
+  await nextTick()
+
+  const activeLink = tocEl.value.querySelector(`a[href="#${newId}"]`)
+  if (activeLink) {
+    activeLink.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+    })
+  }
+})
 </script>
 
 <template>
@@ -47,7 +63,7 @@ function scrollToHeading(event: Event, id: string) {
     text-sm z-400
     transition-opacity duration-700
     aria-label="Table of contents"
-    style="max-height: 70vh; display: flex; flex-direction: column;"
+    style="max-height: calc(100vh - 10rem - 7.5rem); display: flex; flex-direction: column;"
     :style="{ opacity: tocOpacity }" ref="tocEl"
   >
     <TheScrollbar
