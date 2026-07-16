@@ -64,8 +64,9 @@ export default defineConfig({
 
     Markdown({
       wrapperComponent: (id) => {
-        console.log(id)
-        if (id.endsWith('projects/index.md'))
+        if (id.endsWith('/pages/index.md'))
+          return 'WrapperIndex'
+        if (id.endsWith('/pages/projects/index.md'))
           return 'WrapperPage'
         return 'WrapperPost'
       },

@@ -8,22 +8,62 @@ import { useI18n } from '~/logic/i18n'
 
 const messages = {
   en: {
-    hello: "Hello, I’m Lu Jiejie (陆解解/鹿姐姐).",
-    desc: "I’m enthusiastic about open-source development, you can find a selection of my projects <a href=\"/projects\">here</a>, or explore all of them on my <a target=\"_blank\" href=\"https://github.com/Lu-Jiejie\">GitHub</a>.",
-    why: "I wanted a space to capture the moments of my life and leave traces of my existence, which is why I created this blog."
+    hello: 'Lu Jiejie',
+    desc: "I'm enthusiastic about open-source development.",
   },
   zh: {
-    hello: "你好，我是陆解解（Lu Jiejie/鹿姐姐）。",
-    desc: "我热衷于开源开发，你可以在 <a href=\"/projects\">这里</a> 看到我的部分项目，或在 <a target=\"_blank\" href=\"https://github.com/Lu-Jiejie\">GitHub</a> 上浏览全部。",
-    why: "我想要一个空间来记录生活的点滴，留下存在的痕迹，这正是我创建这个博客的原因。"
-  }
+    hello: '陆解解',
+    desc: '热衷于开源开发，记录生活的点滴。',
+  },
 }
 const t = useI18n(messages)
 </script>
 
-<p v-html="t.hello"></p>
-<p v-html="t.desc"></p>
-<p v-html="t.why"></p>
+<div
+  min-h="[calc(100vh-14rem)]"
+  flex="~ col"
+  justify-center items-center
+  text-center
+>
+  <img
+    src="/avatar.png"
+    alt="avatar"
+    w-32 h-32
+    aspect-1
+    object-cover
+    rounded-full
+    mb-6
+    min-w-0
+  >
+
+  <h1 text-4xl font-bold font-serif mb-3>
+    {{ t.hello }}
+  </h1>
+
+  <p op-60 max-w-lg mb-10 v-html="t.desc" />
+
+  <div flex="~ row" gap-4 items-center>
+    <SocialButton
+      href="https://github.com/Lu-Jiejie"
+      title="GitHub"
+      icon="i-uil-github-alt"
+      hover-color="#24292f"
+      hover-color-dark="#ffffff"
+    />
+    <SocialButton
+      href="https://space.bilibili.com/3546569395943499"
+      title="Bilibili"
+      icon="i-streamline-ultimate-bilibili-logo-bold"
+      hover-color="#00A1D6"
+    />
+    <SocialButton
+      href="https://music.163.com"
+      title="NetEase Cloud Music"
+      icon="i-simple-icons-neteasecloudmusic"
+      hover-color="#FC3D49"
+    />
+  </div>
+</div>
 
 <div py-2 />
 <CardGithubHeatmap />
@@ -35,5 +75,3 @@ const t = useI18n(messages)
 <CardGamesRecentPlayed />
 <div py-2 />
 <CardAnimeRecentPlayed />
-<!-- <div py-2 />
-<BilibiliMusicCard /> -->

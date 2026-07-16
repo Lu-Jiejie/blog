@@ -45,6 +45,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     Scrollbar: typeof import('./src/components/base/Scrollbar.vue')['default']
     Sign: typeof import('./src/components/base/Sign.vue')['default']
+    SocialButton: typeof import('./src/components/base/SocialButton.vue')['default']
     SongsRecentPlayedCard: typeof import('./src/components/card/SongsRecentPlayedCard.vue')['default']
     Stars: typeof import('./src/components/background/Stars.vue')['default']
     TableOfContents: typeof import('./src/components/toc/TableOfContents.vue')['default']
@@ -59,6 +60,7 @@ declare module 'vue' {
     TocPanel: typeof import('./src/components/toc/TocPanel.vue')['default']
     TocSidebar: typeof import('./src/components/toc/TocSidebar.vue')['default']
     TypewriterName: typeof import('./src/components/app/Logo.vue/index.js')['default']
+    WrapperIndex: typeof import('./src/components/wrapper/WrapperIndex.vue')['default']
     WrapperPage: typeof import('./src/components/wrapper/WrapperPage.vue')['default']
     WrapperPost: typeof import('./src/components/wrapper/WrapperPost.vue')['default']
   }
