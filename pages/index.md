@@ -12,7 +12,7 @@ const messages = {
     desc: "I'm enthusiastic about open-source development.",
   },
   zh: {
-    hello: '陆解解',
+    hello: '鹿解解',
     desc: '热衷于开源开发，记录生活的点滴。',
   },
 }
@@ -51,13 +51,13 @@ const t = useI18n(messages)
       hover-color-dark="#ffffff"
     />
     <SocialButton
-      href="https://space.bilibili.com/3546569395943499"
+      href="https://space.bilibili.com/15253584"
       title="Bilibili"
       icon="i-streamline-ultimate-bilibili-logo-bold"
       hover-color="#00A1D6"
     />
     <SocialButton
-      href="https://music.163.com"
+      href="https://music.163.com/#/user/home?id=342864073"
       title="NetEase Cloud Music"
       icon="i-simple-icons-neteasecloudmusic"
       hover-color="#FC3D49"
@@ -67,11 +67,11 @@ const t = useI18n(messages)
 
 <div py-2 />
 <CardGithubHeatmap />
-<div py-2 />
+<div py-4 />
 <CardGithubLanguageBar />
-<div py-2 />
+<div py-4 />
 <CardSongsRecentPlayed />
-<div py-2 />
+<div py-4 />
 <CardGamesRecentPlayed />
-<div py-2 />
+<div py-4 />
 <CardAnimeRecentPlayed />

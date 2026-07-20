@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { OverlayScrollbars } from 'overlayscrollbars'
 import { computed, onMounted, ref } from 'vue'
 import { getGithubCDNUrl, isDark } from '~/logic'
 
@@ -50,15 +51,24 @@ const prepared = computed(() => {
   return contributions.value !== null
 })
 
-const scrollContainer = ref<HTMLDivElement | null>(null)
+const scrollbarOptions = {
+  scrollbars: {
+    autoHide: 'never',
+  },
+  overflow: {
+    x: 'scroll',
+    y: 'hidden',
+  },
+} as const
 
-onMounted(async () => {
-  await fetchContributions()
+// Scrollbar 延迟初始化，完成后再滚动到最右侧
+function handleScrollbarInitialized(instance: OverlayScrollbars) {
+  const { viewport } = instance.elements()
+  viewport.scrollLeft = viewport.scrollWidth
+}
 
-  // 数据加载后自动滚动到最右侧
-  if (scrollContainer.value) {
-    scrollContainer.value.scrollLeft = scrollContainer.value.scrollWidth
-  }
+onMounted(() => {
+  fetchContributions()
 })
 </script>
 
@@ -70,24 +80,46 @@ onMounted(async () => {
     :prepared="!isLoading && prepared"
   >
     <template v-if="prepared">
-      <div ref="scrollContainer" overflow-x-auto overflow-y-hidden>
-        <!-- heatmap -->
-        <div flex gap-0.49 min-w-0>
+      <Scrollbar
+        class="heatmap-scrollbar"
+        :options="scrollbarOptions"
+        @os-initialized="handleScrollbarInitialized"
+      >
+        <!-- heatmap：大屏均分填满，小屏保底 10px 触发横向滚动 -->
+        <div flex gap-0.5>
           <div
             v-for="(week, weekIndex) in contributions?.weeks"
             :key="weekIndex"
-            flex flex-col gap-0.5 flex-shrink-0 w-11px
+            flex flex-col gap-0.5 flex-1 min-w-10px
           >
             <div
               v-for="(day, dayIndex) in week"
               :key="`${weekIndex}-${dayIndex}`"
-              w-3 h-3 rounded-2px transition-all relative
+              w-full aspect-square rounded-2px transition-all relative
               :style="{ backgroundColor: isDark ? darkColor[day.level] : lightColor[day.level] }"
               :title="`${day.date}: ${day.count} contributions`"
             />
           </div>
         </div>
-      </div>
+      </Scrollbar>
     </template>
   </CardTemplate>
 </template>
+
+<style scoped>
+/*
+ * 滚动条下移到卡片 padding 区域，避免盖住贡献格子：
+ * host 元素 overflow hidden，滚动条无法移出边界，
+ * 故用 padding-bottom 在 host 内部腾位（滚动条绝对定位于 padding box 底部），
+ * 再用等值负 margin 抵消，不改变卡片高度与下方间距。
+ */
+.heatmap-scrollbar {
+  padding-bottom: 13px;
+  margin-bottom: -13px;
+}
+
+/* 无纵向滚动条，无需为角落留位，铺满整行 */
+.heatmap-scrollbar :deep(.os-scrollbar-horizontal) {
+  right: 0;
+}
+</style>

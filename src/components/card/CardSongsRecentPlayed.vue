@@ -69,27 +69,22 @@ onMounted(async () => {
     :prepared="!isLoading && prepared"
   >
     <template v-if="prepared">
-      <div grid="~ cols-1 sm:cols-2 gap-2" mt-2>
+      <div grid="~ cols-1 sm:cols-2 gap-x-3 gap-y-1">
         <Link
           :href="item.url" external
           v-for="(item, index) in list" :key="index" :title="`${item.name} - ${item.artist}`"
-          class="item" flex="~" h-16 box-content p-2
-          cursor-pointer bg-card-item-link
-          rounded-md transition important-op-100 overflow-hidden
+          class="entry" flex="~ items-center gap-3" p-1.5
+          cursor-pointer rounded-md overflow-hidden
+          transition-colors duration-300 important-op-100
+          hover="bg-hex-8881"
         >
-          <!-- `${item.pic}?param=100y100` -->
-          <div w-16 flex-shrink-0>
-            <img
-              :src="imgProxy(`${item.pic}?param=100y100`)" alt="cover"
-              important-m-0 rounded-sm
-            >
-          </div>
-          <div flex="~ col justify-center" ml-2 h-full w-0 flex-1 min-w-0>
-            <span
-              class="name" op-80 transition mb-1 leading-tight text-truncate
-            >{{ item.name }}</span>
-            <span text-sm op-60 mb-1 leading-tight text-truncate>{{ item.album }}</span>
-            <span text-sm op-40 leading-tight text-truncate>{{ item.artist }}</span>
+          <img
+            :src="imgProxy(`${item.pic}?param=100y100`)" alt="cover"
+            w-13 h-13 flex-shrink-0 object-cover rounded-sm important-m-0
+          >
+          <div flex="~ col justify-center" min-w-0 flex-1>
+            <span class="name" op-85 transition text-truncate leading-snug>{{ item.name }}</span>
+            <span text-sm op-45 text-truncate leading-snug mt-1>{{ item.artist }} · {{ item.album }}</span>
           </div>
         </Link>
       </div>

@@ -63,9 +63,9 @@ onMounted(async () => {
     :prepared="!isLoading && prepared"
   >
     <template v-if="prepared">
-      <div flex flex-col gap-2 mt-2>
-        <!-- Language Distribution Bar -->
-        <div flex h-8 rounded-sm overflow-hidden>
+      <div flex flex-col gap-3>
+        <!-- Language Ribbon -->
+        <div flex h-8 rounded-md overflow-hidden>
           <div
             v-for="([lang, item]) in sortedLanguages" :key="lang"
             :style="{ width: `${item.percentage}%`, background: item.color }"
@@ -73,23 +73,22 @@ onMounted(async () => {
             h-full transition-all
           />
         </div>
-        <!-- Language Tags -->
-        <div flex="~ wrap gap-1" mt-1>
+        <!-- Language Legend -->
+        <div flex="~ wrap" gap-x-4 gap-y-1.5>
           <Link
             v-for="([lang, item]) in sortedLanguages"
-            :key="lang" class="item"
+            :key="lang" class="entry"
             :href="`https://github.com/search?q=owner:Lu-Jiejie++language:${lang}`"
             external
-            flex="~ items-center" text-xs p="x-1 y-0.5"
-            rounded-sm transition cursor-pointer
-            bg-card-item-link important-op-100
+            flex="~ items-center" text-xs
+            cursor-pointer important-op-100
           >
             <span
-              w-2 h-2 rounded-full inline-block mr-1
+              w-2 h-2 rounded-full inline-block mr-1.5
               :style="{ background: item.color }"
             />
-            <span class="language" op-70 mr-0.5 transition>{{ lang }}</span>
-            <span op-50>{{ item.percentage.toFixed(1) }}%</span>
+            <span class="language" op-70 transition>{{ lang }}</span>
+            <span op-40 ml-1>{{ item.percentage.toFixed(1) }}%</span>
           </Link>
         </div>
       </div>
@@ -99,6 +98,6 @@ onMounted(async () => {
 
 <style scoped>
 a:hover .language {
-  --uno: op-90;
+  --uno: op-100;
 }
 </style>

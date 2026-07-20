@@ -73,27 +73,23 @@ onMounted(async () => {
     :prepared="!isLoading && prepared"
   >
     <template v-if="prepared">
-      <div grid="~ cols-1 sm:cols-2 gap-2" mt-2>
+      <div grid="~ cols-1 sm:cols-2 gap-x-3 gap-y-1">
         <Link
           v-for="item in watchingList" :key="item.id" :title="item.name"
           :href="`https://bgm.tv/subject/${item.id}`" external
-          class="item" flex="~" h-16 box-content p-2
-          cursor-pointer bg-card-item-link
-          rounded-md transition important-op-100
+          class="entry" flex="~ items-center gap-3" p-1.5
+          cursor-pointer rounded-md overflow-hidden
+          transition-colors duration-300 important-op-100
+          hover="bg-hex-8881"
         >
-          <div w-16 h-16 flex-shrink-0 flex items-center justify-center>
-            <img :src="imgProxy(item.pic)" alt="cover" w-full h-full object-cover rounded-sm shadow-sm>
-          </div>
-          <div flex="~ col justify-center" ml-2 h-full overflow-hidden>
-            <span class="name" op-80 transition leading-tight mb-1>
+          <img
+            :src="imgProxy(item.pic)" alt="cover"
+            w-12 h-16 flex-shrink-0 object-cover rounded-sm shadow-sm important-m-0
+          >
+          <div flex="~ col justify-center" min-w-0 flex-1>
+            <span class="name" op-85 transition leading-snug>
               {{ isZh ? item.name_cn : item.name }}
             </span>
-            <!-- <span text-sm op-60 text-truncate leading-tight mb-1>
-              {{ item.summary }}
-            </span>
-            <span text-sm op-40 text-truncate leading-tight>
-              {{ formatDate(item.date) }}
-            </span> -->
           </div>
         </Link>
       </div>

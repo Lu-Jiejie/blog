@@ -1,8 +1,8 @@
 <template>
   <div
-    w-full h-10 mt-2 rounded-md bg-hex-8882
+    w-full h-12 rounded-md bg-hex-8881 animate-pulse
     flex="~ items-center justify-center"
   >
-    <span op-70>Loading...</span>
+    <span op-50 text-sm font-serif tracking-widest>Loading…</span>
   </div>
 </template>

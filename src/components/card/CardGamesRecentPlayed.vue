@@ -74,31 +74,25 @@ onMounted(async () => {
     :prepared="!isLoading && prepared"
   >
     <template v-if="prepared">
-      <div grid="~ cols-1  gap-2" mt-2>
+      <div flex="~ col gap-1">
         <Link
           v-for="item in formatGames" :key="item.id" :title="item.name"
           :href="`https://store.steampowered.com/app/${item.id}`" external
-          class="item" flex="~" h-16 box-content p-2
-          cursor-pointer bg-card-item-link
-          rounded-md transition important-op-100
+          class="entry" flex="~ items-center gap-3" p-1.5
+          cursor-pointer rounded-md overflow-hidden
+          transition-colors duration-300 important-op-100
+          hover="bg-hex-8881"
         >
-          <div flex-shrink-0>
-            <img
-              :src="imgProxy(item.icon)" alt="cover"
-              important-m-0 rounded-sm h-full
-            >
-          </div>
-          <div flex="~ col justify-center" ml-2 h-full overflow-hidden>
-            <span class="name" op-80 text-truncate transition leading-tight mb-1.5>
+          <img
+            :src="imgProxy(item.icon)" alt="cover"
+            h-13 w-auto flex-shrink-0 rounded-sm important-m-0
+          >
+          <div flex="~ col justify-center" min-w-0 flex-1>
+            <span class="name" op-85 transition text-truncate leading-snug>
               {{ isZh ? item.nameCN : item.name }}
             </span>
-            <span text-sm op-60 text-truncate leading-tight mb-1>
-              Playtime:
-              <span op-70>{{ (item.playtimeForever / 60).toFixed(1) }} hours</span>
-            </span>
-            <span text-sm op-60 text-truncate leading-tight>
-              Last Played:
-              <span op-70>{{ formatDate(item.timeLastPlayed * 1000) }}</span>
+            <span text-sm op-45 text-truncate leading-snug mt-1>
+              {{ (item.playtimeForever / 60).toFixed(1) }} hrs · {{ formatDate(item.timeLastPlayed * 1000, false) }}
             </span>
           </div>
         </Link>

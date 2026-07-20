@@ -34,7 +34,7 @@ const effectiveHoverColor = computed(() =>
     class="social-btn"
     transition-all duration-300
   >
-    <div :class="icon" class="social-btn-icon" />
+    <div :class="icon" class="social-btn-icon" transition-colors duration-300 />
   </Link>
 </template>
 
