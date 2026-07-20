@@ -52,6 +52,7 @@ const $t = useI18n({
         <a title="Toggle Theme Mode" @click.prevent="toggleDark()">
           <div i-ri-sun-line dark:i-ri-moon-line scale-95 />
         </a>
+        <HeaderMusicPlayer />
       </div>
     </nav>
   </header>

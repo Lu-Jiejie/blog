@@ -81,7 +81,7 @@ onMounted(async () => {
           class="entry" flex="~ items-center gap-3" p-1.5
           cursor-pointer rounded-md overflow-hidden
           transition-colors duration-300 important-op-100
-          hover="bg-hex-8881"
+          hover="bg-hex-8882"
         >
           <img
             :src="imgProxy(item.icon)" alt="cover"

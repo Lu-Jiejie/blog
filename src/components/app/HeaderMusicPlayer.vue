@@ -1,0 +1,369 @@
+<script setup lang="ts">
+import type { OverlayScrollbars } from 'overlayscrollbars'
+import type { MidiTrack } from '~/data/mid'
+import { onClickOutside } from '@vueuse/core'
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
+import { tracks } from '~/data/mid'
+import { isZh } from '~/logic/i18n'
+import { useMidiPlayer } from '~/logic/useMidiPlayer'
+
+const {
+  isPlaying,
+  isLoading,
+  currentTime,
+  duration,
+  currentTrack,
+  loadTrack,
+  togglePlayback,
+  seekTo,
+  cleanup,
+} = useMidiPlayer()
+
+// ========== 面板显隐 ==========
+const isOpen = ref(false)
+const isVisible = ref(false)
+const playerRef = ref<HTMLElement | null>(null)
+const willPlayAfterLoad = ref(false)
+
+function togglePanel() {
+  if (isOpen.value) {
+    isVisible.value = false
+    setTimeout(() => { isOpen.value = false }, 200)
+  }
+  else {
+    isOpen.value = true
+    requestAnimationFrame(() => { isVisible.value = true })
+  }
+}
+
+onClickOutside(playerRef, () => {
+  if (isOpen.value) {
+    isVisible.value = false
+    setTimeout(() => { isOpen.value = false }, 200)
+  }
+})
+
+// ========== 播放状态持久化 ==========
+const STORAGE_PLAYING = 'lujiejie-music-is-playing'
+const shouldAutoPlay = localStorage.getItem(STORAGE_PLAYING) !== 'false' // 默认播放
+
+watch(isPlaying, (val) => {
+  localStorage.setItem(STORAGE_PLAYING, val.toString())
+})
+
+// ========== 播放列表展开状态持久化 ==========
+const showPlaylist = ref(localStorage.getItem('lujiejie-music-show-playlist') === 'true')
+
+watch(showPlaylist, (val) => {
+  localStorage.setItem('lujiejie-music-show-playlist', val.toString())
+})
+
+// ========== 播放模式持久化 ==========
+type PlayMode = 'order' | 'random' | 'loop'
+const savedMode = localStorage.getItem('lujiejie-music-play-mode') as PlayMode | null
+const playMode = ref<PlayMode>(savedMode && ['order', 'random', 'loop'].includes(savedMode) ? savedMode : 'order')
+const randomHistory = ref<number[]>([])
+
+watch(playMode, (val) => {
+  localStorage.setItem('lujiejie-music-play-mode', val)
+})
+
+// ========== 当前播放歌曲持久化 ==========
+watch(currentTrack, (track) => {
+  if (track) {
+    const idx = tracks.findIndex(t => t.path === track.path)
+    if (idx !== -1)
+      localStorage.setItem('lujiejie-music-track-index', idx.toString())
+  }
+})
+
+const currentTrackIndex = computed(() => {
+  if (!currentTrack.value)
+    return 0
+  return tracks.findIndex(t => t.path === currentTrack.value?.path)
+})
+
+function togglePlayMode() {
+  const modes: PlayMode[] = ['order', 'random', 'loop']
+  const i = modes.indexOf(playMode.value)
+  playMode.value = modes[(i + 1) % modes.length]
+  if (playMode.value === 'random')
+    randomHistory.value = [currentTrackIndex.value]
+}
+
+const playModeIcon = computed(() => {
+  switch (playMode.value) {
+    case 'order':
+      return 'i-icon-park-outline-loop-once'
+    case 'random':
+      return 'i-icon-park-outline-shuffle-one'
+    case 'loop':
+      return 'i-icon-park-outline-cycle'
+    default:
+      return 'i-icon-park-outline-loop-once'
+  }
+})
+
+async function playPrevious() {
+  let prevIndex: number
+  if (playMode.value === 'loop') {
+    seekTo(0)
+    return
+  }
+  else if (playMode.value === 'random' && randomHistory.value.length > 1) {
+    randomHistory.value.pop()
+    prevIndex = randomHistory.value[randomHistory.value.length - 1]
+  }
+  else {
+    prevIndex = currentTrackIndex.value > 0 ? currentTrackIndex.value - 1 : tracks.length - 1
+  }
+  willPlayAfterLoad.value = true
+  await loadTrack(tracks[prevIndex])
+  willPlayAfterLoad.value = false
+  if (!isPlaying.value)
+    togglePlayback()
+}
+
+async function playNext() {
+  let nextIndex: number
+  if (playMode.value === 'loop') {
+    seekTo(0)
+    return
+  }
+  else if (playMode.value === 'random') {
+    const available = tracks.map((_, i) => i).filter(i => i !== currentTrackIndex.value)
+    nextIndex = available[Math.floor(Math.random() * available.length)]
+    randomHistory.value.push(nextIndex)
+  }
+  else {
+    nextIndex = currentTrackIndex.value < tracks.length - 1 ? currentTrackIndex.value + 1 : 0
+  }
+  willPlayAfterLoad.value = true
+  await loadTrack(tracks[nextIndex])
+  willPlayAfterLoad.value = false
+  if (!isPlaying.value)
+    togglePlayback()
+}
+
+async function selectTrack(track: MidiTrack) {
+  willPlayAfterLoad.value = true
+  await loadTrack(track)
+  willPlayAfterLoad.value = false
+  if (!isPlaying.value)
+    togglePlayback()
+}
+
+function formatTime(seconds: number): string {
+  const m = Math.floor(seconds / 60)
+  const s = Math.floor(seconds % 60)
+  return `${m}:${s.toString().padStart(2, '0')}`
+}
+
+const progress = computed(() => {
+  if (duration.value === 0)
+    return 0
+  return (currentTime.value / duration.value) * 100
+})
+
+function handleSeek(e: MouseEvent) {
+  const target = e.currentTarget as HTMLElement
+  const rect = target.getBoundingClientRect()
+  const pct = (e.clientX - rect.left) / rect.width
+  seekTo(pct * duration.value)
+}
+
+const osInstance = ref<OverlayScrollbars | null>(null)
+
+function handleScrollbarInit(instance: OverlayScrollbars) {
+  osInstance.value = instance
+}
+
+watch(isOpen, async (open) => {
+  if (open && showPlaylist.value && osInstance.value) {
+    // 面板从 display:none 变为可见，强制 Scrollbar 重新计算尺寸
+    osInstance.value.update()
+    await nextTick()
+    const el = playerRef.value?.querySelector('[data-current-track]')
+    if (el) {
+      const { viewport } = osInstance.value.elements()
+      const top = el.getBoundingClientRect().top - viewport.getBoundingClientRect().top + viewport.scrollTop
+      viewport.scrollTop = top - viewport.clientHeight / 2
+    }
+  }
+})
+
+onMounted(async () => {
+  if (tracks.length > 0) {
+    const savedIndex = localStorage.getItem('lujiejie-music-track-index')
+    const index = savedIndex ? Number.parseInt(savedIndex, 10) : 0
+    const validIndex = index >= 0 && index < tracks.length ? index : 0
+    willPlayAfterLoad.value = shouldAutoPlay
+    await loadTrack(tracks[validIndex])
+    willPlayAfterLoad.value = false
+    if (shouldAutoPlay && !isPlaying.value)
+      await togglePlayback()
+  }
+})
+
+onUnmounted(() => {
+  cleanup()
+})
+</script>
+
+<template>
+  <div ref="playerRef" relative z-51>
+    <button
+      title="Music Player"
+      op-60 hover:op-100 transition-all duration-300 cursor-pointer
+      @click="togglePanel"
+    >
+      <div
+        i-icon-park-outline-music
+        :style="isPlaying || willPlayAfterLoad ? 'color:#22c55e' : ''"
+      />
+    </button>
+
+    <div
+      v-show="isOpen"
+      absolute top-full right-0 mt-2
+      bg="white dark:hex-050505"
+      rounded-xl border="~ base"
+      w-72 p-4 z-100
+      :class="isVisible ? 'op-100 visible translate-y-0' : 'op-0 invisible -translate-y-1'"
+      transition-all duration-200 ease
+      style="box-shadow: 0 4px 24px rgba(0,0,0,0.1);"
+      class="dark:![box-shadow:0_4px_24px_rgba(0,0,0,0.4)]"
+    >
+      <!-- Track title -->
+      <div mb-1>
+        <div text-sm font-medium truncate :op="currentTrack ? '85' : '40'">
+          {{ currentTrack ? (isZh ? currentTrack.nameZh : currentTrack.name) : 'No track' }}
+        </div>
+        <div v-if="currentTrack?.artist" text-xs op-40 truncate>
+          {{ currentTrack.artist }}
+        </div>
+      </div>
+
+      <!-- Progress bar -->
+      <div mb-2>
+        <div
+          relative h-1.5 bg-hex-8882 rounded-full cursor-pointer overflow-hidden
+          :class="isLoading ? 'op-50 pointer-events-none' : ''"
+          @click="handleSeek"
+        >
+          <div
+            absolute left-0 top-0 h-full bg-black dark:bg-white rounded-full
+            transition-none
+            :style="{ width: `${progress}%` }"
+          />
+        </div>
+        <div flex justify-between text-xs op-40 mt-0.5>
+          <span>{{ formatTime(currentTime) }}</span>
+          <span>{{ formatTime(duration) }}</span>
+        </div>
+      </div>
+
+      <!-- Controls -->
+      <div flex items-center justify-center gap-2>
+        <button
+          w-8 h-8 rounded-full hover-bg-hex-8883 flex items-center justify-center
+          op-40 hover:op-70 transition cursor-pointer
+          @click="togglePlayMode"
+        >
+          <div :class="playModeIcon" text-sm />
+        </button>
+        <button
+          w-8 h-8 rounded-full hover-bg-hex-8883 flex items-center justify-center
+          op-40 hover:op-70 transition cursor-pointer
+          :disabled="isLoading"
+          @click="playPrevious"
+        >
+          <div i-icon-park-outline-left text-lg />
+        </button>
+        <button
+          w-10 h-10 rounded-full bg-hex-8883 flex items-center justify-center
+          hover:bg-hex-8884 transition cursor-pointer
+          :disabled="isLoading"
+          @click="togglePlayback"
+        >
+          <div
+            :class="isPlaying ? 'i-icon-park-outline-pause' : 'i-material-symbols-play-arrow-outline'"
+            text-xl
+          />
+        </button>
+        <button
+          w-8 h-8 rounded-full hover-bg-hex-8883 flex items-center justify-center
+          op-40 hover:op-70 transition cursor-pointer
+          :disabled="isLoading"
+          @click="playNext"
+        >
+          <div i-icon-park-outline-right text-lg />
+        </button>
+        <button
+          w-8 h-8 rounded-full flex items-center justify-center transition cursor-pointer
+          :class="showPlaylist ? 'bg-hex-8883 op-70' : 'hover-bg-hex-8883 op-40 hover:op-70'"
+          @click="showPlaylist = !showPlaylist"
+        >
+          <div i-icon-park-outline-music-list text-sm />
+        </button>
+      </div>
+
+      <!-- Playlist -->
+      <Transition name="expand">
+        <div v-if="showPlaylist" border="t base" pt-2 mt-1.5>
+          <Scrollbar
+            class="max-h-36"
+            :options="{ scrollbars: { autoHide: 'never' } }"
+            @os-initialized="handleScrollbarInit"
+          >
+            <div space-y-0.5>
+              <button
+                v-for="(track, i) in tracks" :key="track.path"
+                :data-current-track="currentTrackIndex === i ? '' : undefined"
+                :title="`${isZh ? track.nameZh : track.name} - ${track.artist}`"
+                w-full text-left px-2 py-1 rounded text-xs
+                :class="currentTrackIndex === i
+                  ? 'bg-black/10 dark:bg-white/10 font-medium'
+                  : 'hover:bg-black/5 dark:hover:bg-white/5 op-70'"
+                transition-colors duration-200
+                @click="selectTrack(track)"
+              >
+                <div flex items-center gap-1.5>
+                  <div
+                    v-if="currentTrackIndex === i && isPlaying"
+                    i-svg-spinners-pulse-rings-2 text-xs flex-shrink-0
+                  />
+                  <div
+                    v-else
+                    i-icon-park-outline-music-one text-xs op-50 flex-shrink-0
+                  />
+                  <span truncate>{{ isZh ? track.nameZh : track.name }}</span>
+                </div>
+              </button>
+            </div>
+          </Scrollbar>
+        </div>
+      </Transition>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.expand-enter-active,
+.expand-leave-active {
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+.expand-enter-from,
+.expand-leave-to {
+  opacity: 0;
+  max-height: 0 !important;
+  padding-top: 0;
+  margin-top: 0;
+  border-top-width: 0;
+}
+.expand-enter-to,
+.expand-leave-from {
+  max-height: 180px;
+}
+</style>

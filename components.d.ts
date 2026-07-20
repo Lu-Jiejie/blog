@@ -32,6 +32,7 @@ declare module 'vue' {
     GithubHeatmapCard: typeof import('./src/components/card/GithubHeatmapCard.vue')['default']
     GithubLanguageBarCard: typeof import('./src/components/card/GithubLanguageBarCard.vue')['default']
     Header: typeof import('./src/components/app/Header.vue')['default']
+    HeaderMusicPlayer: typeof import('./src/components/app/HeaderMusicPlayer.vue')['default']
     Link: typeof import('./src/components/base/Link.vue')['default']
     ListFavorites: typeof import('./src/components/list/ListFavorites.vue')['default']
     ListPosts: typeof import('./src/components/list/ListPosts.vue')['default']
