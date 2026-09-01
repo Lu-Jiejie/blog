@@ -4,19 +4,36 @@ description: Portfolio of Lu Jiejie
 ---
 
 <script setup>
+import { useIntersectionObserver } from '@vueuse/core'
+import { onMounted, ref } from 'vue'
 import { useI18n } from '~/logic/i18n'
 
 const messages = {
   en: {
     hello: 'Lu Jiejie',
-    desc: "I'm enthusiastic about open-source development.",
   },
   zh: {
     hello: '鹿解解',
-    desc: '热衷于开源开发，记录生活的点滴。',
   },
 }
 const t = useI18n(messages)
+
+// 动态卡片区：进入视口前隐藏，滚动进入后以滑动动画显示
+const cardsSection = ref(null)
+const cardsRevealed = ref(false)
+
+onMounted(() => {
+  const { stop } = useIntersectionObserver(
+    cardsSection,
+    ([{ isIntersecting }]) => {
+      if (isIntersecting) {
+        cardsRevealed.value = true
+        stop()
+      }
+    },
+    { threshold: 0.1 },
+  )
+})
 </script>
 
 <div
@@ -36,11 +53,9 @@ const t = useI18n(messages)
     min-w-0
   >
 
-  <h1 text-4xl font-bold font-serif mb-3>
+  <h1 text-5xl font-bold font-serif mb-10>
     {{ t.hello }}
   </h1>
-
-  <p op-60 max-w-lg mb-10 v-html="t.desc" />
 
   <div flex="~ row" gap-4 items-center>
     <SocialButton
@@ -65,13 +80,43 @@ const t = useI18n(messages)
   </div>
 </div>
 
-<div py-2 />
-<CardGithubHeatmap />
-<div py-4 />
-<CardGithubLanguageBar />
-<div py-4 />
-<CardSongsRecentPlayed />
-<div py-4 />
-<CardGamesRecentPlayed />
-<div py-4 />
-<CardAnimeRecentPlayed />
+<div
+  ref="cardsSection"
+  class="cards-section"
+  :class="{ 'is-revealed': cardsRevealed }"
+>
+  <div py-2 />
+  <CardGithubHeatmap />
+  <div py-4 />
+  <CardGithubLanguageBar />
+  <div py-4 />
+  <CardSongsRecentPlayed />
+  <div py-4 />
+  <CardGamesRecentPlayed />
+  <div py-4 />
+  <CardAnimeRecentPlayed />
+</div>
+
+<style scoped>
+.cards-section {
+  opacity: 0;
+  transform: translateY(32px);
+  transition:
+    opacity 0.9s cubic-bezier(0.22, 0.61, 0.36, 1),
+    transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.cards-section.is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cards-section {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+</style>

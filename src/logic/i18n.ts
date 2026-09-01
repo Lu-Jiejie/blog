@@ -2,7 +2,7 @@ import { useLocalStorage } from '@vueuse/core'
 import { computed } from 'vue'
 
 type Language = 'en' | 'zh'
-const lang = useLocalStorage<Language>('lujiejie-lang', 'en')
+const lang = useLocalStorage<Language>('lujiejie-lang', 'zh')
 
 const messages = {
   en: {
