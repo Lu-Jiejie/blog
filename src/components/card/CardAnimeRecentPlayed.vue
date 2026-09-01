@@ -26,7 +26,7 @@ const { limit = 6 } = defineProps<{
 const API = getGithubCDNUrl({
   owner: 'Lu-Jiejie',
   repo: 'static',
-  path: 'data/bangumi/watched.json',
+  path: 'data/bangumi/watching.json',
 })
 
 const animeData = ref<BangumiInfo | null>(null)
@@ -75,7 +75,7 @@ onMounted(async () => {
     <template v-if="prepared">
       <div grid="~ cols-1 sm:cols-2 gap-x-3 gap-y-1">
         <Link
-          v-for="item in watchingList" :key="item.id" :title="item.name"
+          v-for="item in watchingList" :key="item.id" :title="isZh ? item.name_cn : item.name"
           :href="`https://bgm.tv/subject/${item.id}`" external
           class="entry" flex="~ items-center gap-3" p-1.5
           cursor-pointer rounded-md overflow-hidden
@@ -84,10 +84,10 @@ onMounted(async () => {
         >
           <img
             :src="imgProxy(item.pic)" alt="cover"
-            w-12 h-16 flex-shrink-0 object-cover rounded-sm shadow-sm important-m-0
+            h-20 w-auto flex-shrink-0 object-cover rounded-sm shadow-sm important-m-0
           >
           <div flex="~ col justify-center" min-w-0 flex-1>
-            <span class="name" op-85 transition leading-snug>
+            <span class="name" font-serif text-[15px] op-85 transition leading-snug>
               {{ isZh ? item.name_cn : item.name }}
             </span>
           </div>

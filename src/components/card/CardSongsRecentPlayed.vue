@@ -83,8 +83,11 @@ onMounted(async () => {
             w-13 h-13 flex-shrink-0 object-cover rounded-sm important-m-0
           >
           <div flex="~ col justify-center" min-w-0 flex-1>
-            <span class="name" op-85 transition text-truncate leading-snug>{{ item.name }}</span>
-            <span text-sm op-45 text-truncate leading-snug mt-1>{{ item.artist }} · {{ item.album }}</span>
+            <span class="name" font-serif text-[15px] op-85 transition text-truncate leading-snug>{{ item.name }}</span>
+            <span text-sm text-truncate leading-snug mt-1>
+              <span class="artist" op-60>{{ item.artist }}</span>
+              <span op-35> · {{ item.album }}</span>
+            </span>
           </div>
         </Link>
       </div>

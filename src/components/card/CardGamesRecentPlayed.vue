@@ -76,7 +76,7 @@ onMounted(async () => {
     <template v-if="prepared">
       <div flex="~ col gap-1">
         <Link
-          v-for="item in formatGames" :key="item.id" :title="item.name"
+          v-for="item in formatGames" :key="item.id" :title="isZh ? item.nameCN : item.name"
           :href="`https://store.steampowered.com/app/${item.id}`" external
           class="entry" flex="~ items-center gap-3" p-1.5
           cursor-pointer rounded-md overflow-hidden
@@ -85,14 +85,15 @@ onMounted(async () => {
         >
           <img
             :src="imgProxy(item.icon)" alt="cover"
-            h-13 w-auto flex-shrink-0 rounded-sm important-m-0
+            h-11 w-auto flex-shrink-0 object-cover rounded-sm important-m-0
           >
           <div flex="~ col justify-center" min-w-0 flex-1>
-            <span class="name" op-85 transition text-truncate leading-snug>
+            <span class="name" font-serif text-[15px] op-85 transition text-truncate leading-snug>
               {{ isZh ? item.nameCN : item.name }}
             </span>
-            <span text-sm op-45 text-truncate leading-snug mt-1>
-              {{ (item.playtimeForever / 60).toFixed(1) }} hrs · {{ formatDate(item.timeLastPlayed * 1000, false) }}
+            <span text-sm text-truncate leading-snug mt-1>
+              <span class="playtime" op-60 tabular-nums>{{ (item.playtimeForever / 60).toFixed(1) }} hrs</span>
+              <span op-35> · {{ formatDate(item.timeLastPlayed * 1000, false) }}</span>
             </span>
           </div>
         </Link>
