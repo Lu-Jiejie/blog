@@ -6,7 +6,10 @@ import type { Directive } from 'vue'
  * 用法：`<div v-reveal>...</div>`，可选传延迟毫秒：`<div v-reveal="120">...</div>`
  *
  * 行为：
- * - 初始给元素加 `data-reveal`（配合全局 CSS 隐藏），进入视口后改为 `data-reveal="active"`（滑动显示）。
+ * - 初始给元素加 `data-reveal`（配合全局 CSS 隐藏），进入视口后改为 `data-reveal="active"`
+ *   （触发纯 CSS keyframes 动画滑动显示，forwards 保持最终帧）。
+ * - 动画结束后不做任何 JS 清理：keyframes + forwards 由浏览器平滑驱动到最后一帧自然
+ *   结束，避免"主动移除属性"引发合成层重栅格化（边框变亮/位移顿挫）。
  * - 首屏已在视口内的元素（例如主页卡片区露出的一角）不会立即显示，
  *   而是等用户第一次滚动后再按当前位置判断是否显示 —— 解决"一进入页面就显示"。
  * - 视口下方的元素由 IntersectionObserver 在滚动进入视口时逐个触发，天然从上到下。
@@ -25,43 +28,6 @@ function reveal(el: HTMLElement) {
   el.dataset.reveal = 'active'
   observer?.unobserve(el)
   observed.delete(el)
-  scheduleRevealCleanup(el)
-}
-
-/**
- * reveal 动画结束后移除 data-reveal 属性，让元素脱离 [data-reveal] 规则。
- *
- * 原因：CSS 里 [data-reveal] 带 will-change: opacity, transform 且 active 态
- * transform: translateY(0)（非 none），两者都会让容器一直留在合成层。
- * 合成层上的文字禁用子像素抗锯齿，hover 时内部文本自身做 opacity 过渡
- * （如卡片 item 的 title 0.85 → 1）会触发合成层提升/撤销，文字渲染路径
- * 切换，表现为"先往下位移一点再回归"的抖动。动画结束后释放合成层即可根治。
- */
-function scheduleRevealCleanup(el: HTMLElement) {
-  let done = false
-  let timer: number | undefined
-
-  function finish() {
-    if (done)
-      return
-    done = true
-    el.removeEventListener('transitionend', onTransitionEnd)
-    if (timer)
-      window.clearTimeout(timer)
-    el.removeAttribute('data-reveal')
-    el.style.transitionDelay = ''
-  }
-
-  function onTransitionEnd(e: TransitionEvent) {
-    if (e.target === el && e.propertyName === 'opacity')
-      finish()
-  }
-
-  el.addEventListener('transitionend', onTransitionEnd)
-  // 兜底：prefers-reduced-motion 下 transition 为 none，不会触发 transitionend，
-  // 用与 CSS 时长（0.9s）+ 延迟匹配的定时器保证最终一定清理。
-  const delay = Number.parseFloat(el.style.transitionDelay || '0') || 0
-  timer = window.setTimeout(finish, 900 + delay + 100)
 }
 
 function revealIfInView(el: HTMLElement) {
@@ -90,7 +56,7 @@ export const vReveal: Directive<HTMLElement, number | undefined> = {
     el.dataset.reveal = ''
     const delay = typeof binding.value === 'number' ? binding.value : 0
     if (delay > 0)
-      el.style.transitionDelay = `${delay}ms`
+      el.style.animationDelay = `${delay}ms`
   },
   mounted(el) {
     if (typeof window === 'undefined' || typeof IntersectionObserver === 'undefined')

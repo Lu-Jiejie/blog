@@ -266,28 +266,37 @@ html:not(.dark) [img-dark] {
 }
 
 /* v-reveal 指令：滚动进入视口时才显示。
-   注意：will-change 和 active 态的 transform（非 none）会让容器一直留在合成层，
-   合成层上的文字禁用子像素抗锯齿，hover 内部文本做 opacity 过渡时会触发
-   合成层提升/撤销导致文字抖动。因此指令在 reveal 动画结束后会移除 data-reveal
-   属性，让元素脱离本规则、释放合成层（见 src/directives/reveal.ts）。 */
+   用纯 CSS keyframes 动画 + forwards 实现，关键点：
+   - to 帧必须是 translateY(0)（非 none），且保留 will-change，让元素在动画结束后
+     继续留在合成层。若 to 帧写成 transform: none，浏览器会在动画结束瞬间把元素
+     移出合成层（重新栅格化回普通路径），导致"颜色从浅变正常 + 顿一下"的跳变。
+   - 指令只负责切换 data-reveal="" -> "active" 触发动画，不做任何事后清理。 */
 [data-reveal] {
   opacity: 0;
-  transform: translateY(32px);
-  transition:
-    opacity 0.9s cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
+  transform: translateY(18px);
   will-change: opacity, transform;
 }
 
 [data-reveal="active"] {
-  opacity: 1;
-  transform: translateY(0);
+  animation: reveal-in 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes reveal-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] {
     opacity: 1;
     transform: none;
-    transition: none;
+    animation: none;
+    will-change: auto;
   }
 }
