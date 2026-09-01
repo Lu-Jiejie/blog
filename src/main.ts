@@ -8,6 +8,7 @@ import { routes } from 'vue-router/auto-routes'
 
 import App from './App.vue'
 import { globalScrollbarOptions } from './components/base/Scrollbar.vue'
+import { vReveal } from './directives/reveal'
 import 'markdown-it-github-alerts/styles/github-colors-light.css'
 import 'markdown-it-github-alerts/styles/github-colors-dark-class.css'
 
@@ -27,9 +28,12 @@ import 'uno.css'
 export const createApp = ViteSSG(
   App,
   { routes },
-  async ({ router }) => {
+  async ({ app, router }) => {
     // dayjs
     dayjs.extend(LocalizedFormat)
+
+    // 全局指令：v-reveal（滚动进入视口才显示）
+    app.directive('reveal', vReveal)
 
     if (!import.meta.env.SSR) {
       // OverlayScrollbars（在客户端且尽早）

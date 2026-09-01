@@ -73,7 +73,7 @@ export default defineConfig({
       fonts: {
         sans: ['Inter:400,600,800', 'Noto Sans SC:400,600,800'],
         mono: ['Fira Code:400,600,800', 'Noto Sans SC:400,600,800'],
-        serif: ['DM Serif Display:400,600,800', 'Noto Serif SC:400,600,800'],
+        serif: ['Noto Serif SC:400,600,800'],
         condensed: 'Roboto Condensed',
       },
       processors: createLocalFontProcessor(),

@@ -4,8 +4,6 @@ description: Portfolio of Lu Jiejie
 ---
 
 <script setup>
-import { useIntersectionObserver } from '@vueuse/core'
-import { onMounted, ref } from 'vue'
 import { useI18n } from '~/logic/i18n'
 
 const messages = {
@@ -17,27 +15,10 @@ const messages = {
   },
 }
 const t = useI18n(messages)
-
-// 动态卡片区：进入视口前隐藏，滚动进入后以滑动动画显示
-const cardsSection = ref(null)
-const cardsRevealed = ref(false)
-
-onMounted(() => {
-  const { stop } = useIntersectionObserver(
-    cardsSection,
-    ([{ isIntersecting }]) => {
-      if (isIntersecting) {
-        cardsRevealed.value = true
-        stop()
-      }
-    },
-    { threshold: 0.1 },
-  )
-})
 </script>
 
 <div
-  min-h="[calc(100vh-14rem)]"
+  class="home-hero"
   flex="~ col"
   justify-center items-center
   text-center
@@ -45,7 +26,7 @@ onMounted(() => {
   <img
     src="/avatar.png"
     alt="avatar"
-    w-32 h-32
+    w-28 h-28
     aspect-1
     object-cover
     rounded-full
@@ -53,7 +34,7 @@ onMounted(() => {
     min-w-0
   >
 
-  <h1 text-5xl font-bold font-serif mb-10>
+  <h1 text-6xl font-bold font-serif mb-10>
     {{ t.hello }}
   </h1>
 
@@ -80,43 +61,42 @@ onMounted(() => {
   </div>
 </div>
 
-<div
-  ref="cardsSection"
-  class="cards-section"
-  :class="{ 'is-revealed': cardsRevealed }"
->
+<div v-reveal>
   <div py-2 />
   <CardGithubHeatmap />
+</div>
+<div v-reveal>
   <div py-4 />
   <CardGithubLanguageBar />
+</div>
+<div v-reveal>
   <div py-4 />
   <CardSongsRecentPlayed />
+</div>
+<div v-reveal>
   <div py-4 />
   <CardGamesRecentPlayed />
+</div>
+<div v-reveal>
   <div py-4 />
   <CardAnimeRecentPlayed />
 </div>
 
 <style scoped>
-.cards-section {
-  opacity: 0;
-  transform: translateY(32px);
-  transition:
-    opacity 0.9s cubic-bezier(0.22, 0.61, 0.36, 1),
-    transform 0.9s cubic-bezier(0.22, 0.61, 0.36, 1);
-  will-change: opacity, transform;
+/* 首屏头像区：占满视口剩余高度并在其中垂直居中。
+   桌面端用 100vh；移动端用 100svh（地址栏显示时的高度，静态值）。
+   svh 不随地址栏隐藏而变化，因此头像区位置在页面加载后保持定住，不会跳动。
+   两行 min-height 是常规回退写法：旧浏览器不识别 svh 时回退到 vh。 */
+.home-hero {
+  min-height: calc(100vh - 14rem);
 }
 
-.cards-section.is-revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .cards-section {
-    opacity: 1;
-    transform: none;
-    transition: none;
+@media (max-width: 767px) {
+  .home-hero {
+    /* 移动端：header(~92px) + main 顶部 padding(40px) ≈ 132px，
+       为使内容中心对齐视口中心，需 min-h = 100svh - 2×132px ≈ 100svh - 16.5rem */
+    min-height: calc(100vh - 16.5rem);
+    min-height: calc(100svh - 16.5rem);
   }
 }
 </style>
