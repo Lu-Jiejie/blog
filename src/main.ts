@@ -53,7 +53,7 @@ export const createApp = ViteSSG(
           html(ctx) {
             if (
               ctx.savedPosition?.top
-              || import.meta.hot
+              // || import.meta.hot
             ) {
               html.classList.add('no-sliding')
             }

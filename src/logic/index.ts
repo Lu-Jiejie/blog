@@ -3,7 +3,9 @@ import { useDark, useStorage } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { computed, ref } from 'vue'
 
-export const isDark = useDark()
+// storageKey 与 index.html 首屏内联脚本读取的 key 保持一致，
+// 否则两边判断依据不同，刷新时会先按 auto 上色再被纠正
+export const isDark = useDark({ storageKey: 'color-schema' })
 
 export function toggleDark() {
   // check if View Transitions API is supported

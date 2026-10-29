@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { useDark } from '@vueuse/core'
 import { computed } from 'vue'
+import { isDark } from '~/logic'
 
 interface Props {
   href: string
@@ -12,7 +12,6 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const isDark = useDark()
 const effectiveHoverColor = computed(() =>
   isDark.value ? (props.hoverColorDark || props.hoverColor) : props.hoverColor,
 )

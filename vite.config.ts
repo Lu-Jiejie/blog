@@ -26,10 +26,24 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
+    // 依赖扫描器不解析 .vue，只从 SFC 里 import 的包要在这里显式声明，
+    // 否则首次访问时才会被发现，触发「重新预构建 + 整页 reload」
     include: [
       'vue',
       'vue-router',
       '@vueuse/core',
+      '@vueuse/head',
+      '@tonejs/midi',
+      'tone',
+      'overlayscrollbars',
+      'overlayscrollbars-vue',
+      '@unpic/placeholder',
+      'markdown-it-copy-code',
+      'dayjs',
+      'dayjs/plugin/localizedFormat.js',
+      'nprogress',
+      'vite-ssg',
+      'vue-router-better-scroller',
     ],
   },
   plugins: [

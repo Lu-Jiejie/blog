@@ -28,18 +28,24 @@ const willPlayAfterLoad = ref(false)
 function togglePanel() {
   if (isOpen.value) {
     isVisible.value = false
-    setTimeout(() => { isOpen.value = false }, 200)
+    setTimeout(() => {
+      isOpen.value = false
+    }, 200)
   }
   else {
     isOpen.value = true
-    requestAnimationFrame(() => { isVisible.value = true })
+    requestAnimationFrame(() => {
+      isVisible.value = true
+    })
   }
 }
 
 onClickOutside(playerRef, () => {
   if (isOpen.value) {
     isVisible.value = false
-    setTimeout(() => { isOpen.value = false }, 200)
+    setTimeout(() => {
+      isOpen.value = false
+    }, 200)
   }
 })
 
@@ -214,13 +220,16 @@ onUnmounted(() => {
   <div ref="playerRef" relative z-51>
     <button
       title="Music Player"
-      op-60 hover:op-100 transition-all duration-300 cursor-pointer
+      class="flex items-center justify-center transition-all duration-300 cursor-pointer"
+      style="width: 1.2em; height: 1.2em"
+      :class="isPlaying || willPlayAfterLoad ? 'op-90' : 'op-60 hover:op-100'"
       @click="togglePanel"
     >
-      <div
-        i-icon-park-outline-music
-        :style="isPlaying || willPlayAfterLoad ? 'color:#22c55e' : ''"
-      />
+      <!-- 播放中：动态音浪柱条（绿色）；暂停：音符 -->
+      <div v-if="isPlaying || willPlayAfterLoad" class="eq-wave" aria-hidden="true">
+        <span v-for="n in 4" :key="n" />
+      </div>
+      <div v-else i-icon-park-outline-music />
     </button>
 
     <div
@@ -349,6 +358,52 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+/* 顶栏播放按钮：播放中的动态音浪柱条（绿色） */
+.eq-wave {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 1px;
+  width: 1em;
+  height: 0.85em;
+  margin-top: 2px;
+  color: #22c55e;
+}
+
+.eq-wave > span {
+  flex: 1;
+  height: 100%;
+  min-width: 0;
+  border-radius: 1px;
+  background: currentColor;
+  transform-origin: bottom;
+  /* 默认就矮：动画 delay 期间柱子保持矮，切换时不会先"满高再降下" */
+  transform: scaleY(0.3);
+  animation: eq-bounce 0.8s ease-in-out infinite;
+}
+
+.eq-wave > span:nth-child(1) {
+  animation-delay: 0s;
+}
+.eq-wave > span:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.eq-wave > span:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.eq-wave > span:nth-child(4) {
+  animation-delay: 0.45s;
+}
+
+@keyframes eq-bounce {
+  0%,
+  100% {
+    transform: scaleY(0.3);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
 .expand-enter-active,
 .expand-leave-active {
   transition: all 0.2s ease;
