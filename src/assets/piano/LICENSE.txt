@@ -1,0 +1,16 @@
+Salamander Grand Piano V3
+Author: Alexander Holm
+Licence: Creative Commons Attribution 3.0 (CC-BY 3.0)
+  https://creativecommons.org/licenses/by/3.0/
+
+Instrument: Yamaha C5, recorded at 48kHz / 24bit, 16 velocity layers,
+sampled in minor thirds starting from the lowest A.
+
+Source: https://github.com/sfzinstruments/SalamanderGrandPiano
+(upstream master branch, Samples/<note>v8.flac)
+
+Files here are the velocity layer v8 of each note, converted from 48kHz/24bit
+FLAC to 44.1kHz stereo 128kbps mp3 so browsers can stream them directly.
+Only the A / C / D# / F# minor-third grid (30 notes) is included; Tone.js
+Sampler repitches the missing semitones, which keeps the payload ~6.6 MiB
+instead of the full 1.9 GB multi-layer release.

@@ -1,21 +1,23 @@
-import type { MidiTrack } from '~/data/mid'
+import type { MidiTrack } from '~/types'
 import * as ToneMidi from '@tonejs/midi'
 
 import * as Tone from 'tone'
 import { readonly, ref, shallowRef } from 'vue'
 
-// Use Vite's glob import to get all sample URLs.
-// This is robust for both dev and prod environments.
-const samples = import.meta.glob('../data/sample/*.mp3', { eager: true, query: '?url', import: 'default' })
-
-// Create the note-to-URL mapping for Tone.Sampler
-const urls: Record<string, string> = {}
-for (const path in samples) {
-  const fileName = path.split('/').pop()!
-  // Convert file name (e.g., "As1.mp3") to note name (e.g., "A#1")
-  const noteName = fileName.replace('.mp3', '').replace('s', '#')
-  urls[noteName] = samples[path] as string
+// 把 glob 结果转成 Tone.Sampler 需要的 { 音名: URL } 映射，
+// 文件名用 s 表示升号（As1 -> A#1）。
+function toSampleUrls(files: Record<string, unknown>): Record<string, string> {
+  const urls: Record<string, string> = {}
+  for (const path in files) {
+    const fileName = path.split('/').pop()!
+    urls[fileName.replace('.mp3', '').replace('s', '#')] = files[path] as string
+  }
+  return urls
 }
+
+// Salamander Grand Piano V3（Alexander Holm，CC-BY 3.0）：Yamaha C5，48kHz/24bit，16 力度层。
+// 上游只放出 A/C/Ds/Fs 四种音名的小三度网格共 30 个音，缺的音由 Sampler 重采样补齐。
+const pianoUrls = toSampleUrls(import.meta.glob('../assets/piano/*.mp3', { eager: true, query: '?url', import: 'default' }))
 
 export function useMidiPlayer() {
   // Public state
@@ -27,8 +29,38 @@ export function useMidiPlayer() {
   const currentTrack = ref<MidiTrack | null>(null)
 
   // Internal MIDI resources
-  const midiSamplers = shallowRef<Tone.Sampler[]>([])
+  const sampler = shallowRef<Tone.Sampler | null>(null)
   const midiScheduler = shallowRef<Tone.Part | null>(null)
+
+  let pendingNotes: Array<{ time: number, note: string, duration: number, velocity: number }> = []
+
+  function createSampler() {
+    const next = new Tone.Sampler(pianoUrls, { release: 1 }).toDestination()
+    next.volume.value = volume.value
+    return next
+  }
+
+  function disposeSampler() {
+    sampler.value?.dispose()
+    sampler.value = null
+  }
+
+  function buildScheduler() {
+    if (midiScheduler.value) {
+      midiScheduler.value.dispose()
+      midiScheduler.value = null
+    }
+    midiScheduler.value = new Tone.Part((time, note) => {
+      sampler.value?.triggerAttackRelease(
+        note.note,
+        note.duration,
+        time,
+        note.velocity,
+      )
+    }, pendingNotes)
+    midiScheduler.value.loop = true
+    midiScheduler.value.loopEnd = duration.value
+  }
 
   let animationFrameId: number | null = null
 
@@ -65,10 +97,9 @@ export function useMidiPlayer() {
       // 保证不会出现资源冲突或声音重叠。
       await stop()
 
-      // 释放并清空之前创建的采样器和调度器，
+      // 释放并清空之前创建的发声单元和调度器，
       // 防止内存泄漏和音频节点堆积。
-      midiSamplers.value.forEach(synth => synth.dispose())
-      midiSamplers.value = []
+      disposeSampler()
       if (midiScheduler.value) {
         midiScheduler.value.dispose()
         midiScheduler.value = null
@@ -82,29 +113,10 @@ export function useMidiPlayer() {
 
       duration.value = midi.duration
 
-      // 创建采样器用于播放，并收集所有待播放的音符事件。
-      // - newSamplers: 每个 MIDI 音轨对应一个 Tone.Sampler 实例（钢琴采样器）
-      // - scheduledNotes: 扁平化的音符事件列表，后续用于统一调度播放。
-      const newSamplers: Tone.Sampler[] = []
-      const scheduledNotes: Array<{ time: number, note: string, duration: number, velocity: number }> = []
-
-      // 遍历每个 MIDI 音轨，为其创建一个本地钢琴采样器。
-      // 采样器将音符名映射到本地 mp3 文件。
-      // 当前实现所有音符都用第一个采样器播放（可扩展为多轨分流）。
+      // 收集所有音轨的音符事件，扁平化成统一的调度列表。
+      // 所有音符共用一个钢琴采样器播放（多轨在音色上不做区分）。
+      const scheduledNotes: typeof pendingNotes = []
       midi.tracks.forEach((midiTrack) => {
-        // 创建一个钢琴采样器，映射 88 键所有音符到本地采样文件。
-        const synth = new Tone.Sampler(
-          urls,
-          {
-            release: 1,
-            volume: volume.value,
-          },
-        ).toDestination()
-
-        newSamplers.push(synth)
-
-        // 收集该音轨所有音符事件，加入统一的 scheduledNotes 列表。
-        // 每个事件包含：出现时间（秒）、音符名、持续时长（秒）、力度（0~1）。
         midiTrack.notes.forEach((note) => {
           scheduledNotes.push({
             time: note.time,
@@ -115,28 +127,14 @@ export function useMidiPlayer() {
         })
       })
 
-      midiSamplers.value = newSamplers
+      sampler.value = createSampler()
+      pendingNotes = scheduledNotes
 
-      // 等待所有采样器加载完成
+      // 等待采样器加载完成
       await Tone.loaded()
 
       // 创建 Tone.Part 调度器，统一调度所有音符事件。
-      // 回调会在指定时间触发采样器播放音符。
-      // 当前所有音符都用第一个采样器播放（如需多乐器可扩展）。
-      midiScheduler.value = new Tone.Part((time, note) => {
-        if (midiSamplers.value.length > 0) {
-          midiSamplers.value[0].triggerAttackRelease(
-            note.note,
-            note.duration,
-            time,
-            note.velocity,
-          )
-        }
-      }, scheduledNotes)
-
-      // 启用循环播放，并设置循环终点为 MIDI 总时长。
-      midiScheduler.value.loop = true
-      midiScheduler.value.loopEnd = midi.duration
+      buildScheduler()
 
       // 记录当前加载的曲目，并重置播放进度。
       currentTrack.value = track
@@ -222,25 +220,24 @@ export function useMidiPlayer() {
     }
   }
 
-  // 设置所有采样器的播放音量（单位：dB）。
-  // vol 参数为分贝值，直接应用到每个采样器的音量节点，实现全局音量控制。
+  // 设置播放音量（单位：dB）。
+  // vol 参数为分贝值，直接应用到采样器的音量节点，实现全局音量控制。
   function setVolume(vol: number) {
     volume.value = vol
-    midiSamplers.value.forEach((synth) => {
-      synth.volume.value = vol
-    })
+    if (sampler.value)
+      sampler.value.volume.value = vol
   }
 
   // 释放本 Hook 创建的所有音频资源。
-  // 包括：停止播放、释放采样器节点、清空调度器，便于垃圾回收。
+  // 包括：停止播放、释放发声单元、清空调度器，便于垃圾回收。
   function cleanup() {
     stop()
-    midiSamplers.value.forEach(synth => synth.dispose())
-    midiSamplers.value = []
+    disposeSampler()
     if (midiScheduler.value) {
       midiScheduler.value.dispose()
       midiScheduler.value = null
     }
+    pendingNotes = []
   }
 
   return {

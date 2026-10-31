@@ -13,3 +13,10 @@ export interface TocItem {
   slug: string
   text: string
 }
+
+export interface MidiTrack {
+  name: string
+  nameZh: string
+  artist: string
+  path: string
+}

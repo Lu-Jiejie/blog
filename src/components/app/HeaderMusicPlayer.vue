@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import type { OverlayScrollbars } from 'overlayscrollbars'
-import type { MidiTrack } from '~/data/mid'
+import type { MidiTrack } from '~/types'
 import { onClickOutside } from '@vueuse/core'
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
-import { tracks } from '~/data/mid'
+import { tracks } from '~/data/tracks'
 import { isZh } from '~/logic/i18n'
 import { useMidiPlayer } from '~/logic/useMidiPlayer'
 
