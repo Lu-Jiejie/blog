@@ -2,9 +2,6 @@
 import type { Fn } from '@vueuse/core'
 import { useEventListener } from '@vueuse/core'
 import { ref, watch } from 'vue'
-import { useRoute } from 'vue-router'
-
-const route = useRoute()
 
 const imageModel = ref<HTMLImageElement>()
 const imageAlt = ref<string>()
@@ -89,14 +86,21 @@ watch(imageModel, (val) => {
 </script>
 
 <template>
-  <AppControls />
-  <AppHeader />
-  <main p="x-7 y-10" overflow-x-hidden>
-    <RouterView />
+  <!-- 页脚贴底：min-h-screen + main 撑满剩余高度，内容不足一屏时也不会悬在半空 -->
+  <div flex="~ col" min-h-screen>
+    <AppHeader />
 
-    <AppBackButton />
-    <AppFooter :key="route.path" />
-  </main>
+    <main flex-1 p="x-7 y-10" overflow-x-hidden>
+      <RouterView />
+
+      <AppBackButton />
+    </main>
+
+    <!-- 页脚与正文同宽，摆在自己的一层里以便贴底 -->
+    <AppFooter />
+  </div>
+
+  <AppControls />
 
   <Transition name="fade">
     <div v-if="imageModel" fixed top-0 bottom-0 left-0 right-0 z-500 backdrop-blur-7 @click="imageModel = undefined">

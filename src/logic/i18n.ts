@@ -1,8 +1,9 @@
 import { useLocalStorage } from '@vueuse/core'
 import { computed } from 'vue'
 
-type Language = 'en' | 'zh'
-const lang = useLocalStorage<Language>('lujiejie-lang', 'zh')
+export type Language = 'en' | 'zh'
+// 默认简体中文；footer 的语言开关直接写这个 ref
+export const lang = useLocalStorage<Language>('lujiejie-lang', 'zh')
 
 const messages = {
   en: {

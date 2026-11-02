@@ -3,7 +3,8 @@ import { useEventListener, useTimeoutFn } from '@vueuse/core'
 import { computed, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import UiBackdrop from '~/components/ui/UiBackdrop.vue'
-import { useI18n } from '~/logic/i18n'
+import { isDark, toggleDark } from '~/logic'
+import { isZh, toggleLang, useI18n } from '~/logic/i18n'
 
 const route = useRoute()
 
@@ -13,82 +14,128 @@ const $t = useI18n({
     posts: 'Posts',
     thinking: 'Thinking',
     more: 'More',
+    aboutGroup: 'About',
     projects: 'Projects',
     favorites: 'Favorites',
     photos: 'Photos',
     about: 'About me',
-    history: 'History',
+    aboutSite: 'About this site',
+    aboutProject: 'About this project',
   },
   zh: {
     home: '首页',
     posts: '文章',
     thinking: '随想',
     more: '更多',
+    aboutGroup: '关于',
     projects: '项目',
     favorites: '收藏',
     photos: '相册',
     about: '关于我',
-    history: '历史',
+    aboutSite: '关于本站',
+    aboutProject: '关于本项目',
   },
-})
+} as const)
 
-const mainNav = computed(() => [
+interface NavItem {
+  label: string
+  href: string
+  external?: boolean
+}
+
+// 桌面端不重复主页入口：左上角「鹿巢」就是回主页的入口
+const desktopNav = computed((): NavItem[] => [
+  { label: $t.value.posts, href: '/posts' },
+  { label: $t.value.thinking, href: '/thinking' },
+])
+
+// 「三」面板里没有常驻的 logo，所以主页要单独列出来
+const mobileNav = computed((): NavItem[] => [
   { label: $t.value.home, href: '/' },
   { label: $t.value.posts, href: '/posts' },
   { label: $t.value.thinking, href: '/thinking' },
 ])
 
-const moreNav = computed(() => [
+const moreNav = computed((): NavItem[] => [
   { label: $t.value.projects, href: '/projects' },
   { label: $t.value.favorites, href: '/favorites' },
   { label: $t.value.photos, href: '/photos' },
-  { label: $t.value.about, href: '/about' },
-  { label: $t.value.history, href: '/history' },
 ])
+
+const aboutNav = computed((): NavItem[] => [
+  { label: $t.value.about, href: '/about' },
+  { label: $t.value.aboutSite, href: '/history' },
+  { label: $t.value.aboutProject, href: 'https://github.com/Lu-Jiejie/blog', external: true },
+])
+
+// 外链走原生 a，站内走 RouterLink；属性也随之一分为二
+function linkProps(item: NavItem) {
+  return item.external
+    ? { href: item.href, target: '_blank', rel: 'noopener' }
+    : { to: item.href }
+}
 
 function isActive(href: string) {
   return href === '/' ? route.path === '/' : route.path.startsWith(href)
 }
 
-// 悬停有 80ms 进入延迟和 150ms 离开延迟，避免指针划过时面板闪动
-const moreOpen = ref(false)
-const { start: scheduleOpen, stop: cancelOpen } = useTimeoutFn(() => (moreOpen.value = true), 80)
-const { start: scheduleClose, stop: cancelClose } = useTimeoutFn(() => (moreOpen.value = false), 150)
+function groupActive(items: NavItem[]) {
+  return items.some(i => !i.external && isActive(i.href))
+}
 
-function onMoreEnter() {
+const menus = computed(() => [
+  { id: 'more', label: $t.value.more, items: moreNav.value, active: groupActive(moreNav.value) },
+  { id: 'about', label: $t.value.aboutGroup, items: aboutNav.value, active: groupActive(aboutNav.value) },
+])
+
+// 同一时刻只开一个菜单；延迟避免指针划过时面板闪动
+const openMenu = ref<string | null>(null)
+const pendingMenu = ref<string | null>(null)
+const { start: scheduleOpen, stop: cancelOpen } = useTimeoutFn(() => {
+  openMenu.value = pendingMenu.value
+}, 80)
+const { start: scheduleClose, stop: cancelClose } = useTimeoutFn(() => {
+  openMenu.value = null
+}, 150)
+
+function onMenuEnter(id: string) {
+  pendingMenu.value = id
   cancelClose()
   scheduleOpen()
 }
-function onMoreLeave() {
+function onMenuLeave() {
   cancelOpen()
   scheduleClose()
 }
 
-function onMoreFocusOut(e: FocusEvent) {
+function onMenuFocusOut(e: FocusEvent) {
   const next = e.relatedTarget as Node | null
   if (!next || !(e.currentTarget as HTMLElement).contains(next))
-    moreOpen.value = false
+    openMenu.value = null
 }
 
 const menuOpen = ref(false)
 
+const themeIcon = computed(() => isDark.value ? 'i-ri-moon-line' : 'i-ri-sun-line')
+const themeLabel = computed(() => isDark.value ? 'Switch to light theme' : 'Switch to dark theme')
+const langIcon = computed(() => isZh.value ? 'i-icon-park-twotone-chinese' : 'i-icon-park-twotone-english')
+
 watch(() => route.fullPath, () => {
-  moreOpen.value = false
+  openMenu.value = null
   menuOpen.value = false
 })
 
 useEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
-    moreOpen.value = false
+    openMenu.value = null
     menuOpen.value = false
   }
 })
 </script>
 
 <template>
-  <header z-40 flex items-center min-h-[2rem] p="x-8 t-7 b-8" lt-md:px-7>
-    <!-- 固定定位，滚到任何位置都能点回主页 -->
-    <RouterLink to="/" class="typewriter-logo fixed left-8 top-7 z-40 lt-md:left-7" aria-label="Home">
+  <header z-40 flex items-center gap-6 min-h-[2rem] p="x-8 t-7 b-8" lt-md:px-7>
+    <RouterLink to="/" class="typewriter-logo shrink-0" aria-label="Home">
       <AppLogo />
     </RouterLink>
 
@@ -96,7 +143,7 @@ useEventListener('keydown', (e) => {
       <!-- hidden / flex 必须写在 class 里；裸写 hidden 是 HTML 属性，会被 preflight 的 [hidden] 规则压成 display:none -->
       <nav class="hidden nav:flex items-center gap-6" aria-label="Main menu">
         <RouterLink
-          v-for="item in mainNav"
+          v-for="item in desktopNav"
           :key="item.href"
           :to="item.href"
           class="nav-link"
@@ -105,43 +152,82 @@ useEventListener('keydown', (e) => {
           {{ item.label }}
         </RouterLink>
 
-        <div relative @pointerenter="onMoreEnter" @pointerleave="onMoreLeave">
+        <div
+          v-for="menu in menus"
+          :key="menu.id"
+          relative
+          @pointerenter="onMenuEnter(menu.id)"
+          @pointerleave="onMenuLeave"
+        >
           <button
             type="button"
             class="nav-link"
-            :class="moreOpen && 'nav-link-active'"
+            :class="openMenu === menu.id && 'nav-link-active'"
             aria-haspopup="true"
-            :aria-expanded="moreOpen"
-            @focusin="moreOpen = true"
+            :aria-expanded="openMenu === menu.id"
+            @focusin="openMenu = menu.id"
           >
-            {{ $t.more }}
+            {{ menu.label }}
           </button>
 
           <!-- 面板与触发器同在一个 relative 容器内，pt-2 作为悬停桥 -->
           <div
             absolute top-full right-0 pt-2 z-50
             transition="all duration-150" ease-out
-            :class="moreOpen ? 'op-100 translate-y-0' : 'op-0 -translate-y-1 invisible'"
-            @focusout="onMoreFocusOut"
+            :class="openMenu === menu.id ? 'op-100 translate-y-0' : 'op-0 -translate-y-1 invisible'"
+            @focusout="onMenuFocusOut"
           >
             <div
               flex="~ col" min-w-40 py-2 rounded-lg border="~ base"
               bg="[var(--c-bg)]"
               shadow="[0_4px_24px_rgba(0,0,0,0.1)] dark:[0_4px_24px_rgba(0,0,0,0.4)]"
             >
-              <RouterLink
-                v-for="item in moreNav"
+              <component
+                :is="item.external ? 'a' : RouterLink"
+                v-for="item in menu.items"
                 :key="item.href"
-                :to="item.href"
+                v-bind="linkProps(item)"
                 class="nav-link px-4 py-1.5 whitespace-nowrap"
                 :class="isActive(item.href) && 'nav-link-active'"
               >
                 {{ item.label }}
-              </RouterLink>
+                <span v-if="item.external" i-ri-arrow-right-up-line text-12px op-50 />
+              </component>
             </div>
           </div>
         </div>
       </nav>
+
+      <!-- 文字导航与图标工具区之间的竖线；窄屏整组隐藏，所以线也一起隐藏 -->
+      <div class="hidden nav:block w-px h-4 shrink-0 bg-[#8883]" aria-hidden="true" />
+
+      <div class="hidden nav:flex items-center gap-4">
+        <button
+          type="button"
+          class="nav-link flex items-center justify-center w-[1.2em] h-[1.2em]"
+          :aria-label="themeLabel"
+          @click="toggleDark()"
+        >
+          <div :class="themeIcon" />
+        </button>
+        <button
+          type="button"
+          class="nav-link flex items-center justify-center w-[1.2em] h-[1.2em]"
+          aria-label="Switch language"
+          @click="toggleLang"
+        >
+          <div :class="langIcon" />
+        </button>
+        <a
+          href="https://github.com/Lu-Jiejie"
+          target="_blank"
+          rel="noopener"
+          class="nav-link flex items-center justify-center w-[1.2em] h-[1.2em]"
+          aria-label="GitHub"
+        >
+          <div i-ri-github-fill />
+        </a>
+      </div>
 
       <!-- 移动端：音乐按钮在左，"三"在右 -->
       <AppMusicPlayer />
@@ -171,38 +257,61 @@ useEventListener('keydown', (e) => {
         aria-label="Menu"
         style="max-height: calc(100vh - 10% - 30%);"
       >
-        <!-- 条目用 mx-5 内缩：分隔线两端留白，文字左缘正好压在线的起点上 -->
-        <RouterLink
-          v-for="item in mainNav"
-          :key="item.href"
-          :to="item.href"
-          class="nav-link mx-5 py-2.5 border-b border-[#8883]"
-          :class="isActive(item.href) && 'nav-link-active'"
-          @click="menuOpen = false"
-        >
-          {{ item.label }}
-        </RouterLink>
+        <!-- 分隔线挂在无透明度的包裹层上：nav-link 的 op-60/100 会连 border 一起变浅变深 -->
+        <div v-for="item in mobileNav" :key="item.href" class="mx-5 border-b border-[#8883]">
+          <RouterLink
+            :to="item.href"
+            class="nav-link block py-2.5"
+            :class="isActive(item.href) && 'nav-link-active'"
+            @click="menuOpen = false"
+          >
+            {{ item.label }}
+          </RouterLink>
+        </div>
 
-        <!-- More 只是分组标签，不可点，所以压到比链接更淡的小字；子项与一级链接同尺寸 -->
-        <div class="mx-5 pt-3 pb-2.5">
-          <div class="text-xs uppercase tracking-wider op-30" :class="moreNav.some(i => isActive(i.href)) && 'op-60'">
-            {{ $t.more }}
+        <!-- 分组标签不可点，压到比链接更淡的小字；子项与一级链接同尺寸 -->
+        <div
+          v-for="menu in menus"
+          :key="menu.id"
+          class="mx-5 pt-3 pb-2.5 border-t border-[#8883]"
+        >
+          <div class="text-xs uppercase tracking-wider op-30" :class="menu.active && 'op-60'">
+            {{ menu.label }}
           </div>
           <div class="flex flex-wrap gap-x-5 gap-y-2 mt-2">
-            <RouterLink
-              v-for="item in moreNav"
+            <component
+              :is="item.external ? 'a' : RouterLink"
+              v-for="item in menu.items"
               :key="item.href"
-              :to="item.href"
+              v-bind="linkProps(item)"
               class="nav-link whitespace-nowrap"
               :class="isActive(item.href) && 'nav-link-active'"
               @click="menuOpen = false"
             >
               {{ item.label }}
-            </RouterLink>
+              <span v-if="item.external" i-ri-arrow-right-up-line text-12px op-50 />
+            </component>
           </div>
         </div>
 
+        <!-- 主题与语言刻意不关闭面板，方便连续调整观察效果 -->
         <div class="mx-5 flex justify-center items-center gap-4 py-3 border-t border-[#8883]">
+          <button
+            type="button"
+            class="nav-link p-1 flex items-center justify-center"
+            :aria-label="themeLabel"
+            @click="toggleDark()"
+          >
+            <div :class="themeIcon" text-lg />
+          </button>
+          <button
+            type="button"
+            class="nav-link p-1 flex items-center justify-center"
+            aria-label="Switch language"
+            @click="toggleLang"
+          >
+            <div :class="langIcon" text-lg />
+          </button>
           <a
             href="https://github.com/Lu-Jiejie"
             target="_blank"
@@ -233,5 +342,6 @@ useEventListener('keydown', (e) => {
 .typewriter-logo {
   font-size: 1.1rem;
   font-weight: 500;
+  --uno: op-70 hover-op-100 transition-opacity duration-300;
 }
 </style>

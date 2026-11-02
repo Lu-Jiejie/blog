@@ -1,23 +1,34 @@
 import type { Ref } from 'vue'
-import { useDark, useStorage } from '@vueuse/core'
+import { useColorMode, useStorage } from '@vueuse/core'
 import dayjs from 'dayjs'
 import { computed, ref } from 'vue'
 
 // storageKey 与 index.html 首屏内联脚本读取的 key 保持一致，
-// 否则两边判断依据不同，刷新时会先按 auto 上色再被纠正
-export const isDark = useDark({ storageKey: 'color-schema' })
+// 否则两边判断依据不同，刷新时会先按 auto 上色再被纠正。
+// emitAuto 让 store 保住 'auto' 三态，state 才是解析后的明暗。
+// light 映射成空串：全局只靠 html.dark 一个类切换，不加多余的 .light
+export const colorMode = useColorMode<'light' | 'dark'>({
+  storageKey: 'color-schema',
+  initialValue: 'auto',
+  emitAuto: true,
+  modes: { light: '', dark: 'dark' },
+})
+
+// 组件只关心当下是明是暗，auto 时取系统解析结果
+export const isDark = computed(() => colorMode.state.value === 'dark')
 
 export function toggleDark() {
+  const next = isDark.value ? 'light' : 'dark'
   // check if View Transitions API is supported
   if (!document.startViewTransition) {
     // If the View Transitions API is not supported, simply toggle the theme without animation
-    isDark.value = !isDark.value
+    colorMode.value = next
     return
   }
 
   // Use the View Transitions API to animate the theme change
   document.startViewTransition(() => {
-    isDark.value = !isDark.value
+    colorMode.value = next
   })
 }
 

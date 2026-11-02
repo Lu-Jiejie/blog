@@ -1,14 +1,26 @@
 <script setup lang="ts">
-import { useWindowScroll } from '@vueuse/core'
+import { useEventListener } from '@vueuse/core'
+import { onMounted, ref } from 'vue'
 import { hasTocHeadings, isTocOpen } from '~/state/toc'
+
+const TOP_THRESHOLD = 300
+const scrolled = ref(false)
 
 function toTop() {
   if (typeof window !== 'undefined')
     window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
-// VueUse 全局滚动轴监听
-const { y: scrollY } = useWindowScroll()
+function updateScrolled() {
+  // OverlayScrollbars 接管后滚动量可能落在 body 而不是 window，三处取最大值才可靠
+  const y = Math.max(window.scrollY, document.documentElement.scrollTop, document.body.scrollTop)
+  scrolled.value = y > TOP_THRESHOLD
+}
+
+// 滚动事件不冒泡，只有捕获阶段才能在 window 上收到 body 的滚动
+useEventListener('scroll', updateScrolled, { capture: true, passive: true })
+
+onMounted(updateScrolled)
 </script>
 
 <template>
@@ -34,28 +46,13 @@ const { y: scrollY } = useWindowScroll()
     </button>
 
     <button
-      id="to-top-button-mobile"
-      class="toc:hidden"
+      id="to-top-button"
       w-10 h-10 rounded-full
       flex="~" items-center justify-center
       bg="hex-8883"
-      op="70 hover:100"
-      transition-opacity duration-300
-      cursor-pointer
+      transition="all duration-300"
       title="Scroll to top"
-      @click="toTop()"
-    >
-      <div i-ri-arrow-up-line text-gray-700 dark:text-gray-200 />
-    </button>
-
-    <button
-      id="to-top-button-desktop"
-      class="hidden toc:flex"
-      w-10 h-10 rounded-full
-      items-center justify-center
-      transition duration-300
-      title="Scroll to top"
-      :class="scrollY > 300 ? 'op30 hover:op100 hover-bg-hex-8883 cursor-pointer' : 'op0! pointer-events-none'"
+      :class="scrolled ? 'op-70 hover:op-100 cursor-pointer' : 'op-0! pointer-events-none'"
       @click="toTop()"
     >
       <div i-ri-arrow-up-line text-gray-700 dark:text-gray-200 />

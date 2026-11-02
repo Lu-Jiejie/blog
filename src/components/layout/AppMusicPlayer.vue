@@ -100,23 +100,20 @@ function togglePlayMode() {
 const playModeIcon = computed(() => {
   switch (playMode.value) {
     case 'order':
-      return 'i-icon-park-outline-loop-once'
+      return 'i-ri-repeat-2-fill'
     case 'random':
-      return 'i-icon-park-outline-shuffle-one'
+      return 'i-ri-shuffle-fill'
     case 'loop':
-      return 'i-icon-park-outline-cycle'
+      return 'i-ri-repeat-one-fill'
     default:
-      return 'i-icon-park-outline-loop-once'
+      return 'i-ri-repeat-2-fill'
   }
 })
 
 async function playPrevious() {
   let prevIndex: number
-  if (playMode.value === 'loop') {
-    seekTo(0)
-    return
-  }
-  else if (playMode.value === 'random' && randomHistory.value.length > 1) {
+  // 上下一首是手动切歌，任何模式下都该真的换歌；loop 只决定播完之后是否重播本曲
+  if (playMode.value === 'random' && randomHistory.value.length > 1) {
     randomHistory.value.pop()
     prevIndex = randomHistory.value[randomHistory.value.length - 1]
   }
@@ -132,11 +129,7 @@ async function playPrevious() {
 
 async function playNext() {
   let nextIndex: number
-  if (playMode.value === 'loop') {
-    seekTo(0)
-    return
-  }
-  else if (playMode.value === 'random') {
+  if (playMode.value === 'random') {
     const available = tracks.map((_, i) => i).filter(i => i !== currentTrackIndex.value)
     nextIndex = available[Math.floor(Math.random() * available.length)]
     randomHistory.value.push(nextIndex)
@@ -362,17 +355,16 @@ onUnmounted(() => {
 .eq-wave {
   display: inline-flex;
   align-items: flex-end;
-  gap: 1px;
-  width: 1em;
+  /* 柱宽与间隙都用固定像素：flex 等比分配时每根 3.25px，亚像素舍入会让间距随容器宽度变化 */
+  gap: 2px;
   height: 0.85em;
   margin-top: 2px;
   color: #22c55e;
 }
 
 .eq-wave > span {
-  flex: 1;
+  width: 2px;
   height: 100%;
-  min-width: 0;
   border-radius: 1px;
   background: currentColor;
   transform-origin: bottom;
