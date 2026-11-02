@@ -55,6 +55,7 @@ export default defineConfig({
       breakpoint: {
         ...theme.breakpoint,
         toc: '1228px',
+        nav: '760px',
       },
     }
   },

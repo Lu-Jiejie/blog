@@ -1,8 +1,7 @@
-export type PostType = 'essays' | 'notes'
 export interface PostFrontmatter {
   title: string
   date: string
-  type: PostType
+  type?: string
   description?: string
   tags?: string[]
   place?: string

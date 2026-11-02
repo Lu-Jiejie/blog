@@ -3,7 +3,7 @@ import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const needTopPath = ['/notes/', '/essays/']
+const needTopPath = ['/posts/']
 const needBackPath = ['/projects']
 
 function toTop() {

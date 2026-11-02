@@ -19,7 +19,7 @@ const markdown = MarkdownIt({
 })
 
 async function run() {
-  const files = await fg(['pages/essays/**/*.md', 'pages/notes/**/*.md'], {
+  const files = await fg(['pages/posts/**/*.md'], {
     ignore: ['**/index.md'],
   })
   const options: FeedOptions = {

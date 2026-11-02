@@ -45,16 +45,9 @@ declare module 'vue-router/auto-routes' {
       { all: ParamValue<false> },
       | never
     >,
-    '/essays/': RouteRecordInfo<
-      '/essays/',
-      '/essays',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/essays/test-styles': RouteRecordInfo<
-      '/essays/test-styles',
-      '/essays/test-styles',
+    '/about/': RouteRecordInfo<
+      '/about/',
+      '/about',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -66,16 +59,9 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/notes/': RouteRecordInfo<
-      '/notes/',
-      '/notes',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/notes/test-styles': RouteRecordInfo<
-      '/notes/test-styles',
-      '/notes/test-styles',
+    '/history/': RouteRecordInfo<
+      '/history/',
+      '/history',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -87,9 +73,37 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/posts/': RouteRecordInfo<
+      '/posts/',
+      '/posts',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/posts/test-styles': RouteRecordInfo<
+      '/posts/test-styles',
+      '/posts/test-styles',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/posts/test-styles-2': RouteRecordInfo<
+      '/posts/test-styles-2',
+      '/posts/test-styles-2',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/projects/': RouteRecordInfo<
       '/projects/',
       '/projects',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
+    '/thinking/': RouteRecordInfo<
+      '/thinking/',
+      '/thinking',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -123,17 +137,9 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | 'all'
     }
-    'pages/essays/index.md': {
+    'pages/about/index.md': {
       routes:
-        | '/essays/'
-      views:
-        | never
-      pathParamNames:
-        | never
-    }
-    'pages/essays/test-styles.md': {
-      routes:
-        | '/essays/test-styles'
+        | '/about/'
       views:
         | never
       pathParamNames:
@@ -147,17 +153,9 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | never
     }
-    'pages/notes/index.md': {
+    'pages/history/index.md': {
       routes:
-        | '/notes/'
-      views:
-        | never
-      pathParamNames:
-        | never
-    }
-    'pages/notes/test-styles.md': {
-      routes:
-        | '/notes/test-styles'
+        | '/history/'
       views:
         | never
       pathParamNames:
@@ -171,9 +169,41 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | never
     }
+    'pages/posts/index.md': {
+      routes:
+        | '/posts/'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'pages/posts/test-styles.md': {
+      routes:
+        | '/posts/test-styles'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'pages/posts/test-styles-2.md': {
+      routes:
+        | '/posts/test-styles-2'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
     'pages/projects/index.md': {
       routes:
         | '/projects/'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
+    'pages/thinking/index.md': {
+      routes:
+        | '/thinking/'
       views:
         | never
       pathParamNames:

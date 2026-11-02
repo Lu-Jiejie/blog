@@ -1,6 +1,7 @@
 ---
 title: Projects
 description: Selection of projects by Lu Jiejie
+wide: true
 ---
 
 <script setup>

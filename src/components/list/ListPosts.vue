@@ -3,16 +3,13 @@ import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { formatDate } from '~/logic'
 
-const props = defineProps<{
-  type?: 'essays' | 'notes'
-}>()
-
 const router = useRouter()
 const routes = router.getRoutes()
 
 const posts = computed(() =>
   routes
-    .filter(r => r.path.startsWith(`/${props.type}/`) && r.meta.frontmatter)
+    // 目录页自身也匹配 /posts/ 前缀，靠 date 区分文章
+    .filter(r => r.path.startsWith('/posts/') && r.meta.frontmatter?.date)
     .map(r => ({
       path: r.path,
       ...r.meta.frontmatter!,

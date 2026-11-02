@@ -80,9 +80,10 @@ export default defineConfig({
       wrapperComponent: (id) => {
         if (id.endsWith('/pages/index.md'))
           return 'IndexLayout'
-        if (id.endsWith('/pages/projects/index.md'))
-          return 'PageLayout'
-        return 'PostLayout'
+        // posts 下的非 index.md 才是文章，列表页和独立页都走 PageLayout
+        if (id.includes('/pages/posts/') && !id.endsWith('/index.md'))
+          return 'PostLayout'
+        return 'PageLayout'
       },
       headEnabled: true,
       exportFrontmatter: false,

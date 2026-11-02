@@ -5,6 +5,8 @@ interface Props {
   frontmatter?: {
     title?: string
     description?: string
+    /** 宽幅页（如 projects）关闭 prose 列宽限制，由内容自行居中 */
+    wide?: boolean
   }
 }
 
@@ -27,7 +29,7 @@ usePageHead({
     </p>
   </div>
 
-  <article m-auto>
+  <article m-auto :class="frontmatter?.wide ? '' : 'prose'">
     <slot />
   </article>
 </template>
