@@ -4,7 +4,7 @@ import { useEventListener } from '@vueuse/core'
 import { useCopyCode } from 'markdown-it-copy-code'
 import { nextTick, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import TableOfContents from '~/components/toc/TableOfContents.vue'
+import TocTable from '~/components/toc/TocTable.vue'
 import { usePageHead } from '~/composables/usePageHead'
 import { formatDate } from '~/logic'
 
@@ -111,16 +111,14 @@ onMounted(() => {
       <div />
       <!-- <PostTags :tags="frontmatter.tags" /> -->
       <div flex="~ gap-3 wrap">
-        <RouterLink
-          v-for="tag in frontmatter.tags" :key="tag" :to="`/tags/${tag}`"
-        >
+        <span v-for="tag in frontmatter.tags" :key="tag" op-70>
           #{{ tag }}
-        </RouterLink>
+        </span>
       </div>
     </div>
   </header>
 
-  <TableOfContents />
+  <TocTable />
 
   <article ref="content" m-auto class="prose slide-enter-content">
     <slot />

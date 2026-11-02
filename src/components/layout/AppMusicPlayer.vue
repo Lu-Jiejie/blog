@@ -320,7 +320,7 @@ onUnmounted(() => {
       <!-- Playlist -->
       <Transition name="expand">
         <div v-if="showPlaylist" border="t base" pt-2 mt-1.5>
-          <Scrollbar
+          <UiScrollbar
             class="max-h-36"
             :options="{ scrollbars: { autoHide: 'never' } }"
             @os-initialized="handleScrollbarInit"
@@ -350,7 +350,7 @@ onUnmounted(() => {
                 </div>
               </button>
             </div>
-          </Scrollbar>
+          </UiScrollbar>
         </div>
       </Transition>
     </div>

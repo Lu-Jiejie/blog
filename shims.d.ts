@@ -1,14 +1,10 @@
-import type { PostFrontmatter } from '~/types'
+import type { PostFrontmatter, TocItem } from '~/types'
 import 'vue-router'
 
 declare module 'vue-router' {
   interface RouteMeta {
     frontmatter?: PostFrontmatter
-    toc?: Array<{
-      depth: number
-      text: string
-      slug: string
-    }>
+    toc?: TocItem[]
   }
 }
 

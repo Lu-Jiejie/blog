@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import type { TocItem } from '~/types'
-import { useElementHover, useScroll } from '@vueuse/core'
-import { computed, nextTick, ref, watch } from 'vue'
-import TheScrollbar from '../base/Scrollbar.vue'
+import { nextTick, ref, watch } from 'vue'
+import UiScrollbar from '~/components/ui/UiScrollbar.vue'
+import { scrollToHeading } from '~/logic/scrollToHeading'
 
 const props = defineProps<{
   headings: TocItem[]
@@ -10,33 +10,6 @@ const props = defineProps<{
 }>()
 
 const tocEl = ref<HTMLElement>()
-const isTocHovered = useElementHover(tocEl)
-
-const articleEl = computed(() => typeof document !== 'undefined' ? document.querySelector('article') : null)
-const isArticleHovered = useElementHover(articleEl)
-
-const tocOpacity = computed(() => {
-  return (isTocHovered.value || isArticleHovered.value) ? 1 : 1
-})
-
-const { y: windowY } = useScroll(() => typeof window !== 'undefined' ? window : null)
-
-function scrollToHeading(event: Event, id: string) {
-  event.preventDefault()
-
-  const el = document.getElementById(id)
-  if (el) {
-    const offset = 25
-    const targetTop = el.getBoundingClientRect().top + windowY.value - offset
-
-    window.scrollTo({
-      top: targetTop,
-      behavior: 'smooth',
-    })
-
-    history.replaceState(null, '', `#${id}`)
-  }
-}
 
 // 当 activeId 变化时，滚动到对应的 TOC 项
 watch(() => props.activeId, async (newId) => {
@@ -64,14 +37,14 @@ watch(() => props.activeId, async (newId) => {
     transition-opacity duration-700
     aria-label="Table of contents"
     style="max-height: calc(100vh - 10rem - 7.5rem); display: flex; flex-direction: column;"
-    :style="{ opacity: tocOpacity }" ref="tocEl"
+    ref="tocEl"
   >
-    <TheScrollbar
+    <UiScrollbar
       element="ul" op-70
       flex-1 min-h-0
     >
       <li v-for="heading in headings" :key="heading.slug">
-        <Link
+        <UiLink
           :href="`#${heading.slug}`"
           block py-1 decoration-none leading-5
           transition-colors pr-4
@@ -84,9 +57,9 @@ watch(() => props.activeId, async (newId) => {
           @click="scrollToHeading($event, heading.slug)"
         >
           <span line-clamp-2>{{ heading.text }}</span>
-        </Link>
+        </UiLink>
       </li>
-    </TheScrollbar>
+    </UiScrollbar>
   </nav>
 </template>
 

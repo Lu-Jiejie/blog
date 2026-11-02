@@ -89,13 +89,13 @@ watch(imageModel, (val) => {
 </script>
 
 <template>
-  <FloatingControls />
-  <Header />
+  <AppControls />
+  <AppHeader />
   <main p="x-7 y-10" overflow-x-hidden>
     <RouterView />
 
-    <BackButton />
-    <Footer :key="route.path" />
+    <AppBackButton />
+    <AppFooter :key="route.path" />
   </main>
 
   <Transition name="fade">
@@ -107,7 +107,8 @@ watch(imageModel, (val) => {
       >
       <div
         v-if="imageAlt"
-        text-white bg-black:50 dark:text-black dark:bg-white:40
+        text-white dark:text-black
+        class="bg-black/50 dark:bg-white/40"
         absolute bottom-5 right-5 p="x-2 y-1"
         flex="~ justify-center items-center" select-none
         max-w="[calc(100vw-5rem)]"

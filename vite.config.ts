@@ -32,7 +32,7 @@ export default defineConfig({
       'vue',
       'vue-router',
       '@vueuse/core',
-      '@vueuse/head',
+      '@unhead/vue',
       '@tonejs/midi',
       'tone',
       'overlayscrollbars',
@@ -79,10 +79,10 @@ export default defineConfig({
     Markdown({
       wrapperComponent: (id) => {
         if (id.endsWith('/pages/index.md'))
-          return 'WrapperIndex'
+          return 'IndexLayout'
         if (id.endsWith('/pages/projects/index.md'))
-          return 'WrapperPage'
-        return 'WrapperPost'
+          return 'PageLayout'
+        return 'PostLayout'
       },
       headEnabled: true,
       exportFrontmatter: false,
@@ -153,6 +153,7 @@ export default defineConfig({
     }),
 
     Components({
+      dirs: ['src/components', 'src/layouts'],
       extensions: ['vue', 'md'],
       dts: true,
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],

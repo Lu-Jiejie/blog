@@ -20,7 +20,7 @@ const $t = useI18n({
 <template>
   <header z-40 flex items-center gap-6 p="x-8 t-7 b-8" lt-md:px-7>
     <RouterLink to="/" class="typewriter-logo" lg:fixed !>
-      <Logo />
+      <AppLogo />
     </RouterLink>
     <nav flex items-center w-full justify-end aria-label="Main menu">
       <div grid="~ flow-col items-center gap-4.5" print:op-0>
@@ -43,16 +43,16 @@ const $t = useI18n({
           <div i-ri-camera-ai-line />
         </RouterLink>
         <div nav-divider aria-hidden="true" />
-        <Link href="https://github.com/Lu-Jiejie" external title="GitHub">
+        <UiLink href="https://github.com/Lu-Jiejie" external title="GitHub">
           <div i-uil-github-alt scale-96 />
-        </Link>
-        <Link href="/feed.xml" external title="RSS" lt-sm:hidden>
+        </UiLink>
+        <UiLink href="/feed.xml" external title="RSS" lt-sm:hidden>
           <div i-la-rss-square scale-115 />
-        </Link>
+        </UiLink>
         <a title="Toggle Theme Mode" @click.prevent="toggleDark()">
           <div i-ri-sun-line dark:i-ri-moon-line scale-95 />
         </a>
-        <HeaderMusicPlayer />
+        <AppMusicPlayer />
       </div>
     </nav>
   </header>

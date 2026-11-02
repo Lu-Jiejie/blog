@@ -80,7 +80,7 @@ onMounted(() => {
     :prepared="!isLoading && prepared"
   >
     <template v-if="prepared">
-      <Scrollbar
+      <UiScrollbar
         class="heatmap-scrollbar"
         :options="scrollbarOptions"
         @os-initialized="handleScrollbarInitialized"
@@ -101,7 +101,7 @@ onMounted(() => {
             />
           </div>
         </div>
-      </Scrollbar>
+      </UiScrollbar>
     </template>
   </CardTemplate>
 </template>

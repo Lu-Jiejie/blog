@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { useScroll, useScrollLock } from '@vueuse/core'
+import { useScroll } from '@vueuse/core'
 import { computed, nextTick, ref, watch } from 'vue'
 import { useRoute } from 'vue-router'
-import { hasTocHeadings, isTocOpen } from '~/composables/useToc'
-import Backdrop from '../base/Backdrop.vue'
+import UiBackdrop from '~/components/ui/UiBackdrop.vue'
+import { hasTocHeadings, isTocOpen } from '~/state/toc'
 import TocPanel from './TocPanel.vue'
 import TocSidebar from './TocSidebar.vue'
 
@@ -13,11 +13,6 @@ const headings = computed(() => route.meta.toc || [])
 watch(headings, (newHeadings) => {
   hasTocHeadings.value = newHeadings.length > 0
 }, { immediate: true })
-
-const isLocked = useScrollLock(document)
-watch(isTocOpen, (open) => {
-  isLocked.value = open
-})
 
 const activeId = ref<string>('')
 const articleEl = ref<HTMLElement | null>(null)
@@ -68,13 +63,13 @@ watch(windowY, () => {
   <div v-if="hasTocHeadings">
     <TocSidebar :headings="headings" :active-id="activeId" hidden toc:flex! />
 
-    <Backdrop :visible="isTocOpen" @close="isTocOpen = false">
+    <UiBackdrop :visible="isTocOpen" @close="isTocOpen = false">
       <TocPanel
         :headings="headings"
         :active-id="activeId"
         :visible="isTocOpen"
         @close="isTocOpen = false"
       />
-    </Backdrop>
+    </UiBackdrop>
   </div>
 </template>

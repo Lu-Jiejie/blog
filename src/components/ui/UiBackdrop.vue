@@ -37,7 +37,3 @@ watch(() => props.visible, (val) => {
     </div>
   </Teleport>
 </template>
-
-<style scoped>
-/* 移除旧的 transition 样式，因为现在用内联 class 控制 */
-</style>

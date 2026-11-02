@@ -1,12 +1,11 @@
 ---
 title: Projects
 description: Selection of projects by Lu Jiejie
-wrapperComponent: WrapperPage
 ---
 
 <script setup>
 import { computed } from 'vue'
-import { projectsData } from './data'
+import { projectsData } from '~/data/projects'
 
 const projects = computed(() => {
   return projectsData.reduce((acc, project) => {

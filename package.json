@@ -9,7 +9,6 @@
     "lint": "eslint .",
     "typecheck": "vue-tsc",
     "preview": "vite preview",
-    "test": "vitest",
     "up": "taze major -I",
     "postinstall": "npx simple-git-hooks",
     "compress": "tsx ./scripts/compress-image-staged.ts"
@@ -18,7 +17,6 @@
     "@lu-jiejie/markdown-it-magic-link": "^0.2.3",
     "@tonejs/midi": "^2.0.28",
     "@vueuse/core": "^14.3.0",
-    "@vueuse/head": "^2.0.0",
     "@vueuse/router": "^14.3.0",
     "dayjs": "^1.11.21",
     "nprogress": "^0.2.0",

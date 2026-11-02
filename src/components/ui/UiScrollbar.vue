@@ -1,23 +1,8 @@
-<script lang="ts">
-export const globalScrollbarOptions: PartialOptions = {
-  scrollbars: {
-    visibility: 'auto',
-    autoHide: 'leave',
-    autoHideDelay: 600,
-    clickScroll: true,
-  },
-  overflow: {
-    x: 'hidden',
-    y: 'scroll',
-  },
-}
-</script>
-
-<!-- eslint-disable import/first -->
 <script setup lang="ts">
 import type { PartialOptions } from 'overlayscrollbars'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 import { computed } from 'vue'
+import { globalScrollbarOptions } from '~/config/scrollbar'
 
 const props = withDefaults(defineProps<{
   options?: PartialOptions

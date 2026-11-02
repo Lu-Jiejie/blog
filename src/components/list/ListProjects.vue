@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Projects } from '~/../pages/projects/data'
+import type { Projects } from '~/data/projects'
 import { isDark } from '~/logic'
 
 const { projects } = defineProps<{
@@ -43,7 +43,7 @@ function getHoverClass(hoverClasses?: string) {
         w-max max-w-500 py-2 mx-auto
         grid="~ cols-1 gap-4 md:cols-2 lg:cols-3"
       >
-        <Link
+        <UiLink
           v-for="p, pidx in projects[key]" :key="pidx" :href="p.link"
           external class="group"
           relative flex items-center bg-transparent
@@ -74,7 +74,7 @@ function getHoverClass(hoverClasses?: string) {
               {{ p.description }}
             </div>
           </div>
-        </Link>
+        </UiLink>
       </div>
     </div>
   </div>

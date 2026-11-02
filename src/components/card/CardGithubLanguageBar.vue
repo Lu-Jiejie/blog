@@ -75,7 +75,7 @@ onMounted(async () => {
         </div>
         <!-- Language Legend -->
         <div flex="~ wrap" gap-x-4 gap-y-1.5>
-          <Link
+          <UiLink
             v-for="([lang, item]) in sortedLanguages"
             :key="lang" class="entry"
             :href="`https://github.com/search?q=owner:Lu-Jiejie++language:${lang}`"
@@ -89,7 +89,7 @@ onMounted(async () => {
             />
             <span class="language" op-70 transition>{{ lang }}</span>
             <span op-40 ml-1>{{ item.percentage.toFixed(1) }}%</span>
-          </Link>
+          </UiLink>
         </div>
       </div>
     </template>

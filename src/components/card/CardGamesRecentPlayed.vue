@@ -75,7 +75,7 @@ onMounted(async () => {
   >
     <template v-if="prepared">
       <div flex="~ col gap-1">
-        <Link
+        <UiLink
           v-for="item in formatGames" :key="item.id" :title="isZh ? item.nameCN : item.name"
           :href="`https://store.steampowered.com/app/${item.id}`" external
           class="entry" flex="~ items-center gap-3" p-1.5
@@ -96,7 +96,7 @@ onMounted(async () => {
               <span op-35> · {{ formatDate(item.timeLastPlayed * 1000, false) }}</span>
             </span>
           </div>
-        </Link>
+        </UiLink>
       </div>
     </template>
   </CardTemplate>

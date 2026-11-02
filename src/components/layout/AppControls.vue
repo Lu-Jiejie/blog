@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useWindowScroll } from '@vueuse/core'
-import { hasTocHeadings, isTocOpen } from '~/composables/useToc'
+import { hasTocHeadings, isTocOpen } from '~/state/toc'
 
 function toTop() {
   if (typeof window !== 'undefined')

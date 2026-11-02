@@ -1,11 +1,6 @@
+import type { TocItem } from '../src/types'
 import fs from 'fs-extra'
 import { slugify } from './slugify'
-
-export interface TocItem {
-  depth: number
-  text: string
-  slug: string
-}
 
 export default function extractToc(filePath: string) {
   const content = fs.readFileSync(filePath, 'utf-8')

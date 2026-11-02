@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { TocItem } from '~/types'
-import { useScroll } from '@vueuse/core'
 import { nextTick, ref, watch } from 'vue'
+import { scrollToHeading as scrollToHeadingBase } from '~/logic/scrollToHeading'
 
 const props = defineProps<{
   headings: TocItem[]
@@ -15,24 +15,8 @@ const emit = defineEmits<{
 
 const panelEl = ref<HTMLElement>()
 
-const { y: windowY } = useScroll(() => typeof window !== 'undefined' ? window : null)
-
 function scrollToHeading(event: Event, id: string) {
-  event.preventDefault()
-
-  const el = document.getElementById(id)
-  if (el) {
-    const offset = 25
-    const targetTop = el.getBoundingClientRect().top + windowY.value - offset
-
-    window.scrollTo({
-      top: targetTop,
-      behavior: 'smooth',
-    })
-
-    history.replaceState(null, '', `#${id}`)
-  }
-
+  scrollToHeadingBase(event, id)
   emit('close')
 }
 
@@ -70,14 +54,14 @@ watch(() => props.visible, async (isVisible) => {
     <div pb-2 border-b op-60>
       Table of Contents
     </div>
-    <Scrollbar
+    <UiScrollbar
       element="ul"
       text-sm mt-3
       style="max-height: calc(80vh - 4rem); overflow: hidden;"
       defer
     >
       <li v-for="heading in headings" :key="heading.slug">
-        <Link
+        <UiLink
           :href="`#${heading.slug}`"
           block py-1 decoration-none
           transition-opacity
@@ -91,8 +75,8 @@ watch(() => props.visible, async (isVisible) => {
           @click="scrollToHeading($event, heading.slug)"
         >
           {{ heading.text }}
-        </Link>
+        </UiLink>
       </li>
-    </Scrollbar>
+    </UiScrollbar>
   </nav>
 </template>

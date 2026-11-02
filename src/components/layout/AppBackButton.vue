@@ -4,7 +4,7 @@ import { useRoute } from 'vue-router'
 
 const route = useRoute()
 const needTopPath = ['/notes/', '/essays/']
-const needBackPath = ['/projects', '/media', '/posts']
+const needBackPath = ['/projects']
 
 function toTop() {
   window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -34,7 +34,7 @@ const to = computed(() => {
     >
       <span op-50 mr-2> > </span>
       <a
-        :to="to" @click="toTop()"
+        @click="toTop()"
         op-50 hover:op-75 font-mono cursor-pointer
       >
         {{ `top` }}

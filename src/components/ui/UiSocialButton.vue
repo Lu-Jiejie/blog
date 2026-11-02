@@ -18,7 +18,7 @@ const effectiveHoverColor = computed(() =>
 </script>
 
 <template>
-  <Link
+  <UiLink
     :href="href"
     external
     :title="title"
@@ -34,7 +34,7 @@ const effectiveHoverColor = computed(() =>
     transition-all duration-300
   >
     <div :class="icon" class="social-btn-icon" transition-colors duration-300 />
-  </Link>
+  </UiLink>
 </template>
 
 <style scoped>

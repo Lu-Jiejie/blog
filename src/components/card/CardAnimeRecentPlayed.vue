@@ -74,7 +74,7 @@ onMounted(async () => {
   >
     <template v-if="prepared">
       <div grid="~ cols-1 sm:cols-2 gap-x-3 gap-y-1">
-        <Link
+        <UiLink
           v-for="item in watchingList" :key="item.id" :title="isZh ? item.name_cn : item.name"
           :href="`https://bgm.tv/subject/${item.id}`" external
           class="entry" flex="~ items-center gap-3" p-1.5
@@ -91,7 +91,7 @@ onMounted(async () => {
               {{ isZh ? item.name_cn : item.name }}
             </span>
           </div>
-        </Link>
+        </UiLink>
       </div>
     </template>
   </CardTemplate>

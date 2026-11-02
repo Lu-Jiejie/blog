@@ -70,7 +70,7 @@ onMounted(async () => {
   >
     <template v-if="prepared">
       <div grid="~ cols-1 sm:cols-2 gap-x-3 gap-y-1">
-        <Link
+        <UiLink
           :href="item.url" external
           v-for="(item, index) in list" :key="index" :title="`${item.name} - ${item.artist}`"
           class="entry" flex="~ items-center gap-3" p-1.5
@@ -89,7 +89,7 @@ onMounted(async () => {
               <span op-35> · {{ item.album }}</span>
             </span>
           </div>
-        </Link>
+        </UiLink>
       </div>
     </template>
   </CardTemplate>

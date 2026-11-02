@@ -39,20 +39,20 @@ const t = useI18n(messages)
   </h1>
 
   <div flex="~ row" gap-4 items-center>
-    <SocialButton
+    <UiSocialButton
       href="https://github.com/Lu-Jiejie"
       title="GitHub"
       icon="i-uil-github-alt"
       hover-color="#24292f"
       hover-color-dark="#ffffff"
     />
-    <SocialButton
+    <UiSocialButton
       href="https://space.bilibili.com/15253584"
       title="Bilibili"
       icon="i-streamline-ultimate-bilibili-logo-bold"
       hover-color="#00A1D6"
     />
-    <SocialButton
+    <UiSocialButton
       href="https://music.163.com/#/user/home?id=342864073"
       title="NetEase Cloud Music"
       icon="i-simple-icons-neteasecloudmusic"

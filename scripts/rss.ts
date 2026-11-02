@@ -19,7 +19,9 @@ const markdown = MarkdownIt({
 })
 
 async function run() {
-  const files = await fg('pages/posts/*.md')
+  const files = await fg(['pages/essays/**/*.md', 'pages/notes/**/*.md'], {
+    ignore: ['**/index.md'],
+  })
   const options: FeedOptions = {
     author: AUTHOR,
     title: 'Lu Jiejie',
@@ -28,7 +30,7 @@ async function run() {
     description: 'Personal blog of Lu Jiejie',
     id: DOMAIN,
     link: DOMAIN,
-    copyright: 'CC BY-NC-ND 4.0 2025-PRESENT © Lu Jiejie',
+    copyright: 'CC BY-NC-SA 4.0 2025-PRESENT © Lu Jiejie',
     feedLinks: {
       json: `${DOMAIN}/feed.json`,
       atom: `${DOMAIN}/feed.atom`,
@@ -38,23 +40,25 @@ async function run() {
 
   const posts = (
     await Promise.all(
-      files.filter(f => !(f === 'pages/posts/index.md'))
-        .map(async (f) => {
-          const raw = await fs.readFile(f, 'utf-8')
-          const { data: frontmatter, content } = matter(raw)
+      files.map(async (f) => {
+        const raw = await fs.readFile(f, 'utf-8')
+        const { data: frontmatter, content } = matter(raw)
 
-          const html = markdown.render(content)
-          // Fix relative image paths
-            .replace('src="/', `src="${DOMAIN}/`)
+        if (!frontmatter.date)
+          return null
 
-          return {
-            ...frontmatter,
-            date: new Date(frontmatter.date),
-            content: html,
-            author: [AUTHOR],
-            link: DOMAIN + f.replace(/^pages(.+).md$/, '$1'),
-          }
-        }),
+        const html = markdown.render(content)
+        // Fix relative image paths
+          .replace('src="/', `src="${DOMAIN}/`)
+
+        return {
+          ...frontmatter,
+          date: new Date(frontmatter.date),
+          content: html,
+          author: [AUTHOR],
+          link: DOMAIN + f.replace(/^pages/, '').replace(/\.md$/, ''),
+        }
+      }),
     )
   ).filter(Boolean) as any[]
 

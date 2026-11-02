@@ -10,7 +10,7 @@ import {
   transformerDirectives,
 } from 'unocss'
 
-import { projectsData } from './pages/projects/data'
+import { projectsData } from './src/data/projects'
 
 const projectIcons = projectsData
   .map(item => item.icon)

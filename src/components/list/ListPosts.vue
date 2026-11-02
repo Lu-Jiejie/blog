@@ -57,7 +57,7 @@ function isSameYear(date1?: Date | string | number, date2?: Date | string | numb
           '--enter-step': '60ms',
         }"
       >
-        <Link
+        <UiLink
           :href="post.path" block font-normal m="b-6 t-2"
         >
           <li flex="~ col gap-2 md:row md:items-center">
@@ -79,7 +79,7 @@ function isSameYear(date1?: Date | string | number, date2?: Date | string | numb
               </span>
             </div>
           </li>
-        </Link>
+        </UiLink>
       </div>
     </template>
   </ul>
