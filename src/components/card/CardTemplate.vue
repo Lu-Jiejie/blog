@@ -10,47 +10,58 @@ defineProps<{
 </script>
 
 <template>
-  <section
-    class="card-chapter"
-    slide-enter select-none mx-auto w-full max-w-3xl
-  >
-    <!-- 章题：脱离卡片置于左上，细线延伸至右端徽记 -->
-    <header flex="~ items-center gap-3" mb-2.5>
-      <h2
-        class="chapter-title"
-        font-serif text-lg sm:text-xl leading-snug tracking-wide
-      >
+  <section slide-enter select-none mx-auto w-full max-w-3xl>
+    <!-- 标签 + 细线 + 图标，整块不画外框，内容直接落在页面背景上 -->
+    <header class="card-head">
+      <h2 class="card-label">
         {{ isZh ? titleZh : title }}
       </h2>
-      <div class="chapter-rule" flex-auto min-w-6 h-1px />
-      <div :class="icon" text-lg flex-shrink-0 op-90 />
+      <div class="card-rule" />
+      <div :class="icon" class="card-icon" />
     </header>
 
-    <!-- 卡片本体 -->
-    <div
-      p-4 rounded-md bg-white dark:bg-hex-050505
-      border="~ hex-8887"
-    >
-      <Transition name="fade">
-        <div v-if="prepared" key="content">
-          <slot />
-        </div>
-      </Transition>
-      <div v-if="!prepared" key="loading">
-        <slot name="loading">
-          <CardLoading />
-        </slot>
+    <Transition name="fade">
+      <div v-if="prepared" key="content">
+        <slot />
       </div>
+    </Transition>
+    <div v-if="!prepared" key="loading">
+      <slot name="loading">
+        <CardLoading />
+      </slot>
     </div>
   </section>
 </template>
 
 <style scoped>
-.chapter-title {
-  color: var(--c-fg-deep);
+.card-head {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
 }
 
-.chapter-rule {
-  background-color: #8883;
+.card-label {
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  opacity: 0.75;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-rule {
+  flex: auto;
+  min-width: 1.5rem;
+  height: 1px;
+  background-color: #8888;
+}
+
+.card-icon {
+  flex-shrink: 0;
+  font-size: 15px;
+  opacity: 0.85;
 }
 </style>

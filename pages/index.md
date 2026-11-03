@@ -62,23 +62,23 @@ const t = useI18n(messages)
 </div>
 
 <div v-reveal>
-  <div py-2 />
+  <div py-4 />
   <CardGithubHeatmap />
 </div>
 <div v-reveal>
-  <div py-4 />
+  <div py-8 />
   <CardGithubLanguageBar />
 </div>
 <div v-reveal>
-  <div py-4 />
+  <div py-8 />
   <CardSongsRecentPlayed />
 </div>
 <div v-reveal>
-  <div py-4 />
+  <div py-8 />
   <CardGamesRecentPlayed />
 </div>
 <div v-reveal>
-  <div py-4 />
+  <div py-8 />
   <CardAnimeRecentPlayed />
 </div>
 
