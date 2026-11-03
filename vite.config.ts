@@ -154,7 +154,7 @@ export default defineConfig({
     }),
 
     Components({
-      dirs: ['src/components', 'src/layouts'],
+      dirs: ['src/components', 'src/wrappers'],
       extensions: ['vue', 'md'],
       dts: true,
       include: [/\.vue$/, /\.vue\?vue/, /\.md$/],

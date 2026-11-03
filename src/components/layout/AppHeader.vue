@@ -118,7 +118,7 @@ const menuOpen = ref(false)
 
 const themeIcon = computed(() => isDark.value ? 'i-ri-moon-line' : 'i-ri-sun-line')
 const themeLabel = computed(() => isDark.value ? 'Switch to light theme' : 'Switch to dark theme')
-const langIcon = computed(() => isZh.value ? 'i-icon-park-twotone-chinese' : 'i-icon-park-twotone-english')
+const langIcon = computed(() => isZh.value ? 'icon-park-outline:chinese' : 'icon-park-outline:english')
 
 watch(() => route.fullPath, () => {
   openMenu.value = null
