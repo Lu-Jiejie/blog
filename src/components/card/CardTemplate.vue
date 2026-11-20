@@ -6,17 +6,22 @@ defineProps<{
   titleZh: string
   icon: string
   prepared: boolean
+  /** 卡片对应的完整页面；有值时标题行右侧出现"查看全部"入口 */
+  moreTo?: string
 }>()
 </script>
 
 <template>
   <section slide-enter select-none mx-auto w-full max-w-3xl>
-    <!-- 标签 + 细线 + 图标，整块不画外框，内容直接落在页面背景上 -->
+    <!-- 标签 + 细线 + 更多入口 + 图标，整块不画外框，内容直接落在页面背景上 -->
     <header class="card-head">
       <h2 class="card-label">
         {{ isZh ? titleZh : title }}
       </h2>
       <div class="card-rule" />
+      <RouterLink v-if="moreTo" :to="moreTo" class="card-more">
+        {{ isZh ? '查看全部' : 'See all' }}
+      </RouterLink>
       <div :class="icon" class="card-icon" />
     </header>
 
@@ -57,6 +62,16 @@ defineProps<{
   min-width: 1.5rem;
   height: 1px;
   background-color: #8888;
+}
+
+/* 与标签同字号，靠透明度退后，避免和标题抢视线 */
+.card-more {
+  --uno: flex-shrink-0 whitespace-nowrap text-xs op-45;
+  --uno: transition-opacity duration-300;
+}
+
+.card-more:hover {
+  --uno: op-100;
 }
 
 .card-icon {

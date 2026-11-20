@@ -40,6 +40,17 @@ export function formatDate(d: string | number | Date, onlyDate = true) {
   return date.format('YYYY-MM-DD')
 }
 
+const EN_MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+/** 按语言给出日期；今年省略年份，避免满屏重复当前的年 */
+export function formatLocaleDate(d: string | number | Date, lang: 'en' | 'zh' = 'zh') {
+  const date = dayjs(d)
+  const sameYear = date.year() === dayjs().year()
+  if (lang === 'zh')
+    return sameYear ? date.format('M月D日') : date.format('YYYY年M月D日')
+  return sameYear ? `${EN_MONTHS[date.month()]} ${date.date()}` : `${EN_MONTHS[date.month()]} ${date.date()}, ${date.year()}`
+}
+
 export function getHSLAForStr(str: string, alpha: number = 1) {
   let hash = 0
   for (let i = 0; i < str.length; i++) {
@@ -195,7 +206,8 @@ export function getGithubCDNUrl({
   // 2: https://github.com/sky22333/hubproxy  https://demo.52013120.xyz/
   // 3: https://cdn.jsdmirror.com/gh/Lu-Jiejie/static@main/data/netease/favorite.json
   // return `https://cdn.jsdmirror.com/gh/${owner}/${repo}@${branch}/${path}`
-  return `https://cdn.jsdmirror.com/gh/${owner}/${repo}@${branch}/${path}`
+  // return `https://cdn.jsdmirror.com/gh/${owner}/${repo}@${branch}/${path}`
+  return `https://fastly.jsdelivr.net/gh/${owner}/${repo}@${branch}/${path}`
 }
 
 export async function purgeJsDelivrCache({

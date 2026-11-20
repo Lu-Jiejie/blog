@@ -18,6 +18,7 @@ const $t = useI18n({
     projects: 'Projects',
     favorites: 'Favorites',
     photos: 'Photos',
+    games: 'Games',
     about: 'About me',
     aboutSite: 'About this site',
     aboutProject: 'About this project',
@@ -31,6 +32,7 @@ const $t = useI18n({
     projects: '项目',
     favorites: '收藏',
     photos: '相册',
+    games: '游戏',
     about: '关于我',
     aboutSite: '关于本站',
     aboutProject: '关于本项目',
@@ -60,6 +62,7 @@ const moreNav = computed((): NavItem[] => [
   { label: $t.value.projects, href: '/projects' },
   { label: $t.value.favorites, href: '/favorites' },
   { label: $t.value.photos, href: '/photos' },
+  { label: $t.value.games, href: '/playlog' },
 ])
 
 const aboutNav = computed((): NavItem[] => [
@@ -118,7 +121,7 @@ const menuOpen = ref(false)
 
 const themeIcon = computed(() => isDark.value ? 'i-ri-moon-line' : 'i-ri-sun-line')
 const themeLabel = computed(() => isDark.value ? 'Switch to light theme' : 'Switch to dark theme')
-const langIcon = computed(() => isZh.value ? 'icon-park-outline:chinese' : 'icon-park-outline:english')
+const langIcon = computed(() => isZh.value ? 'i-icon-park-outline:chinese' : 'i-icon-park-outline:english')
 
 watch(() => route.fullPath, () => {
   openMenu.value = null
@@ -134,7 +137,7 @@ useEventListener('keydown', (e) => {
 </script>
 
 <template>
-  <header z-40 flex items-center gap-6 min-h-[2rem] p="x-8 t-7 b-8" lt-md:px-7>
+  <header z-40 flex items-center gap-6 min-h-[2rem] p="x-5 t-6 b-7">
     <RouterLink to="/" class="typewriter-logo shrink-0" aria-label="Home">
       <AppLogo />
     </RouterLink>

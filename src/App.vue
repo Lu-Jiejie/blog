@@ -90,7 +90,7 @@ watch(imageModel, (val) => {
   <div flex="~ col" min-h-screen>
     <AppHeader />
 
-    <main flex-1 p="x-7 y-10" overflow-x-hidden>
+    <main flex-1 p="x-5 y-8" overflow-x-hidden>
       <RouterView />
 
       <AppBackButton />
