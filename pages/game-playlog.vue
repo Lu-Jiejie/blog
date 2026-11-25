@@ -91,24 +91,28 @@ const lastPlayed = (game: (typeof played.value)[number]) => formatLocaleDate(gam
         </template>
       </div>
 
-      <div flex="~ col gap-1">
-        <UiLink
-          v-for="item in list" :key="item.id" :title="name(item)" :href="href(item)" external
-          class="game-row"
+      <!-- key 绑 sortBy：换排序时整列重建，否则位置未变的行不会重播动画 -->
+      <div :key="sortBy" flex="~ col gap-1">
+        <div
+          v-for="(item, idx) in list" :key="item.id"
+          slide-enter
+          :style="{ '--enter-stage': idx, '--enter-step': '40ms' }"
         >
-          <img
-            :src="imgProxy(item.icon)" alt="cover"
-            class="game-cover"
-          >
-          <div class="game-body">
-            <span class="game-name">{{ name(item) }}</span>
-            <span class="game-meta">
-              <span class="meta-hours">{{ formatPlaytime(item.playtimeForever, isZh ? 'zh' : 'en') }}</span>
-              <span class="meta-dot">·</span>
-              <span class="meta-date">{{ lastPlayed(item) }}</span>
-            </span>
-          </div>
-        </UiLink>
+          <UiLink :title="name(item)" :href="href(item)" external class="game-row">
+            <img
+              :src="imgProxy(item.icon)" alt="cover"
+              class="game-cover"
+            >
+            <div class="game-body">
+              <span class="game-name">{{ name(item) }}</span>
+              <span class="game-meta">
+                <span class="meta-hours">{{ formatPlaytime(item.playtimeForever, isZh ? 'zh' : 'en') }}</span>
+                <span class="meta-dot">·</span>
+                <span class="meta-date">{{ lastPlayed(item) }}</span>
+              </span>
+            </div>
+          </UiLink>
+        </div>
       </div>
     </template>
   </div>

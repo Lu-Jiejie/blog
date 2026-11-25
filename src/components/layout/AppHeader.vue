@@ -18,7 +18,7 @@ const $t = useI18n({
     projects: 'Projects',
     favorites: 'Favorites',
     photos: 'Photos',
-    games: 'Games',
+    games: 'Playlog',
     about: 'About me',
     aboutSite: 'About this site',
     aboutProject: 'About this project',
@@ -32,7 +32,7 @@ const $t = useI18n({
     projects: '项目',
     favorites: '收藏',
     photos: '相册',
-    games: '游戏',
+    games: '游戏记录',
     about: '关于我',
     aboutSite: '关于本站',
     aboutProject: '关于本项目',
@@ -62,7 +62,7 @@ const moreNav = computed((): NavItem[] => [
   { label: $t.value.projects, href: '/projects' },
   { label: $t.value.favorites, href: '/favorites' },
   { label: $t.value.photos, href: '/photos' },
-  { label: $t.value.games, href: '/playlog' },
+  { label: $t.value.games, href: '/game-playlog' },
 ])
 
 const aboutNav = computed((): NavItem[] => [

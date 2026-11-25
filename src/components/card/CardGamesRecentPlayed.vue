@@ -23,7 +23,7 @@ const href = (game: (typeof all.value)[number]) => (isZh.value ? game.linkZh || 
     title-zh="我最近玩的游戏"
     icon="i-simple-icons-steam color-hex-04699D"
     :prepared="prepared"
-    :more-to="all.length > limit ? '/playlog' : undefined"
+    :more-to="all.length > limit ? '/game-playlog' : undefined"
   >
     <div flex="~ col gap-1.5">
       <!-- important-op-100 压掉 UiLink 自带的 op-60，透明度交给子元素自己控制 -->

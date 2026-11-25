@@ -59,6 +59,13 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
+    '/game-playlog': RouteRecordInfo<
+      '/game-playlog',
+      '/game-playlog',
+      Record<never, never>,
+      Record<never, never>,
+      | never
+    >,
     '/history/': RouteRecordInfo<
       '/history/',
       '/history',
@@ -69,13 +76,6 @@ declare module 'vue-router/auto-routes' {
     '/photos': RouteRecordInfo<
       '/photos',
       '/photos',
-      Record<never, never>,
-      Record<never, never>,
-      | never
-    >,
-    '/playlog': RouteRecordInfo<
-      '/playlog',
-      '/playlog',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -160,6 +160,14 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | never
     }
+    'pages/game-playlog.vue': {
+      routes:
+        | '/game-playlog'
+      views:
+        | never
+      pathParamNames:
+        | never
+    }
     'pages/history/index.md': {
       routes:
         | '/history/'
@@ -171,14 +179,6 @@ declare module 'vue-router/auto-routes' {
     'pages/photos.vue': {
       routes:
         | '/photos'
-      views:
-        | never
-      pathParamNames:
-        | never
-    }
-    'pages/playlog.vue': {
-      routes:
-        | '/playlog'
       views:
         | never
       pathParamNames:
