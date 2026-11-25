@@ -1,6 +1,6 @@
 ---
-title: Projects
-description: Selection of projects by Lu Jiejie
+title: 项目
+description: Lu Jiejie 的项目
 wide: true
 ---
 

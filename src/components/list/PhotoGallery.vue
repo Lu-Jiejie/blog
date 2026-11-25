@@ -3,7 +3,6 @@ import type { PhotoData } from '~/photos/data'
 import { blurhashToCssGradientString } from '@unpic/placeholder'
 import { useWindowSize } from '@vueuse/core'
 import { computed } from 'vue'
-import { isZh } from '~/logic/i18n'
 import photos from '~/photos/data'
 
 const indexedPhotos = photos.map((p, i) => ({ ...p, index: i }))
@@ -50,7 +49,7 @@ const masonryColumns = computed(() => {
       >
         <img
           :src="p.url"
-          :alt="isZh ? p.textZh || p.text : p.text"
+          :alt="p.text"
           :width="p.width"
           :height="p.height"
           loading="lazy"

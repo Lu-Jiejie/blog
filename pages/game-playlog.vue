@@ -3,29 +3,9 @@ import { useHead } from '@unhead/vue'
 import { computed, ref } from 'vue'
 import { formatPlaytime, playedGames, useSteamGames } from '~/composables/useSteamGames'
 import { formatLocaleDate, imgProxy } from '~/logic'
-import { isZh, useI18n } from '~/logic/i18n'
-
-const $t = useI18n({
-  en: {
-    title: 'Playlog',
-    recent: 'Recently played',
-    longest: 'Most played',
-    count: 'games',
-    hours: 'hours',
-    empty: 'Steam is not answering right now.',
-  },
-  zh: {
-    title: '游戏记录',
-    recent: '最近游玩',
-    longest: '游玩时长',
-    count: '款游戏',
-    hours: '小时',
-    empty: '暂时读不到 Steam 数据。',
-  },
-} as const)
 
 useHead({
-  title: computed(() => (isZh.value ? `${$t.value.title} - 鹿解解` : `${$t.value.title} - Lu Jiejie`)),
+  title: '游戏记录 - 鹿解解',
 })
 
 const { games, isLoading, hasError, prepared } = useSteamGames()
@@ -41,26 +21,24 @@ const list = computed(() => {
 })
 
 const totalHours = computed(() => Math.round(played.value.reduce((sum, game) => sum + game.playtimeForever, 0) / 60))
-const name = (game: (typeof played.value)[number]) => (isZh.value ? game.nameZh : game.name)
-const href = (game: (typeof played.value)[number]) => (isZh.value ? game.linkZh || game.link : game.link)
-const lastPlayed = (game: (typeof played.value)[number]) => formatLocaleDate(game.timeLastPlayed * 1000, isZh.value ? 'zh' : 'en')
+const lastPlayed = (game: (typeof played.value)[number]) => formatLocaleDate(game.timeLastPlayed * 1000)
 </script>
 
 <template>
   <!-- 标题块与 PageLayout 保持一致 -->
   <div class="prose" max-w-70ch m-auto mb-8 text-center>
     <h1 text-4xl>
-      {{ $t.title }}
+      游戏记录
     </h1>
   </div>
 
   <!-- 列表不用 .prose：它会给 img 加 width:100%，封面会被拉成一条 -->
   <div class="list-wrap" select-none>
     <p v-if="hasError" py-12 op-50 text-center>
-      {{ $t.empty }}
+      暂时读不到 Steam 数据。
     </p>
     <p v-else-if="isLoading" py-12 op-40 text-center>
-      Loading…
+      载入中…
     </p>
 
     <template v-else-if="prepared">
@@ -68,12 +46,12 @@ const lastPlayed = (game: (typeof played.value)[number]) => formatLocaleDate(gam
       <div class="stats">
         <div class="stat">
           <span class="stat-num">{{ list.length }}</span>
-          <span class="stat-label">{{ $t.count }}</span>
+          <span class="stat-label">款游戏</span>
         </div>
         <span class="stat-divider" />
         <div class="stat">
           <span class="stat-num">{{ totalHours }}</span>
-          <span class="stat-label">{{ $t.hours }}</span>
+          <span class="stat-label">小时</span>
         </div>
       </div>
 
@@ -85,7 +63,7 @@ const lastPlayed = (game: (typeof played.value)[number]) => formatLocaleDate(gam
             :class="sortBy === option ? 'op-100' : 'op-35 hover:op-70'"
             @click="sortBy = option"
           >
-            {{ option === 'recent' ? $t.recent : $t.longest }}
+            {{ option === 'recent' ? '最近游玩' : '游玩时长' }}
           </button>
         </template>
       </div>
@@ -97,15 +75,15 @@ const lastPlayed = (game: (typeof played.value)[number]) => formatLocaleDate(gam
           slide-enter
           :style="{ '--enter-stage': idx, '--enter-step': '40ms' }"
         >
-          <UiLink :title="name(item)" :href="href(item)" external class="game-row">
+          <UiLink :title="item.name" :href="item.link" external class="game-row">
             <img
               :src="imgProxy(item.icon)" alt="cover"
               class="game-cover"
             >
             <div class="game-body">
-              <span class="game-name">{{ name(item) }}</span>
+              <span class="game-name">{{ item.name }}</span>
               <span class="game-meta">
-                <span class="meta-hours">{{ formatPlaytime(item.playtimeForever, isZh ? 'zh' : 'en') }}</span>
+                <span class="meta-hours">{{ formatPlaytime(item.playtimeForever) }}</span>
                 <span class="meta-dot">·</span>
                 <span class="meta-date">{{ lastPlayed(item) }}</span>
               </span>

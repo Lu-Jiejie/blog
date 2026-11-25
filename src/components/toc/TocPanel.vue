@@ -48,7 +48,7 @@ watch(() => props.visible, async (isVisible) => {
     shadow="[0_0_10px_0_rgba(0,0,0,0.3)] dark:[0_0_10px_0_rgba(255,255,255,0.3)]"
     transition="opacity duration-300"
     :class="visible ? 'op-100' : 'op-0 pointer-events-none'"
-    aria-label="Table of contents"
+    aria-label="目录"
     style="max-height: calc(100vh - 10% - 30%);"
   >
     <div pb-2 border-b op-60>

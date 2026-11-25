@@ -15,7 +15,6 @@ export interface TocItem {
 
 export interface MidiTrack {
   name: string
-  nameZh: string
   artist: string
   path: string
 }

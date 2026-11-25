@@ -83,8 +83,7 @@ onMounted(() => {
 
 <template>
   <CardTemplate
-    title="Songs I'm Enjoying on Bilibili"
-    title-zh="我最近喜欢的音乐（哔哩哔哩）"
+    title="我最近喜欢的音乐（哔哩哔哩）"
     icon="i-streamline-ultimate-bilibili-logo-bold color-hex-00A1D6"
     :prepared="prepared"
   >

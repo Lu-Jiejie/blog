@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import { getGithubCDNUrl, imgProxy } from '~/logic'
-import { isZh } from '~/logic/i18n'
 
 interface AnimeItem {
   id: number
@@ -67,15 +66,14 @@ onMounted(async () => {
 <template>
   <!-- icon="i-simple-icons-bilibili color-hex-00A1D6" -->
   <CardTemplate
-    title="Anime I've Watched Recently"
-    title-zh="我最近看过的动画"
+    title="我最近看过的动画"
     icon="i-mingcute-video-fill color-hex-4065ba"
     :prepared="!isLoading && prepared"
   >
     <template v-if="prepared">
       <div grid="~ cols-1 sm:cols-2 gap-x-3 gap-y-1">
         <UiLink
-          v-for="item in watchingList" :key="item.id" :title="isZh ? item.name_cn : item.name"
+          v-for="item in watchingList" :key="item.id" :title="item.name_cn || item.name"
           :href="`https://bgm.tv/subject/${item.id}`" external
           class="entry" flex="~ items-center gap-3" p-1.5
           cursor-pointer rounded-md overflow-hidden
@@ -88,7 +86,7 @@ onMounted(async () => {
           >
           <div flex="~ col justify-center" min-w-0 flex-1>
             <span class="name" font-serif text-[15px] op-85 transition leading-snug>
-              {{ isZh ? item.name_cn : item.name }}
+              {{ item.name_cn || item.name }}
             </span>
           </div>
         </UiLink>

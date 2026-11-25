@@ -1,5 +1,5 @@
 ---
-title: Thinking
+title: 随想
 description: 短想法、随手记录。
 ---
 

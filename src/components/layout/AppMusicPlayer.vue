@@ -4,7 +4,6 @@ import type { MidiTrack } from '~/types'
 import { onClickOutside } from '@vueuse/core'
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue'
 import { tracks } from '~/data/tracks'
-import { isZh } from '~/logic/i18n'
 import { useMidiPlayer } from '~/logic/useMidiPlayer'
 
 const {
@@ -239,7 +238,7 @@ onUnmounted(() => {
       <!-- Track title -->
       <div mb-1>
         <div text-sm font-medium truncate :op="currentTrack ? '85' : '40'">
-          {{ currentTrack ? (isZh ? currentTrack.nameZh : currentTrack.name) : 'No track' }}
+          {{ currentTrack ? currentTrack.name : '未在播放' }}
         </div>
         <div v-if="currentTrack?.artist" text-xs op-40 truncate>
           {{ currentTrack.artist }}
@@ -322,7 +321,7 @@ onUnmounted(() => {
               <button
                 v-for="(track, i) in tracks" :key="track.path"
                 :data-current-track="currentTrackIndex === i ? '' : undefined"
-                :title="`${isZh ? track.nameZh : track.name} - ${track.artist}`"
+                :title="`${track.name} - ${track.artist}`"
                 w-full text-left px-2 py-1 rounded text-xs
                 :class="currentTrackIndex === i
                   ? 'bg-black/10 dark:bg-white/10 font-medium'
@@ -339,7 +338,7 @@ onUnmounted(() => {
                     v-else
                     i-icon-park-outline-music-one text-xs op-50 flex-shrink-0
                   />
-                  <span truncate>{{ isZh ? track.nameZh : track.name }}</span>
+                  <span truncate>{{ track.name }}</span>
                 </div>
               </button>
             </div>

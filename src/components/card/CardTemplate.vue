@@ -1,9 +1,6 @@
 <script setup lang="ts">
-import { isZh } from '~/logic/i18n'
-
 defineProps<{
   title: string
-  titleZh: string
   icon: string
   prepared: boolean
   /** 卡片对应的完整页面；有值时标题行右侧出现"查看全部"入口 */
@@ -16,11 +13,11 @@ defineProps<{
     <!-- 标签 + 细线 + 更多入口 + 图标，整块不画外框，内容直接落在页面背景上 -->
     <header class="card-head">
       <h2 class="card-label">
-        {{ isZh ? titleZh : title }}
+        {{ title }}
       </h2>
       <div class="card-rule" />
       <RouterLink v-if="moreTo" :to="moreTo" class="card-more">
-        {{ isZh ? '查看全部' : 'See all' }}
+        查看全部
       </RouterLink>
       <div :class="icon" class="card-icon" />
     </header>

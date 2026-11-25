@@ -3,9 +3,8 @@ import dataJsonRaw from './data.json' with { type: 'json' }
 const dataJson: { [key: string]: PhotoMeta } = dataJsonRaw
 
 interface PhotoMeta {
+  /** 相片说明，中文 */
   text?: string
-  textZh?: string
-  lang?: string
   blurhash?: string
   width: number
   height: number

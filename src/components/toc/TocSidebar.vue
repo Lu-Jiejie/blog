@@ -35,7 +35,7 @@ watch(() => props.activeId, async (newId) => {
     w-auto max-w-50
     text-sm z-400
     transition-opacity duration-700
-    aria-label="Table of contents"
+    aria-label="目录"
     style="max-height: calc(100vh - 10rem - 7.5rem); display: flex; flex-direction: column;"
     ref="tocEl"
   >

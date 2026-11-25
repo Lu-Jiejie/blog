@@ -1,21 +1,7 @@
 ---
 title: Lu Jiejie
-description: Portfolio of Lu Jiejie
+description: 鹿解解的个人站
 ---
-
-<script setup>
-import { useI18n } from '~/logic/i18n'
-
-const messages = {
-  en: {
-    hello: 'Lu Jiejie',
-  },
-  zh: {
-    hello: '鹿解解',
-  },
-}
-const t = useI18n(messages)
-</script>
 
 <div
   class="home-hero"
@@ -35,7 +21,7 @@ const t = useI18n(messages)
   >
 
   <h1 text-6xl font-bold font-serif mb-10>
-    {{ t.hello }}
+    鹿解解
   </h1>
 
   <div flex="~ row" gap-4 items-center>

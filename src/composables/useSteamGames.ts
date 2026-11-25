@@ -3,13 +3,13 @@ import { getGithubCDNUrl } from '~/logic'
 
 export interface SteamGame {
   id: string
+  /** 中文游戏名 */
   name: string
-  nameZh: string
   playtimeForever: number
   timeLastPlayed: number
   icon: string
+  /** 中文资料页（Steam 商店或手写的维基条目） */
   link: string
-  linkZh?: string
 }
 
 const API = getGithubCDNUrl({
@@ -58,7 +58,7 @@ export function formatHours(minutes: number) {
   return hours >= 10 ? String(Math.round(hours)) : hours.toFixed(1)
 }
 
-/** 带单位的时长；中文用「小时」，英文用 hrs */
-export function formatPlaytime(minutes: number, lang: 'en' | 'zh' = 'zh') {
-  return `${formatHours(minutes)} ${lang === 'zh' ? '小时' : 'hrs'}`
+/** 带单位的时长 */
+export function formatPlaytime(minutes: number) {
+  return `${formatHours(minutes)} 小时`
 }

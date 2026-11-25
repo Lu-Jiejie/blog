@@ -4,40 +4,8 @@ import { computed, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import UiBackdrop from '~/components/ui/UiBackdrop.vue'
 import { isDark, toggleDark } from '~/logic'
-import { isZh, toggleLang, useI18n } from '~/logic/i18n'
 
 const route = useRoute()
-
-const $t = useI18n({
-  en: {
-    home: 'Home',
-    posts: 'Posts',
-    thinking: 'Thinking',
-    more: 'More',
-    aboutGroup: 'About',
-    projects: 'Projects',
-    favorites: 'Favorites',
-    photos: 'Photos',
-    games: 'Playlog',
-    about: 'About me',
-    aboutSite: 'About this site',
-    aboutProject: 'About this project',
-  },
-  zh: {
-    home: '首页',
-    posts: '文章',
-    thinking: '随想',
-    more: '更多',
-    aboutGroup: '关于',
-    projects: '项目',
-    favorites: '收藏',
-    photos: '相册',
-    games: '游戏记录',
-    about: '关于我',
-    aboutSite: '关于本站',
-    aboutProject: '关于本项目',
-  },
-} as const)
 
 interface NavItem {
   label: string
@@ -46,30 +14,30 @@ interface NavItem {
 }
 
 // 桌面端不重复主页入口：左上角「鹿巢」就是回主页的入口
-const desktopNav = computed((): NavItem[] => [
-  { label: $t.value.posts, href: '/posts' },
-  { label: $t.value.thinking, href: '/thinking' },
-])
+const desktopNav: NavItem[] = [
+  { label: '文章', href: '/posts' },
+  { label: '随想', href: '/thinking' },
+]
 
 // 「三」面板里没有常驻的 logo，所以主页要单独列出来
-const mobileNav = computed((): NavItem[] => [
-  { label: $t.value.home, href: '/' },
-  { label: $t.value.posts, href: '/posts' },
-  { label: $t.value.thinking, href: '/thinking' },
-])
+const mobileNav: NavItem[] = [
+  { label: '首页', href: '/' },
+  { label: '文章', href: '/posts' },
+  { label: '随想', href: '/thinking' },
+]
 
-const moreNav = computed((): NavItem[] => [
-  { label: $t.value.projects, href: '/projects' },
-  { label: $t.value.favorites, href: '/favorites' },
-  { label: $t.value.photos, href: '/photos' },
-  { label: $t.value.games, href: '/game-playlog' },
-])
+const moreNav: NavItem[] = [
+  { label: '项目', href: '/projects' },
+  { label: '收藏', href: '/favorites' },
+  { label: '相册', href: '/photos' },
+  { label: '游戏记录', href: '/game-playlog' },
+]
 
-const aboutNav = computed((): NavItem[] => [
-  { label: $t.value.about, href: '/about' },
-  { label: $t.value.aboutSite, href: '/history' },
-  { label: $t.value.aboutProject, href: 'https://github.com/Lu-Jiejie/blog', external: true },
-])
+const aboutNav: NavItem[] = [
+  { label: '关于我', href: '/about' },
+  { label: '关于本站', href: '/history' },
+  { label: '关于本项目', href: 'https://github.com/Lu-Jiejie/blog', external: true },
+]
 
 // 外链走原生 a，站内走 RouterLink；属性也随之一分为二
 function linkProps(item: NavItem) {
@@ -87,8 +55,8 @@ function groupActive(items: NavItem[]) {
 }
 
 const menus = computed(() => [
-  { id: 'more', label: $t.value.more, items: moreNav.value, active: groupActive(moreNav.value) },
-  { id: 'about', label: $t.value.aboutGroup, items: aboutNav.value, active: groupActive(aboutNav.value) },
+  { id: 'more', label: '更多', items: moreNav, active: groupActive(moreNav) },
+  { id: 'about', label: '关于', items: aboutNav, active: groupActive(aboutNav) },
 ])
 
 // 同一时刻只开一个菜单；延迟避免指针划过时面板闪动
@@ -120,8 +88,7 @@ function onMenuFocusOut(e: FocusEvent) {
 const menuOpen = ref(false)
 
 const themeIcon = computed(() => isDark.value ? 'i-ri-moon-line' : 'i-ri-sun-line')
-const themeLabel = computed(() => isDark.value ? 'Switch to light theme' : 'Switch to dark theme')
-const langIcon = computed(() => isZh.value ? 'i-icon-park-outline:chinese' : 'i-icon-park-outline:english')
+const themeLabel = computed(() => isDark.value ? '切换到浅色主题' : '切换到深色主题')
 
 watch(() => route.fullPath, () => {
   openMenu.value = null
@@ -138,13 +105,13 @@ useEventListener('keydown', (e) => {
 
 <template>
   <header z-40 flex items-center gap-6 min-h-[2rem] p="x-5 t-6 b-7">
-    <RouterLink to="/" class="typewriter-logo shrink-0" aria-label="Home">
+    <RouterLink to="/" class="typewriter-logo shrink-0" aria-label="首页">
       <AppLogo />
     </RouterLink>
 
     <div flex items-center justify-end gap-5 w-full>
       <!-- hidden / flex 必须写在 class 里；裸写 hidden 是 HTML 属性，会被 preflight 的 [hidden] 规则压成 display:none -->
-      <nav class="hidden nav:flex items-center gap-6" aria-label="Main menu">
+      <nav class="hidden nav:flex items-center gap-6" aria-label="主导航">
         <RouterLink
           v-for="item in desktopNav"
           :key="item.href"
@@ -213,14 +180,6 @@ useEventListener('keydown', (e) => {
         >
           <div :class="themeIcon" />
         </button>
-        <button
-          type="button"
-          class="nav-link flex items-center justify-center w-[1.2em] h-[1.2em]"
-          aria-label="Switch language"
-          @click="toggleLang"
-        >
-          <div :class="langIcon" />
-        </button>
         <a
           href="https://github.com/Lu-Jiejie"
           target="_blank"
@@ -238,7 +197,7 @@ useEventListener('keydown', (e) => {
       <button
         type="button"
         class="nav-link nav:hidden flex items-center justify-center w-[1.4em] h-[1.4em]"
-        aria-label="Open menu"
+        aria-label="打开菜单"
         :aria-expanded="menuOpen"
         @click="menuOpen = true"
       >
@@ -257,7 +216,7 @@ useEventListener('keydown', (e) => {
         shadow="[0_0_10px_0_rgba(0,0,0,0.3)] dark:[0_0_10px_0_rgba(255,255,255,0.3)]"
         transition="opacity duration-300"
         :class="menuOpen ? 'op-100' : 'op-0 pointer-events-none'"
-        aria-label="Menu"
+        aria-label="菜单"
         style="max-height: calc(100vh - 10% - 30%);"
       >
         <!-- 分隔线挂在无透明度的包裹层上：nav-link 的 op-60/100 会连 border 一起变浅变深 -->
@@ -297,7 +256,7 @@ useEventListener('keydown', (e) => {
           </div>
         </div>
 
-        <!-- 主题与语言刻意不关闭面板，方便连续调整观察效果 -->
+        <!-- 主题刻意不关闭面板，方便连续调整观察效果 -->
         <div class="mx-5 flex justify-center items-center gap-4 py-3 border-t border-[#8883]">
           <button
             type="button"
@@ -306,14 +265,6 @@ useEventListener('keydown', (e) => {
             @click="toggleDark()"
           >
             <div :class="themeIcon" text-lg />
-          </button>
-          <button
-            type="button"
-            class="nav-link p-1 flex items-center justify-center"
-            aria-label="Switch language"
-            @click="toggleLang"
-          >
-            <div :class="langIcon" text-lg />
           </button>
           <a
             href="https://github.com/Lu-Jiejie"

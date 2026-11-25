@@ -2,7 +2,6 @@
 import type { Favorites, FavoritesItem, FavoritesType } from '~/data/favorites'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
-import { isZh, useI18n } from '~/logic/i18n'
 
 const { favorites } = defineProps<{
   favorites: Favorites
@@ -12,40 +11,23 @@ const queryType = computed(() => {
   return route.query.type as FavoritesType || 'anime'
 })
 const typeKeys = computed(() => Object.keys(favorites) as FavoritesType[])
-const wikiBaseUrl = 'https://en.wikipedia.org/wiki/'
+const typeLabels: Record<FavoritesType, string> = {
+  anime: '动画',
+  movie: '电影',
+  book: '书籍',
+  game: '游戏',
+}
 const wikiBaseUrlZh = 'https://zh.wikipedia.org/wiki/'
 
-const $t = useI18n({
-  en: {
-    anime: 'Anime',
-    movie: 'Movie',
-    book: 'Book',
-    game: 'Game',
-  },
-  zh: {
-    anime: '动画',
-    movie: '电影',
-    book: '书籍',
-    game: '游戏',
-  },
-})
-
 function getWikiUrl(item: FavoritesItem) {
-  // zh
-  if (isZh.value) {
-    if (item.wikiKeywordZh) {
-      return `${wikiBaseUrlZh}${item.wikiKeywordZh}`
-    }
-    return `${wikiBaseUrlZh}${item.nameZh || item.name}`
+  if (item.wikiKeywordZh) {
+    return `${wikiBaseUrlZh}${item.wikiKeywordZh}`
   }
-  // en
-  if (item.wikiKeywordEn) {
-    return `${wikiBaseUrl}${item.wikiKeywordEn}`
-  }
+  // 中文维基没有对应条目时，个别条目手写了跳转地址
   if (item.wikiUrlFallback) {
     return item.wikiUrlFallback
   }
-  return `${wikiBaseUrl}${item.name}`
+  return `${wikiBaseUrlZh}${item.nameZh || item.name}`
 }
 </script>
 
@@ -60,7 +42,7 @@ function getWikiUrl(item: FavoritesItem) {
           ? 'bg-hex-050505 dark:bg-white text-white! dark:text-hex-050505!'
           : 'op-70 hover:op-100'"
       >
-        {{ $t[type] }}
+        {{ typeLabels[type] }}
       </RouterLink>
     </div>
 
@@ -70,18 +52,16 @@ function getWikiUrl(item: FavoritesItem) {
     >
       <table
         v-show="type === queryType" font-400
-        lang="ja"
         important-mt-4
       >
         <tbody>
           <template v-for="i of favorites[type]" :key="i.name">
-            <tr :lang="isZh ? 'zh' : i.lang">
-              <!-- <td>{{ i.name }}</td> -->
+            <tr>
               <td>
                 <a
                   :href="getWikiUrl(i)"
                   class="no-prose" target="_blank"
-                >{{ isZh ? i.nameZh : i.name }}</a>
+                >{{ i.nameZh || i.name }}</a>
               </td>
               <td v-if="i.creator" text-right>
                 <template v-if="typeof i.creator === 'string'">

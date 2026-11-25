@@ -1,5 +1,5 @@
 ---
-title: Posts
+title: 文章
 ---
 
 <ListPosts />
