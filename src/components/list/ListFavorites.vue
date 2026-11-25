@@ -17,17 +17,17 @@ const typeLabels: Record<FavoritesType, string> = {
   book: '书籍',
   game: '游戏',
 }
-const wikiBaseUrlZh = 'https://zh.wikipedia.org/wiki/'
+const wikiBaseUrl = 'https://zh.wikipedia.org/wiki/'
 
 function getWikiUrl(item: FavoritesItem) {
-  if (item.wikiKeywordZh) {
-    return `${wikiBaseUrlZh}${item.wikiKeywordZh}`
+  if (item.wikiKeyword) {
+    return `${wikiBaseUrl}${item.wikiKeyword}`
   }
   // 中文维基没有对应条目时，个别条目手写了跳转地址
   if (item.wikiUrlFallback) {
     return item.wikiUrlFallback
   }
-  return `${wikiBaseUrlZh}${item.nameZh || item.name}`
+  return `${wikiBaseUrl}${item.name}`
 }
 </script>
 
@@ -61,7 +61,7 @@ function getWikiUrl(item: FavoritesItem) {
                 <a
                   :href="getWikiUrl(i)"
                   class="no-prose" target="_blank"
-                >{{ i.nameZh || i.name }}</a>
+                >{{ i.name }}</a>
               </td>
               <td v-if="i.creator" text-right>
                 <template v-if="typeof i.creator === 'string'">
