@@ -3,7 +3,7 @@
   "private": true,
   "packageManager": "pnpm@11.5.3",
   "scripts": {
-    "build": "cross-env NODE_ENV=production vite-ssg build && tsx ./scripts/copy-fonts.ts && tsx ./scripts/copy-redirects.ts && tsx ./scripts/rss.ts",
+    "build": "cross-env NODE_ENV=production vite-ssg build && tsx ./scripts/copy-fonts.ts && tsx ./scripts/copy-redirects.ts",
     "dev": "vite --port 3333 --host",
     "deploy": "netlify deploy",
     "lint": "eslint .",
@@ -58,7 +58,6 @@
     "eslint-plugin-format": "^2.0.1",
     "exifreader": "^4.41.0",
     "fast-glob": "^3.3.3",
-    "feed": "^5.2.1",
     "fs-extra": "^11.3.5",
     "gray-matter": "^4.0.3",
     "lint-staged": "^17.0.7",

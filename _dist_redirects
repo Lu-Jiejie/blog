@@ -1,5 +1,3 @@
-/rss https://lujiejie.de/feed.xml 301
-
 /essays/* /posts/:splat 301
 /notes/* /posts/:splat 301
 

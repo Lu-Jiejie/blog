@@ -324,9 +324,6 @@ useEventListener('keydown', (e) => {
           >
             <div i-ri-github-fill text-lg />
           </a>
-          <a href="/feed.xml" class="nav-link p-1" aria-label="RSS">
-            <div i-ri-rss-line text-lg />
-          </a>
         </div>
       </nav>
     </UiBackdrop>
