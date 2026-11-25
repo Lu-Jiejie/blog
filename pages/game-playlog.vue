@@ -41,8 +41,7 @@ const list = computed(() => {
 })
 
 const totalHours = computed(() => Math.round(played.value.reduce((sum, game) => sum + game.playtimeForever, 0) / 60))
-
-const name = (game: (typeof played.value)[number]) => (isZh.value ? game.nameCN : game.name)
+const name = (game: (typeof played.value)[number]) => (isZh.value ? game.nameZh : game.name)
 const href = (game: (typeof played.value)[number]) => (isZh.value ? game.linkZh || game.link : game.link)
 const lastPlayed = (game: (typeof played.value)[number]) => formatLocaleDate(game.timeLastPlayed * 1000, isZh.value ? 'zh' : 'en')
 </script>

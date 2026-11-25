@@ -4,7 +4,7 @@ import { getGithubCDNUrl } from '~/logic'
 export interface SteamGame {
   id: string
   name: string
-  nameCN: string
+  nameZh: string
   playtimeForever: number
   timeLastPlayed: number
   icon: string
@@ -13,7 +13,7 @@ export interface SteamGame {
 }
 
 const API = getGithubCDNUrl({
-  owner: 'Lu-Jiejie',
+  owner: 'lu-jiejie',
   repo: 'static',
   path: 'data/steam/games.json',
 })

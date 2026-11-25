@@ -13,7 +13,7 @@ const { games, prepared } = useSteamGames()
 const all = computed(() => playedGames(games.value))
 const visible = computed(() => all.value.slice(0, limit))
 
-const name = (game: (typeof all.value)[number]) => (isZh.value ? game.nameCN : game.name)
+const name = (game: (typeof all.value)[number]) => (isZh.value ? game.nameZh : game.name)
 const href = (game: (typeof all.value)[number]) => (isZh.value ? game.linkZh || game.link : game.link)
 </script>
 
