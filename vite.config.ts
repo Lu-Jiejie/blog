@@ -103,6 +103,19 @@ export default defineConfig({
       '~/': `${path.resolve(__dirname, 'src')}/`,
     },
   },
+  server: {
+    // 开发时先把这些文件转换一遍：UnoCSS 的类是随模块转换逐个收集、再生成 CSS 的，
+    // 不预热的话首屏会先按「还没有这些类」画一帧，CSS 补上后再跳一下。
+    // 构建产物里 CSS 在 head 里一次性链入，所以这个问题只在 dev 出现。
+    warmup: {
+      clientFiles: [
+        './src/main.ts',
+        './src/App.vue',
+        './src/components/**/*.vue',
+        './pages/**/*.vue',
+      ],
+    },
+  },
   optimizeDeps: {
     // 依赖扫描器不解析 .vue，只从 SFC 里 import 的包要在这里显式声明，
     // 否则首次访问时才会被发现，触发「重新预构建 + 整页 reload」
@@ -120,6 +133,8 @@ export default defineConfig({
       'dayjs',
       'dayjs/plugin/localizedFormat.js',
       'nprogress',
+      'pixi.js',
+      'simplex-noise',
       'vite-ssg',
       'vue-router-better-scroller',
     ],
