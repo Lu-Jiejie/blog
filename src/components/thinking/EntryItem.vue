@@ -37,12 +37,15 @@ const html = computed(() => (props.entry.text ? renderMarkdown(props.entry.text)
 }
 
 .entry + .entry {
-  --uno: border-t border-[var(--c-border-light)];
+  --uno: border-t border-[var(--c-hairline)];
 }
 
 /* 时间放在正文上方，单独一行；不用纯装饰性的极浅灰，得看得清 */
 .entry-time {
-  --uno: text-xs tabular-nums op-55;
+  --uno: tabular-nums;
+
+  font-size: var(--text-label);
+  color: var(--c-text-muted);
 }
 
 .entry-main {
@@ -50,7 +53,10 @@ const html = computed(() => (props.entry.text ? renderMarkdown(props.entry.text)
 }
 
 .entry-text {
-  --uno: text-[0.95rem] leading-7 op-85;
+  --uno: leading-7;
+
+  font-size: var(--text-body);
+  color: var(--c-text);
   overflow-wrap: anywhere;
 }
 
@@ -63,7 +69,7 @@ const html = computed(() => (props.entry.text ? renderMarkdown(props.entry.text)
 }
 
 .entry-text :deep(a) {
-  --uno: underline underline-offset-2 decoration-[var(--c-border-medium)];
+  --uno: underline underline-offset-2 decoration-[var(--c-border)];
 }
 
 .entry-text :deep(a:hover) {
@@ -75,7 +81,7 @@ const html = computed(() => (props.entry.text ? renderMarkdown(props.entry.text)
 }
 
 .entry-text :deep(pre) {
-  --uno: my-3 p-3 rounded bg-[var(--c-surface)] overflow-x-auto text-sm;
+  --uno: my-3 p-3 rounded bg-[var(--c-paper)] overflow-x-auto text-sm;
 }
 
 .entry-text :deep(ul),
@@ -92,6 +98,8 @@ const html = computed(() => (props.entry.text ? renderMarkdown(props.entry.text)
 }
 
 .entry-text :deep(blockquote) {
-  --uno: my-3 pl-3 border-l-2 border-[var(--c-accent)] op-70;
+  --uno: my-3 pl-3 border-l-2 border-[var(--c-accent)];
+
+  color: var(--c-text-muted);
 }
 </style>

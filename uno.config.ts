@@ -37,9 +37,9 @@ export default defineConfig({
   ],
   shortcuts: [
     {
-      'border-base': 'border-[#8884]',
-      'bg-card-item-link': 'bg-hex-8882 hover:bg-hex-8883 dark:bg-hex-8883 dark:hover:bg-hex-8884',
-      'nav-divider': 'w-0.25 h-[80%] b-t-0 bg-[#ddd] dark:bg-[#333]',
+      'border-base': 'border-[var(--c-hairline)]',
+      'bg-card-item-link': 'bg-[var(--c-fill)] hover:bg-[var(--c-paper-hover)]',
+      'nav-divider': 'w-0.25 h-[80%] b-t-0 bg-[var(--c-hairline)]',
       'item-link': 'no-underline border-b-none',
     },
     [/^important-(.*)$/, ([_, c]) => `!${c}`],

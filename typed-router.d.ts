@@ -52,9 +52,9 @@ declare module 'vue-router/auto-routes' {
       Record<never, never>,
       | never
     >,
-    '/favorites': RouteRecordInfo<
-      '/favorites',
-      '/favorites',
+    '/collection': RouteRecordInfo<
+      '/collection',
+      '/collection',
       Record<never, never>,
       Record<never, never>,
       | never
@@ -152,9 +152,9 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | never
     }
-    'pages/favorites.vue': {
+    'pages/collection.vue': {
       routes:
-        | '/favorites'
+        | '/collection'
       views:
         | never
       pathParamNames:

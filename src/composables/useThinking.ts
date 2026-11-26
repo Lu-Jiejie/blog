@@ -60,7 +60,8 @@ export function useThinking() {
     }
   })
 
-  const prepared = computed(() => !isLoading.value && !hasError.value && entries.value.length > 0)
+  // 空列表也算加载完成：页面要能显示「还没写什么」
+  const prepared = computed(() => !isLoading.value && !hasError.value)
 
   return { entries, isLoading, hasError, prepared }
 }

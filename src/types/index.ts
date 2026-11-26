@@ -46,3 +46,19 @@ export interface ThinkingEntry {
   images?: string[]
   ref?: ThinkingRef
 }
+
+/** 收藏页的四个分栏，同时也是 URL 里的 ?type= */
+export type CollectionType = 'anime' | 'movie' | 'book' | 'game'
+
+export interface CollectionItem {
+  /** 中文名，列表展示的就是它 */
+  name: string
+  creator?: string | string[]
+  note?: string
+  /** 中文维基的词条名，缺省时用 name 直接拼 */
+  wikiKeyword?: string
+  /** 中文维基没有对应条目时，个别条目手写了跳转地址 */
+  wikiUrlFallback?: string
+}
+
+export type Collection = Record<CollectionType, CollectionItem[]>

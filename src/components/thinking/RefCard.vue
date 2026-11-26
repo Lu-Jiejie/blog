@@ -140,7 +140,7 @@ const LANGUAGE_COLORS: Record<string, string> = {
   'Dart': '#00b4ab',
 }
 
-const languageColor = computed(() => LANGUAGE_COLORS[props.item.subtitle ?? ''] ?? 'var(--c-border-medium)')
+const languageColor = computed(() => LANGUAGE_COLORS[props.item.subtitle ?? ''] ?? 'var(--c-border)')
 
 // 视频站点的封面是 16:9 的，硬裁成方形会把画面切掉，所以单独给一档横版尺寸
 const isVideoHost = computed(() => /(?:^|\.)(?:bilibili\.com|youtube\.com|youtu\.be|vimeo\.com|douyin\.com)$/i.test(host.value))
@@ -288,14 +288,13 @@ function hideBrokenCover(event: Event) {
 <style scoped>
 .card {
   --uno: relative flex gap-4 rounded-lg p-4 important-op-100;
-  --uno: bg-[var(--c-surface)] border border-[var(--c-border-light)];
+  --uno: bg-[var(--c-paper)] border border-[var(--c-hairline)];
   --uno: transition-colors duration-300;
 }
 
-/* hover 单独写：--uno 只是把声明内联进来，`hover:` 前缀在这里不会生成选择器，
-   两条 background-color 会堆在同一条规则里，后一条把卡片底色永久盖掉 */
+/* hover 必须单独写：--uno 里的 `hover:` 不生成选择器 */
 .card:hover {
-  background-color: var(--c-card-hover);
+  background-color: var(--c-paper-hover);
 }
 
 .card-body,
@@ -310,7 +309,10 @@ function hideBrokenCover(event: Event) {
 
 /* 分类行：豆瓣的「电影 · 2001」、仓库的「REPOSITORY · MX-SPACE」。这是真正的信息，不能淡到看不见 */
 .card-kind {
-  --uno: inline-flex items-baseline gap-1 text-[0.72rem] op-60 tracking-[0.08em];
+  --uno: inline-flex items-baseline gap-1 tracking-[0.08em];
+
+  font-size: var(--text-label);
+  color: var(--c-text-muted);
 }
 
 /* 图标按字高（cap height）取尺寸、底边落在基线上，才和旁边的文字数字齐平 */
@@ -321,7 +323,10 @@ function hideBrokenCover(event: Event) {
 
 /* 标题最多两行：抓来的标题常常又长又带噪音 */
 .card-title {
-  --uno: text-[0.95rem] leading-snug font-medium op-90;
+  --uno: leading-snug font-medium;
+
+  font-size: var(--text-body);
+  color: var(--c-text);
   --uno: overflow-hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -329,13 +334,18 @@ function hideBrokenCover(event: Event) {
 }
 
 .card--link .card-title--lg {
-  --uno: text-[1rem] leading-6 font-semibold;
+  --uno: leading-6 font-semibold;
+
+  font-size: var(--text-title);
   -webkit-line-clamp: 2;
 }
 
 /* 摘要最多两行，是抓来的快照，只用来判断要不要点进去 */
 .card-description {
-  --uno: text-[0.8rem] leading-5 op-65;
+  --uno: leading-5;
+
+  font-size: var(--text-copy);
+  color: var(--c-text-muted);
   --uno: overflow-hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -344,7 +354,10 @@ function hideBrokenCover(event: Event) {
 
 /* 底部元信息：站点 favicon + 域名。卡片里文字高时沉到底部，别让它浮在半空 */
 .card-meta {
-  --uno: flex items-center gap-2 text-[0.72rem] op-60;
+  --uno: flex items-center gap-2;
+
+  font-size: var(--text-label);
+  color: var(--c-text-muted);
   margin-top: auto;
 }
 
@@ -375,7 +388,10 @@ function hideBrokenCover(event: Event) {
 
 /* 豆瓣评分单独压深一档，别和域名混成一片灰 */
 .card-rating {
-  --uno: inline-flex flex-shrink-0 items-baseline gap-1 text-[0.72rem] tabular-nums;
+  --uno: inline-flex flex-shrink-0 items-baseline gap-1 tabular-nums;
+
+  font-size: var(--text-label);
+  color: var(--c-text);
 }
 
 .thumb {
@@ -403,12 +419,18 @@ function hideBrokenCover(event: Event) {
 
 /* 仓库的星数，现在在 .repo-head 里，跟着 logo 左边对齐 */
 .repo-stars {
-  --uno: inline-flex flex-shrink-0 items-baseline gap-1 text-[0.75rem] op-60 tabular-nums;
+  --uno: inline-flex flex-shrink-0 items-baseline gap-1 tabular-nums;
+
+  font-size: var(--text-label);
+  color: var(--c-text-muted);
 }
 
 /* 语言是「色点 + 文字」，圆点按居中走；星号是字形，跟数字共享基线 */
 .repo-lang {
-  --uno: inline-flex flex-shrink-0 items-center gap-1.5 text-[0.72rem];
+  --uno: inline-flex flex-shrink-0 items-center gap-1.5;
+
+  font-size: var(--text-label);
+  color: var(--c-text-muted);
 }
 
 .repo-dot {
@@ -420,14 +442,20 @@ function hideBrokenCover(event: Event) {
 }
 
 .quote-text {
-  --uno: m-0 text-[0.95rem] leading-7 font-serif op-85;
+  --uno: m-0 leading-7 font-serif;
+
+  font-size: var(--text-body);
+  color: var(--c-text);
 }
 
 .quote-source {
-  --uno: text-xs op-55 transition-opacity duration-300;
+  --uno: transition-colors duration-300;
+
+  font-size: var(--text-label);
+  color: var(--c-text-muted);
 }
 
 .quote-source:hover {
-  opacity: 0.85;
+  color: var(--c-text);
 }
 </style>

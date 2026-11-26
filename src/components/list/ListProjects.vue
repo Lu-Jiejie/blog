@@ -30,7 +30,7 @@ function getHoverClass(hoverClasses?: string) {
       >
         <span
           relative left--1rem
-          text-5em text-stroke-2 text-stroke-[var(--c-border-medium)] font-bold
+          text-5em text-stroke-2 text-stroke-[var(--c-border)] font-bold
           color-transparent op-30 dark:op-20
           block leading-1em
         >

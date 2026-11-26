@@ -227,13 +227,12 @@ onUnmounted(() => {
     <div
       v-show="isOpen"
       absolute top-full right-0 mt-2
-      bg="[var(--c-surface)]"
+      bg="[var(--c-paper)]"
       rounded-xl border="~ base"
       w-72 p-4 z-100
       :class="isVisible ? 'op-100 visible translate-y-0' : 'op-0 invisible -translate-y-1'"
       transition-all duration-200 ease
-      style="box-shadow: 0 4px 24px rgba(0,0,0,0.1);"
-      class="dark:![box-shadow:0_4px_24px_rgba(0,0,0,0.4)]"
+      style="box-shadow: var(--c-shadow);"
     >
       <!-- Track title -->
       <div mb-1>
@@ -283,7 +282,7 @@ onUnmounted(() => {
         </button>
         <button
           w-10 h-10 rounded-full bg-[var(--c-fill)] flex items-center justify-center
-          hover:bg-[var(--c-border-medium)] transition cursor-pointer
+          hover:bg-[var(--c-border)] transition cursor-pointer
           :disabled="isLoading"
           @click="togglePlayback"
         >
@@ -325,7 +324,7 @@ onUnmounted(() => {
                 w-full text-left px-2 py-1 rounded text-xs
                 :class="currentTrackIndex === i
                   ? 'bg-[var(--c-fill)] font-medium'
-                  : 'hover:bg-[var(--c-surface)] op-70'"
+                  : 'hover:bg-[var(--c-paper)] op-70'"
                 transition-colors duration-200
                 @click="selectTrack(track)"
               >

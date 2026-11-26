@@ -28,7 +28,7 @@ const mobileNav: NavItem[] = [
 
 const moreNav: NavItem[] = [
   { label: '项目', href: '/projects' },
-  { label: '收藏', href: '/favorites' },
+  { label: '收藏', href: '/collection' },
   { label: '相册', href: '/photos' },
   { label: '游戏记录', href: '/game-playlog' },
 ]
@@ -150,7 +150,7 @@ useEventListener('keydown', (e) => {
             <div
               flex="~ col" min-w-40 py-2 rounded-lg border="~ base"
               bg="[var(--c-bg)]"
-              shadow="[0_4px_24px_rgba(0,0,0,0.1)] dark:[0_4px_24px_rgba(0,0,0,0.4)]"
+              shadow="[var(--c-shadow)]"
             >
               <component
                 :is="item.external ? 'a' : RouterLink"
@@ -169,7 +169,7 @@ useEventListener('keydown', (e) => {
       </nav>
 
       <!-- 文字导航与图标工具区之间的竖线；窄屏整组隐藏，所以线也一起隐藏 -->
-      <div class="hidden nav:block w-px h-4 shrink-0 bg-[var(--c-border-light)]" aria-hidden="true" />
+      <div class="hidden nav:block w-px h-4 shrink-0 bg-[var(--c-hairline)]" aria-hidden="true" />
 
       <!-- 图标组的间距与父级 gap-5 保持一致，否则主题↔GitHub 比 GitHub↔音乐紧一档 -->
       <div class="hidden nav:flex items-center gap-5">
@@ -214,14 +214,14 @@ useEventListener('keydown', (e) => {
         w="[90%]"
         rounded-md overflow-y-auto select-none
         flex="~ col" bg="[var(--c-bg)]"
-        shadow="[0_0_10px_0_rgba(0,0,0,0.3)] dark:[0_0_10px_0_rgba(255,255,255,0.3)]"
+        shadow="[var(--c-shadow)]"
         transition="opacity duration-300"
         :class="menuOpen ? 'op-100' : 'op-0 pointer-events-none'"
         aria-label="菜单"
         style="max-height: calc(100vh - 10% - 30%);"
       >
         <!-- 分隔线单独挂在包裹层上，不跟链接的变色走 -->
-        <div v-for="item in mobileNav" :key="item.href" class="mx-5 border-b border-[var(--c-border-light)]">
+        <div v-for="item in mobileNav" :key="item.href" class="mx-5 border-b border-[var(--c-hairline)]">
           <RouterLink
             :to="item.href"
             class="nav-link block py-2.5"
@@ -236,7 +236,7 @@ useEventListener('keydown', (e) => {
         <div
           v-for="menu in menus"
           :key="menu.id"
-          class="mx-5 pt-3 pb-2.5 border-t border-[var(--c-border-light)]"
+          class="mx-5 pt-3 pb-2.5 border-t border-[var(--c-hairline)]"
         >
           <div class="text-xs uppercase tracking-wider op-30" :class="menu.active && 'op-60'">
             {{ menu.label }}
@@ -258,7 +258,7 @@ useEventListener('keydown', (e) => {
         </div>
 
         <!-- 主题刻意不关闭面板，方便连续调整观察效果 -->
-        <div class="mx-5 flex justify-center items-center gap-4 py-3 border-t border-[var(--c-border-light)]">
+        <div class="mx-5 flex justify-center items-center gap-4 py-3 border-t border-[var(--c-hairline)]">
           <button
             type="button"
             class="nav-link p-1 flex items-center justify-center"
@@ -309,7 +309,7 @@ useEventListener('keydown', (e) => {
   font-weight: 500;
   --uno: transition-colors duration-300;
 
-  color: var(--c-fg);
+  color: var(--c-text);
 }
 
 .typewriter-logo:hover {

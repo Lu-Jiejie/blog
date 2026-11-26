@@ -12,7 +12,7 @@ function getRandomBg() {
 const routeBgMap: Record<string, string> = {
   '/': 'random',
   '/projects': 'dots',
-  '/favorites': 'plum',
+  '/collection': 'plum',
   '/posts': 'plum',
 }
 

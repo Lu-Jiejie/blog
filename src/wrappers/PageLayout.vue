@@ -20,7 +20,7 @@ usePageHead({
 </script>
 
 <template>
-  <div class="prose" max-width-70ch m-auto mb-8 text-center>
+  <div class="prose" max-width-[var(--prose-max-width)] m-auto mb-8 text-center>
     <h1 v-if="frontmatter?.title" text-4xl>
       {{ frontmatter?.title }}
     </h1>

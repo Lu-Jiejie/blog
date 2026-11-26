@@ -29,7 +29,7 @@ declare module 'vue' {
     Dots: typeof import('./src/components/background/Dots.vue')['default']
     EntryItem: typeof import('./src/components/thinking/EntryItem.vue')['default']
     IndexLayout: typeof import('./src/wrappers/IndexLayout.vue')['default']
-    ListFavorites: typeof import('./src/components/list/ListFavorites.vue')['default']
+    ListCollection: typeof import('./src/components/list/ListCollection.vue')['default']
     ListPosts: typeof import('./src/components/list/ListPosts.vue')['default']
     ListProjects: typeof import('./src/components/list/ListProjects.vue')['default']
     PageLayout: typeof import('./src/wrappers/PageLayout.vue')['default']

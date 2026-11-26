@@ -45,7 +45,7 @@ watch(() => props.visible, async (isVisible) => {
     w="[90%]"
     p="x-6 y-4" rounded-lg
     flex="~ col" bg="[var(--c-bg)]"
-    shadow="[0_0_10px_0_rgba(0,0,0,0.3)] dark:[0_0_10px_0_rgba(255,255,255,0.3)]"
+    shadow="[var(--c-shadow)]"
     transition="opacity duration-300"
     :class="visible ? 'op-100' : 'op-0 pointer-events-none'"
     aria-label="目录"

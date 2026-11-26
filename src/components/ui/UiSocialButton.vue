@@ -39,7 +39,7 @@ const effectiveHoverColor = computed(() =>
 
 <style scoped>
 .social-btn {
-  border: 1.5px solid color-mix(in srgb, var(--c-fg) 40%, transparent) !important;
+  border: 1.5px solid color-mix(in srgb, var(--c-text) 40%, transparent) !important;
 }
 .social-btn:hover {
   opacity: 1 !important;

@@ -2,7 +2,7 @@
   <!-- 页脚已移出 main，补上原来 main 提供的内边距 -->
   <div class="px-5">
     <div class="prose" mt-10 mb-6 m-auto flex select-none>
-      <span text-sm op-50 flex flex-wrap items-baseline>
+      <span class="footer-note">
         <UiLink
           :border="true"
           important-color-inherit mr-3 op-100!
@@ -17,3 +17,10 @@
     </div>
   </div>
 </template>
+
+<style scoped>
+.footer-note {
+  --uno: flex flex-wrap items-baseline text-[12px];
+  color: color-mix(in oklab, var(--c-text-faint) 80%, var(--c-bg));
+}
+</style>

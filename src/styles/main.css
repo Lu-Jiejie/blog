@@ -55,7 +55,7 @@ html {
 /* selection */
 ::selection {
   background: var(--c-selection-bg);
-  color: var(--c-selection-fg);
+  text-shadow: none;
 }
 
 /* nprogress */

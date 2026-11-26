@@ -1,102 +1,101 @@
-/* 色号取自 Innei 的余白 / Yohaku 设计系统：一个强调色 + 三段中性阶。
-   暗色不是另配一套，只是把中性阶反转，强调色「梅」两套通用。 */
+/* 三层：primitives（--n-*，只有亮度阶梯）→ semantic（--c-*，组件只用这一层）→ 第三方钩子。
+   换配色只改 primitives 两个块。色号来自 Innei 的余白 / Yohaku 设计系统。 */
+
 :root {
-  /* 强调色：梅 ume，只给 CTA / focus / 引文边这类高信号处用 */
-  --c-accent: #c56473;
+  /* primitives：浅色 = 暖灰 */
+  --n-0: #fbfaf7; /* 页底：最亮的一层 */
+  --n-1: #f2f0e8; /* 纸面：卡片、浮层，次亮 */
+  --n-2: #e9e7dd; /* 纸面悬停：再暗一档 */
+  --n-3: #dfdcd1; /* 小面积填充 */
+  --n-4: #18181b1a; /* 发丝线 */
+  --n-5: #a8a69f; /* 结构线，不作文本 */
+  --n-6: #5c5a55; /* 次要文字，白底 6.6:1 */
+  --n-7: #6f6b62; /* 更淡：图标、次要小字，纸面 4.7:1 */
+  --n-8: #24231f; /* 正文 */
+  --n-9: #141312; /* 标题 */
+  --n-accent: #af5744; /* 赤陶：与 innei.in 的浅色强调色同号 */
+  --n-accent-strong: #8f4531; /* 实心填充 + 白字 6.8:1 */
+
+  /* semantic：组件只认这一层 */
+  --c-bg: var(--n-0);
+  --c-paper: var(--n-1);
+  --c-paper-hover: var(--n-2);
+  --c-fill: var(--n-3);
+  --c-hairline: var(--n-4);
+  --c-border: var(--n-5);
+  --c-text: var(--n-8);
+  --c-text-strong: var(--n-9);
+  --c-text-muted: var(--n-6);
+  --c-text-faint: var(--n-7);
+  --c-accent: var(--n-accent);
+  --c-accent-strong: var(--n-accent-strong);
   --c-on-accent: #fff;
 
-  /* 中性阶 n-1…n-10 */
-  --c-bg: #f9f8f5; /* n-1 页底 */
-  --c-surface: #ffffff; /* 纸面：卡片、浮层都站在这层白上 */
-  --c-card-hover: #f7f6f2; /* 卡片悬停只压一点点，别用 n-3 */
-  --c-fill: #e3e1db; /* n-3 微填充 / hover */
-  --c-fg-light: #787670; /* n-6 图标 / 小标签 */
-  --c-fg: #24231f; /* n-9 正文 */
-  --c-fg-deep: #141312; /* n-10 标题 */
-  --c-fg-deeper: #141312;
+  --c-info: #3d6896;
+  --c-success: #5e9f7e;
+  --c-warning: #a87a3d;
+  --c-error: #a64953;
 
-  /* 特殊文本颜色 */
-  --c-text-lead: #403f3a; /* n-8 */
-  --c-text-muted: #5c5a55; /* n-7 */
+  /* 浮层阴影：淡而扩散，不用白光晕 */
+  --c-shadow: 0 4px 24px -6px rgba(24, 24, 27, 0.14), 0 1px 2px rgba(24, 24, 27, 0.06);
+  /* 图片灯箱压暗层 */
+  --c-scrim: rgba(251, 250, 247, 0.82);
 
-  /* 代码高亮 */
-  --c-code-bg: #e3e1db;
-  --c-code-text: #24231f; /* n-9 代码块的纯文本，shiki 会覆盖 token 色 */
-  --c-highlight-bg: #e3e1db;
-  --c-highlight-border: #d0cec6;
+  /* 选中态：强调色 30% 铺一层，字色不动（和 Yohaku 一致） */
+  --c-selection-bg: color-mix(in oklab, var(--c-accent) 30%, transparent);
 
-  /* Shiki 代码块 */
-  --c-shiki-bg: #f0efeb;
-  --c-twoslash-popup-bg: #f0efeb;
-  --c-twoslash-border: #d0cec6;
-
-  /* 边框和分割线 */
-  --c-border-light: #18181b1a;
-  --c-border-medium: #a8a69f; /* n-5 只作边框，不作文本 */
-  --c-border-strong: #787670;
-  --c-border-table: #d0cec6;
-
-  /* 列表标记 */
-  --c-list-marker: #5c5a55;
-  --c-list-bullet-bg: #a8a69f;
-
-  /* 交互元素 */
-  --c-selection-bg: var(--c-accent);
-  --c-selection-fg: #fff;
-  --c-magic-link-bg: #e3e1db;
+  /* 第三方钩子：名字由 shiki / markdown 插件决定，值跟色板走 */
+  --c-code-bg: var(--n-3);
+  --c-code-text: var(--n-9);
+  --c-highlight-bg: var(--n-3);
+  --c-highlight-border: var(--n-5);
+  --c-shiki-bg: #eae8dd;
+  --c-magic-link-bg: var(--n-3);
   --c-magic-link-bg-hover: #d0cec6;
-
-  /* 滚动条 */
+  --c-list-marker: var(--n-7);
+  --c-list-bullet-bg: var(--n-5);
   --c-scrollbar: #d0cec6;
-  --c-scrollbar-hover: #a8a69f;
-
-  /* 进度条 */
+  --c-scrollbar-hover: var(--n-5);
   --c-nprogress: var(--c-accent);
+
+  /* 字号阶梯：11 / 12 / 13 / 15 / 16 */
+  --text-caption: 0.6875rem;
+  --text-label: 0.75rem;
+  --text-copy: 0.8125rem;
+  --text-body: 0.9375rem;
+  --text-title: 1rem;
 }
 
-/* 暗色模式：不把亮色阶整体调暗，而是换一套纯中性灰。
-   暖灰在低亮度下会发褐，卡片这种大色块尤其显脏。 */
+/* 暗色：暖灰在低亮度下发褐，整条阶梯换成纯中性灰；强调色只提亮，色相不动 */
 html.dark {
   color-scheme: dark;
 
-  /* 同一支「梅」，暗底上提亮，色相不动 */
-  --c-accent: #e095a4;
+  --n-0: #1c1c1e;
+  --n-1: #242424;
+  --n-2: #2c2c2c;
+  --n-3: #404040;
+  --n-4: #ffffff1a;
+  --n-5: #5c5c5c;
+  --n-6: #a8a8a8;
+  --n-7: #787878;
+  --n-8: #f0f0f0;
+  --n-9: #f8f8f8;
+  --n-accent: #e39382;
+  --n-accent-strong: #eba392;
+
   --c-on-accent: #1c1c1e;
 
-  --c-bg: #1c1c1e; /* 页底 */
-  --c-surface: #242424; /* 纸面：卡片、浮层 */
-  --c-card-hover: #2c2c2c;
-  --c-fill: #404040; /* 小面积的填充：chip、行悬停、按钮 */
-  --c-fg-light: #a8a8a8;
-  --c-fg: #f0f0f0;
-  --c-fg-deep: #f8f8f8;
-  --c-fg-deeper: #f8f8f8;
+  --c-info: #7090b3;
+  --c-success: #8cbea3;
+  --c-warning: #c8a06b;
+  --c-error: #c8767f;
 
-  --c-text-lead: #e3e3e3;
-  --c-text-muted: #d0d0d0;
+  --c-shadow: 0 4px 24px -6px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.4);
+  --c-scrim: rgba(28, 28, 30, 0.82);
 
-  --c-code-bg: #303030;
-  --c-code-text: #f0f0f0;
-  --c-highlight-bg: #404040;
-  --c-highlight-border: #5c5c5c;
+  --c-selection-bg: color-mix(in oklab, var(--c-accent) 30%, transparent);
 
-  --c-shiki-bg: #242424;
-  --c-twoslash-popup-bg: #242424;
-  --c-twoslash-border: #5c5c5c;
-
-  --c-border-light: #ffffff1a;
-  --c-border-medium: #787878;
-  --c-border-strong: #a8a8a8;
-  --c-border-table: #5c5c5c;
-
-  --c-list-marker: #d0d0d0;
-  --c-list-bullet-bg: #787878;
-
-  --c-selection-bg: color-mix(in srgb, var(--c-accent) 32%, transparent);
-  --c-selection-fg: #f8f8f8;
-  --c-magic-link-bg: #404040;
+  --c-shiki-bg: #2a2a2a;
   --c-magic-link-bg-hover: #5c5c5c;
-
   --c-scrollbar: #5c5c5c;
-  --c-scrollbar-hover: #787878;
 }

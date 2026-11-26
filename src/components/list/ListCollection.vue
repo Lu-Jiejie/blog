@@ -1,17 +1,17 @@
 <script setup lang="ts">
-import type { Favorites, FavoritesItem, FavoritesType } from '~/data/favorites'
+import type { Collection, CollectionItem, CollectionType } from '~/types'
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
 
-const { favorites } = defineProps<{
-  favorites: Favorites
+const { collection } = defineProps<{
+  collection: Collection
 }>()
 const route = useRoute()
 const queryType = computed(() => {
-  return route.query.type as FavoritesType || 'anime'
+  return route.query.type as CollectionType || 'anime'
 })
-const typeKeys = computed(() => Object.keys(favorites) as FavoritesType[])
-const typeLabels: Record<FavoritesType, string> = {
+const typeKeys = computed(() => Object.keys(collection) as CollectionType[])
+const typeLabels: Record<CollectionType, string> = {
   anime: '动画',
   movie: '电影',
   book: '书籍',
@@ -19,7 +19,7 @@ const typeLabels: Record<FavoritesType, string> = {
 }
 const wikiBaseUrl = 'https://zh.wikipedia.org/wiki/'
 
-function getWikiUrl(item: FavoritesItem) {
+function getWikiUrl(item: CollectionItem) {
   if (item.wikiKeyword) {
     return `${wikiBaseUrl}${item.wikiKeyword}`
   }
@@ -39,8 +39,8 @@ function getWikiUrl(item: FavoritesItem) {
         :key="type" :to="{ query: { type } }"
         important-border-none px-2 important-transition
         :class="type === queryType
-          ? 'bg-[var(--c-accent)] text-[var(--c-on-accent)]!'
-          : 'op-70 hover:op-100'"
+          ? 'bg-[var(--c-accent-strong)] text-[var(--c-on-accent)]!'
+          : 'text-[var(--c-text-muted)] hover:text-[var(--c-text)]'"
       >
         {{ typeLabels[type] }}
       </RouterLink>
@@ -51,11 +51,11 @@ function getWikiUrl(item: FavoritesItem) {
       :key="type"
     >
       <table
-        v-show="type === queryType" font-400
+        v-show="type === queryType" font-400 class="list-collection"
         important-mt-4
       >
         <tbody>
-          <template v-for="i of favorites[type]" :key="i.name">
+          <template v-for="i of collection[type]" :key="i.name">
             <tr>
               <td>
                 <a
@@ -67,6 +67,7 @@ function getWikiUrl(item: FavoritesItem) {
                 <template v-if="typeof i.creator === 'string'">
                   {{ i.creator }}
                 </template>
+
                 <template v-else-if="Array.isArray(i.creator)">
                   <template v-for="(c, idx) in i.creator" :key="c">
                     <span>{{ c }}</span>
@@ -85,3 +86,14 @@ function getWikiUrl(item: FavoritesItem) {
     </template>
   </div>
 </template>
+
+<style scoped>
+.prose .list-collection td {
+  --uno: align-middle;
+  line-height: 1.35;
+  /* 汉字墨迹在行框里偏上，等比内边距看着反而更贴近上分割线；
+     实测（3 倍截图像素扫描）上面多给 4px 才能让墨迹到上下两条线等距 */
+  padding-top: 12px;
+  padding-bottom: 8px;
+}
+</style>

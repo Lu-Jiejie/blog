@@ -58,7 +58,7 @@ defineProps<{
   flex: auto;
   min-width: 1.5rem;
   height: 1px;
-  background-color: var(--c-border-medium);
+  background-color: var(--c-border);
 }
 
 /* 与标签同字号，靠透明度退后，避免和标题抢视线 */

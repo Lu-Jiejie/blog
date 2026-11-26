@@ -19,12 +19,12 @@ const contents = [
 </script>
 
 <template>
-  <div class="prose" max-width-70ch m-auto mb-8>
+  <div class="prose" max-width-[var(--prose-max-width)] m-auto mb-8>
     <h1 text-4xl>
       相片
     </h1>
   </div>
-  <div class="prose" max-width-70ch m-auto mb-8>
+  <div class="prose" max-width-[var(--prose-max-width)] m-auto mb-8>
     <p v-for="(c, cidx) in contents" :key="cidx" v-html="c" />
   </div>
   <PhotoGallery />

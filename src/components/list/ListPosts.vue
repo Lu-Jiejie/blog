@@ -43,7 +43,7 @@ function isSameYear(date1?: Date | string | number, date2?: Date | string | numb
       >
         <span
           absolute text-8em color-transparent left--2.5rem top--2rem
-          font-bold text-stroke-2 text-stroke-[var(--c-border-medium)] op-10
+          font-bold text-stroke-2 text-stroke-[var(--c-border)] op-10
         >{{ getYear(post.date) }}</span>
       </div>
 
