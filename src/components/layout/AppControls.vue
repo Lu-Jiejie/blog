@@ -32,30 +32,31 @@ onMounted(updateScrolled)
     <button
       v-if="hasTocHeadings"
       id="toc-open-button"
-      class="toc:hidden"
+      class="toc:hidden text-[var(--c-text-muted)] hover:text-[var(--c-accent)]"
       w-10 h-10 rounded-full
       flex="~" items-center justify-center
-      bg="hex-8883"
+      bg="[var(--c-fill)]"
       op="70 hover:100"
       transition-opacity duration-300
       cursor-pointer
-      title="Open table of contents"
+      title="目录"
       @click="isTocOpen = true"
     >
-      <div i-lucide-table-of-contents text-gray-700 dark:text-gray-200 />
+      <div i-lucide-table-of-contents />
     </button>
 
     <button
       id="to-top-button"
       w-10 h-10 rounded-full
       flex="~" items-center justify-center
-      bg="hex-8883"
+      bg="[var(--c-fill)]"
+      class="text-[var(--c-text-muted)] hover:text-[var(--c-accent)]"
       transition="all duration-300"
-      title="Scroll to top"
+      title="回到顶部"
       :class="scrolled ? 'op-70 hover:op-100 cursor-pointer' : 'op-0! pointer-events-none'"
       @click="toTop()"
     >
-      <div i-ri-arrow-up-line text-gray-700 dark:text-gray-200 />
+      <div i-ri-arrow-up-line />
     </button>
   </div>
 </template>

@@ -11,7 +11,7 @@ const { width, height } = useWindowSize()
 
 const CONFIG = {
   // Branch color (with alpha)
-  COLOR: 0x888888,
+  COLOR: 0x969696,
   ALPHA: 0.2,
   // Branch drawing threshold
   THRESHOLD: 30,

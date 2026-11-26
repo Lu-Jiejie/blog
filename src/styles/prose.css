@@ -51,7 +51,7 @@
 }
 
 .prose a:not(.no-prose):hover {
-  border-bottom: 1px solid var(--c-fg);
+  border-bottom: 1px solid var(--c-accent);
 }
 
 .prose strong {
@@ -123,7 +123,7 @@
   font-style: normal;
   color: inherit;
   border-left-width: 0.25rem;
-  border-color: var(--c-border-light);
+  border-color: var(--c-accent);
   margin-top: 1.6em;
   margin-bottom: 1.6em;
   padding: 0.5em 1em;

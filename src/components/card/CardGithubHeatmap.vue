@@ -14,8 +14,8 @@ interface ContributionsInfo {
   weeks: ContributionDay[][]
 }
 
-const lightColor = ['#8883', '#9be9a8', '#40c463', '#30a14e', '#216e39']
-const darkColor = ['#8883', '#003820', '#00602d', '#10983d', '#27d545']
+const lightColor = ['var(--c-fill)', '#9be9a8', '#40c463', '#30a14e', '#216e39']
+const darkColor = ['var(--c-fill)', '#003820', '#00602d', '#10983d', '#27d545']
 
 const API = getGithubCDNUrl({
   owner: 'Lu-Jiejie',

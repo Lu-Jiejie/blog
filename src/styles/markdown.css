@@ -157,7 +157,10 @@ h6:focus .header-anchor {
   border-radius: 50%;
 }
 
-/* copy code */
-.markdown-copy-code-button {
+/* copy code：按钮默认是库自带的冷灰，压回本站色板 */
+.markdown-copy-code-container .markdown-copy-code-button {
   --uno: transition duration-200 ease-in-out z-99;
+
+  border: 1px solid var(--c-border-light);
+  background-color: var(--c-fill);
 }

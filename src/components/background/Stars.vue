@@ -78,11 +78,11 @@ tryOnMounted(initStars)
   );
   -webkit-mask-size: cover;
   mask-size: cover;
-  --color: #000;
+  --color: #242424;
 }
 
 .dark .stars {
-  --color: #fff;
+  --color: #f2f2f2;
 }
 
 @keyframes stars-rising {

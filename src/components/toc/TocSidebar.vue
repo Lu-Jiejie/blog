@@ -53,6 +53,7 @@ watch(() => props.activeId, async (newId) => {
             heading.depth === 2 && 'pl-0',
             heading.depth === 3 && 'pl-4',
             heading.depth === 4 && 'pl-8',
+            activeId === heading.slug && 'text-[var(--c-accent)]',
           ]"
           @click="scrollToHeading($event, heading.slug)"
         >

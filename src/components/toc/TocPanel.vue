@@ -70,7 +70,7 @@ watch(() => props.visible, async (isVisible) => {
             heading.depth === 2 && 'pl-0',
             heading.depth === 3 && 'pl-4',
             heading.depth === 4 && 'pl-8',
-            activeId === heading.slug ? 'op-100!' : 'op-50 hover:op-75',
+            activeId === heading.slug ? 'text-[var(--c-accent)] op-100!' : 'op-50 hover:op-75',
           ]"
           @click="scrollToHeading($event, heading.slug)"
         >

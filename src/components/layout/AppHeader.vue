@@ -132,7 +132,7 @@ useEventListener('keydown', (e) => {
           <button
             type="button"
             class="nav-link"
-            :class="openMenu === menu.id && 'nav-link-active'"
+            :class="[menu.active && 'nav-link-active', openMenu === menu.id && 'nav-link-open']"
             aria-haspopup="true"
             :aria-expanded="openMenu === menu.id"
             @focusin="openMenu = menu.id"
@@ -169,7 +169,7 @@ useEventListener('keydown', (e) => {
       </nav>
 
       <!-- 文字导航与图标工具区之间的竖线；窄屏整组隐藏，所以线也一起隐藏 -->
-      <div class="hidden nav:block w-px h-4 shrink-0 bg-[#8883]" aria-hidden="true" />
+      <div class="hidden nav:block w-px h-4 shrink-0 bg-[var(--c-border-light)]" aria-hidden="true" />
 
       <!-- 图标组的间距与父级 gap-5 保持一致，否则主题↔GitHub 比 GitHub↔音乐紧一档 -->
       <div class="hidden nav:flex items-center gap-5">
@@ -220,8 +220,8 @@ useEventListener('keydown', (e) => {
         aria-label="菜单"
         style="max-height: calc(100vh - 10% - 30%);"
       >
-        <!-- 分隔线挂在无透明度的包裹层上：nav-link 的 op-60/100 会连 border 一起变浅变深 -->
-        <div v-for="item in mobileNav" :key="item.href" class="mx-5 border-b border-[#8883]">
+        <!-- 分隔线单独挂在包裹层上，不跟链接的变色走 -->
+        <div v-for="item in mobileNav" :key="item.href" class="mx-5 border-b border-[var(--c-border-light)]">
           <RouterLink
             :to="item.href"
             class="nav-link block py-2.5"
@@ -236,7 +236,7 @@ useEventListener('keydown', (e) => {
         <div
           v-for="menu in menus"
           :key="menu.id"
-          class="mx-5 pt-3 pb-2.5 border-t border-[#8883]"
+          class="mx-5 pt-3 pb-2.5 border-t border-[var(--c-border-light)]"
         >
           <div class="text-xs uppercase tracking-wider op-30" :class="menu.active && 'op-60'">
             {{ menu.label }}
@@ -258,7 +258,7 @@ useEventListener('keydown', (e) => {
         </div>
 
         <!-- 主题刻意不关闭面板，方便连续调整观察效果 -->
-        <div class="mx-5 flex justify-center items-center gap-4 py-3 border-t border-[#8883]">
+        <div class="mx-5 flex justify-center items-center gap-4 py-3 border-t border-[var(--c-border-light)]">
           <button
             type="button"
             class="nav-link p-1 flex items-center justify-center"
@@ -284,16 +284,35 @@ useEventListener('keydown', (e) => {
 
 <style scoped>
 .nav-link {
-  --uno: op-60 hover-op-100 transition-opacity duration-300 cursor-pointer;
+  --uno: transition-colors duration-300 cursor-pointer;
+
+  color: var(--c-text-muted);
+}
+
+/* 已经是选中色的链接不再被 hover 冲淡 */
+.nav-link:not(.nav-link-active):hover {
+  color: color-mix(in srgb, var(--c-accent) 55%, var(--c-text-muted));
+}
+
+/* 面板展开时触发器只升到 hover 那一档：关闭是延迟的，若在这个窗口里跳到 accent，
+   鼠标离开瞬间就会闪一下深粉再退回灰。 */
+.nav-link-open {
+  color: color-mix(in srgb, var(--c-accent) 55%, var(--c-text-muted));
 }
 
 .nav-link-active {
-  --uno: op-100;
+  color: var(--c-accent);
 }
 
 .typewriter-logo {
   font-size: 1.1rem;
   font-weight: 500;
-  --uno: op-70 hover-op-100 transition-opacity duration-300;
+  --uno: transition-colors duration-300;
+
+  color: var(--c-fg);
+}
+
+.typewriter-logo:hover {
+  color: var(--c-accent);
 }
 </style>

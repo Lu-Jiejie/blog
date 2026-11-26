@@ -39,7 +39,7 @@ function getWikiUrl(item: FavoritesItem) {
         :key="type" :to="{ query: { type } }"
         important-border-none px-2 important-transition
         :class="type === queryType
-          ? 'bg-hex-050505 dark:bg-white text-white! dark:text-hex-050505!'
+          ? 'bg-[var(--c-accent)] text-[var(--c-on-accent)]!'
           : 'op-70 hover:op-100'"
       >
         {{ typeLabels[type] }}

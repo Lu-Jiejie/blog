@@ -211,13 +211,13 @@ onUnmounted(() => {
 <template>
   <div ref="playerRef" relative z-51>
     <button
-      title="Music Player"
-      class="flex items-center justify-center transition-all duration-300 cursor-pointer"
+      title="音乐播放器"
+      class="flex items-center justify-center transition-colors duration-300 cursor-pointer text-[var(--c-text-muted)] hover:text-[var(--c-accent)]"
       style="width: 1.2em; height: 1.2em"
-      :class="isPlaying || willPlayAfterLoad ? 'op-90' : 'op-60 hover:op-100'"
+      :class="(isPlaying || willPlayAfterLoad) && 'text-[var(--c-accent)]!'"
       @click="togglePanel"
     >
-      <!-- 播放中：动态音浪柱条（绿色）；暂停：音符 -->
+      <!-- 播放中：动态音浪柱条；暂停：音符 -->
       <div v-if="isPlaying || willPlayAfterLoad" class="eq-wave" aria-hidden="true">
         <span v-for="n in 4" :key="n" />
       </div>
@@ -227,7 +227,7 @@ onUnmounted(() => {
     <div
       v-show="isOpen"
       absolute top-full right-0 mt-2
-      bg="white dark:hex-050505"
+      bg="[var(--c-surface)]"
       rounded-xl border="~ base"
       w-72 p-4 z-100
       :class="isVisible ? 'op-100 visible translate-y-0' : 'op-0 invisible -translate-y-1'"
@@ -248,12 +248,12 @@ onUnmounted(() => {
       <!-- Progress bar -->
       <div mb-2>
         <div
-          relative h-1.5 bg-hex-8882 rounded-full cursor-pointer overflow-hidden
+          relative h-1.5 bg-[var(--c-fill)] rounded-full cursor-pointer overflow-hidden
           :class="isLoading ? 'op-50 pointer-events-none' : ''"
           @click="handleSeek"
         >
           <div
-            absolute left-0 top-0 h-full bg-black dark:bg-white rounded-full
+            absolute left-0 top-0 h-full bg-[var(--c-accent)] rounded-full
             transition-none
             :style="{ width: `${progress}%` }"
           />
@@ -267,14 +267,14 @@ onUnmounted(() => {
       <!-- Controls -->
       <div flex items-center justify-center gap-2>
         <button
-          w-8 h-8 rounded-full hover-bg-hex-8883 flex items-center justify-center
+          w-8 h-8 rounded-full hover-bg-[var(--c-fill)] flex items-center justify-center
           op-40 hover:op-70 transition cursor-pointer
           @click="togglePlayMode"
         >
           <div :class="playModeIcon" text-sm />
         </button>
         <button
-          w-8 h-8 rounded-full hover-bg-hex-8883 flex items-center justify-center
+          w-8 h-8 rounded-full hover-bg-[var(--c-fill)] flex items-center justify-center
           op-40 hover:op-70 transition cursor-pointer
           :disabled="isLoading"
           @click="playPrevious"
@@ -282,8 +282,8 @@ onUnmounted(() => {
           <div i-icon-park-outline-left text-lg />
         </button>
         <button
-          w-10 h-10 rounded-full bg-hex-8883 flex items-center justify-center
-          hover:bg-hex-8884 transition cursor-pointer
+          w-10 h-10 rounded-full bg-[var(--c-fill)] flex items-center justify-center
+          hover:bg-[var(--c-border-medium)] transition cursor-pointer
           :disabled="isLoading"
           @click="togglePlayback"
         >
@@ -293,7 +293,7 @@ onUnmounted(() => {
           />
         </button>
         <button
-          w-8 h-8 rounded-full hover-bg-hex-8883 flex items-center justify-center
+          w-8 h-8 rounded-full hover-bg-[var(--c-fill)] flex items-center justify-center
           op-40 hover:op-70 transition cursor-pointer
           :disabled="isLoading"
           @click="playNext"
@@ -302,7 +302,7 @@ onUnmounted(() => {
         </button>
         <button
           w-8 h-8 rounded-full flex items-center justify-center transition cursor-pointer
-          :class="showPlaylist ? 'bg-hex-8883 op-70' : 'hover-bg-hex-8883 op-40 hover:op-70'"
+          :class="showPlaylist ? 'bg-[var(--c-fill)] op-70' : 'hover-bg-[var(--c-fill)] op-40 hover:op-70'"
           @click="showPlaylist = !showPlaylist"
         >
           <div i-icon-park-outline-music-list text-sm />
@@ -324,8 +324,8 @@ onUnmounted(() => {
                 :title="`${track.name} - ${track.artist}`"
                 w-full text-left px-2 py-1 rounded text-xs
                 :class="currentTrackIndex === i
-                  ? 'bg-black/10 dark:bg-white/10 font-medium'
-                  : 'hover:bg-black/5 dark:hover:bg-white/5 op-70'"
+                  ? 'bg-[var(--c-fill)] font-medium'
+                  : 'hover:bg-[var(--c-surface)] op-70'"
                 transition-colors duration-200
                 @click="selectTrack(track)"
               >
@@ -358,7 +358,7 @@ onUnmounted(() => {
   gap: 2px;
   height: 0.85em;
   margin-top: 2px;
-  color: #22c55e;
+  color: var(--c-accent);
 }
 
 .eq-wave > span {

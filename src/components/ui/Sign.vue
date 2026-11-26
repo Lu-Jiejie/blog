@@ -28,7 +28,7 @@
 
 <style scoped>
 .the-logo {
-  fill: #070707;
+  fill: var(--c-fg-deeper);
 
   /* transform: translate3d(0, 0, 0);
   shape-rendering: geometricPrecision;
@@ -37,7 +37,7 @@
 }
 
 .dark .the-logo {
-  fill: #fdfdfd;
+  fill: var(--c-fg-deeper);
 }
 
 @keyframes grow {

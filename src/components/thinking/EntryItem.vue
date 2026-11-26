@@ -37,7 +37,7 @@ const html = computed(() => (props.entry.text ? renderMarkdown(props.entry.text)
 }
 
 .entry + .entry {
-  --uno: border-t border-[#8882];
+  --uno: border-t border-[var(--c-border-light)];
 }
 
 /* 时间放在正文上方，单独一行；不用纯装饰性的极浅灰，得看得清 */
@@ -63,15 +63,19 @@ const html = computed(() => (props.entry.text ? renderMarkdown(props.entry.text)
 }
 
 .entry-text :deep(a) {
-  --uno: underline underline-offset-2 decoration-[#8886] hover: decoration-current;
+  --uno: underline underline-offset-2 decoration-[var(--c-border-medium)];
+}
+
+.entry-text :deep(a:hover) {
+  text-decoration-color: currentColor;
 }
 
 .entry-text :deep(code) {
-  --uno: font-mono text-[0.85em] px-1 py-0.5 rounded bg-[#8882];
+  --uno: font-mono text-[0.85em] px-1 py-0.5 rounded bg-[var(--c-fill)];
 }
 
 .entry-text :deep(pre) {
-  --uno: my-3 p-3 rounded bg-[#8881] overflow-x-auto text-sm;
+  --uno: my-3 p-3 rounded bg-[var(--c-surface)] overflow-x-auto text-sm;
 }
 
 .entry-text :deep(ul),
@@ -88,6 +92,6 @@ const html = computed(() => (props.entry.text ? renderMarkdown(props.entry.text)
 }
 
 .entry-text :deep(blockquote) {
-  --uno: my-3 pl-3 border-l-2 border-[#8884] op-70;
+  --uno: my-3 pl-3 border-l-2 border-[var(--c-accent)] op-70;
 }
 </style>

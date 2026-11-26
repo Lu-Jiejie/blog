@@ -1,71 +1,102 @@
-/* 主题颜色变量定义 */
+/* 色号取自 Innei 的余白 / Yohaku 设计系统：一个强调色 + 三段中性阶。
+   暗色不是另配一套，只是把中性阶反转，强调色「梅」两套通用。 */
 :root {
-  /* 背景色 */
-  --c-bg: #fff;
+  /* 强调色：梅 ume，只给 CTA / focus / 引文边这类高信号处用 */
+  --c-accent: #c56473;
+  --c-on-accent: #fff;
 
-  /* 文本颜色 - 亮色模式 */
-  --c-fg-light: #888;
-  --c-fg: #555;
-  --c-fg-deep: #222;
-  --c-fg-deeper: #000;
+  /* 中性阶 n-1…n-10 */
+  --c-bg: #f9f8f5; /* n-1 页底 */
+  --c-surface: #ffffff; /* 纸面：卡片、浮层都站在这层白上 */
+  --c-card-hover: #f7f6f2; /* 卡片悬停只压一点点，别用 n-3 */
+  --c-fill: #e3e1db; /* n-3 微填充 / hover */
+  --c-fg-light: #787670; /* n-6 图标 / 小标签 */
+  --c-fg: #24231f; /* n-9 正文 */
+  --c-fg-deep: #141312; /* n-10 标题 */
+  --c-fg-deeper: #141312;
 
   /* 特殊文本颜色 */
-  --c-text-lead: #4b5563;
-  --c-text-muted: #6b7280;
+  --c-text-lead: #403f3a; /* n-8 */
+  --c-text-muted: #5c5a55; /* n-7 */
 
   /* 代码高亮 */
-  --c-code-bg: #aaaaaa18;
-  --c-code-text: #e5e7eb;
-  --c-highlight-bg: #8881;
-  --c-highlight-border: #8885;
+  --c-code-bg: #e3e1db;
+  --c-code-text: #24231f; /* n-9 代码块的纯文本，shiki 会覆盖 token 色 */
+  --c-highlight-bg: #e3e1db;
+  --c-highlight-border: #d0cec6;
 
   /* Shiki 代码块 */
-  --c-shiki-bg: #f6f6f6;
-  --c-twoslash-popup-bg: #f6f6f6;
-  --c-twoslash-border: #8884;
+  --c-shiki-bg: #f0efeb;
+  --c-twoslash-popup-bg: #f0efeb;
+  --c-twoslash-border: #d0cec6;
 
   /* 边框和分割线 */
-  --c-border-light: rgba(125, 125, 125, 0.3);
-  --c-border-medium: rgba(125, 125, 125, 0.4);
-  --c-border-table: #8882;
+  --c-border-light: #18181b1a;
+  --c-border-medium: #a8a69f; /* n-5 只作边框，不作文本 */
+  --c-border-strong: #787670;
+  --c-border-table: #d0cec6;
 
   /* 列表标记 */
-  --c-list-marker: #6b7280;
-  --c-list-bullet-bg: #d1d5db;
+  --c-list-marker: #5c5a55;
+  --c-list-bullet-bg: #a8a69f;
 
   /* 交互元素 */
-  --c-selection-bg: #8884;
-  --c-magic-link-bg: #8882;
-  --c-magic-link-bg-hover: #8883;
+  --c-selection-bg: var(--c-accent);
+  --c-selection-fg: #fff;
+  --c-magic-link-bg: #e3e1db;
+  --c-magic-link-bg-hover: #d0cec6;
 
   /* 滚动条 */
-  --c-scrollbar: #ccc;
-  --c-scrollbar-hover: #aaa;
+  --c-scrollbar: #d0cec6;
+  --c-scrollbar-hover: #a8a69f;
 
   /* 进度条 */
-  --c-nprogress: #888;
+  --c-nprogress: var(--c-accent);
 }
 
-/* 暗色模式 */
+/* 暗色模式：不把亮色阶整体调暗，而是换一套纯中性灰。
+   暖灰在低亮度下会发褐，卡片这种大色块尤其显脏。 */
 html.dark {
-  /* 背景色 */
-  --c-bg: #050505;
-
-  /* 文本颜色 - 暗色模式 */
-  --c-fg-light: #888;
-  --c-fg: #bbb;
-  --c-fg-deep: #ddd;
-  --c-fg-deeper: #fff;
-
-  /* Shiki 代码块 */
-  --c-shiki-bg: #151515;
-  --c-twoslash-popup-bg: #151515;
-  --c-twoslash-border: #8884;
-
-  /* 滚动条 */
-  --c-scrollbar: #333;
-  --c-scrollbar-hover: #555;
-
-  /* 配色方案 */
   color-scheme: dark;
+
+  /* 同一支「梅」，暗底上提亮，色相不动 */
+  --c-accent: #e095a4;
+  --c-on-accent: #1c1c1e;
+
+  --c-bg: #1c1c1e; /* 页底 */
+  --c-surface: #242424; /* 纸面：卡片、浮层 */
+  --c-card-hover: #2c2c2c;
+  --c-fill: #404040; /* 小面积的填充：chip、行悬停、按钮 */
+  --c-fg-light: #a8a8a8;
+  --c-fg: #f0f0f0;
+  --c-fg-deep: #f8f8f8;
+  --c-fg-deeper: #f8f8f8;
+
+  --c-text-lead: #e3e3e3;
+  --c-text-muted: #d0d0d0;
+
+  --c-code-bg: #303030;
+  --c-code-text: #f0f0f0;
+  --c-highlight-bg: #404040;
+  --c-highlight-border: #5c5c5c;
+
+  --c-shiki-bg: #242424;
+  --c-twoslash-popup-bg: #242424;
+  --c-twoslash-border: #5c5c5c;
+
+  --c-border-light: #ffffff1a;
+  --c-border-medium: #787878;
+  --c-border-strong: #a8a8a8;
+  --c-border-table: #5c5c5c;
+
+  --c-list-marker: #d0d0d0;
+  --c-list-bullet-bg: #787878;
+
+  --c-selection-bg: color-mix(in srgb, var(--c-accent) 32%, transparent);
+  --c-selection-fg: #f8f8f8;
+  --c-magic-link-bg: #404040;
+  --c-magic-link-bg-hover: #5c5c5c;
+
+  --c-scrollbar: #5c5c5c;
+  --c-scrollbar-hover: #787878;
 }

@@ -95,7 +95,7 @@ onMounted(() => {
             v-if="showPlayer"
             :style="{ aspectRatio }"
             :src="`https://player.bilibili.com/player.html?bvid=${musicVideo.bvid}&p=1&autoplay=1&t=1`"
-            title="Bilibili video player"
+            title="哔哩哔哩视频"
             frameborder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen w-full

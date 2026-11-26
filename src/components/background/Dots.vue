@@ -18,7 +18,7 @@ const CONFIG = {
   // Spacing between dots
   SPACING: 15,
   // Dot color
-  COLOR: 0xCCCCCC,
+  COLOR: 0xCBCBCB,
   // Dot radius
   RADIUS: 1,
   // Animation time divisor (lower = faster)
@@ -65,7 +65,7 @@ async function setup() {
     return
   const app = new Application()
   await app.init({
-    background: '#ffffff',
+    backgroundAlpha: 0,
     antialias: true,
     resolution: window.devicePixelRatio,
     resizeTo: el.value,

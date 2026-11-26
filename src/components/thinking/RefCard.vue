@@ -140,7 +140,7 @@ const LANGUAGE_COLORS: Record<string, string> = {
   'Dart': '#00b4ab',
 }
 
-const languageColor = computed(() => LANGUAGE_COLORS[props.item.subtitle ?? ''] ?? '#8888')
+const languageColor = computed(() => LANGUAGE_COLORS[props.item.subtitle ?? ''] ?? 'var(--c-border-medium)')
 
 // 视频站点的封面是 16:9 的，硬裁成方形会把画面切掉，所以单独给一档横版尺寸
 const isVideoHost = computed(() => /(?:^|\.)(?:bilibili\.com|youtube\.com|youtu\.be|vimeo\.com|douyin\.com)$/i.test(host.value))
@@ -288,8 +288,14 @@ function hideBrokenCover(event: Event) {
 <style scoped>
 .card {
   --uno: relative flex gap-4 rounded-lg p-4 important-op-100;
-  --uno: bg-[#8881] border border-[#8882];
-  --uno: transition-colors duration-300 hover: bg-[#8882];
+  --uno: bg-[var(--c-surface)] border border-[var(--c-border-light)];
+  --uno: transition-colors duration-300;
+}
+
+/* hover 单独写：--uno 只是把声明内联进来，`hover:` 前缀在这里不会生成选择器，
+   两条 background-color 会堆在同一条规则里，后一条把卡片底色永久盖掉 */
+.card:hover {
+  background-color: var(--c-card-hover);
 }
 
 .card-body,
@@ -373,7 +379,7 @@ function hideBrokenCover(event: Event) {
 }
 
 .thumb {
-  --uno: flex-shrink-0 object-cover rounded bg-[#8882];
+  --uno: flex-shrink-0 object-cover rounded bg-[var(--c-fill)];
 }
 
 .thumb--poster {
@@ -418,6 +424,10 @@ function hideBrokenCover(event: Event) {
 }
 
 .quote-source {
-  --uno: text-xs op-55 important-op-55 transition-opacity duration-300 hover: important-op-85;
+  --uno: text-xs op-55 transition-opacity duration-300;
+}
+
+.quote-source:hover {
+  opacity: 0.85;
 }
 </style>

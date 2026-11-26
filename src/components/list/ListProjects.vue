@@ -30,7 +30,7 @@ function getHoverClass(hoverClasses?: string) {
       >
         <span
           relative left--1rem
-          text-5em text-stroke-2 text-stroke-hex-aaa font-bold
+          text-5em text-stroke-2 text-stroke-[var(--c-border-medium)] font-bold
           color-transparent op-30 dark:op-20
           block leading-1em
         >
@@ -49,7 +49,6 @@ function getHoverClass(hoverClasses?: string) {
           relative flex items-center bg-transparent
           text-1.1rem w-87.5 lg:w-75 xl:w-87.5 max-w-full p="y-2 x-3.5"
         >
-          <!-- rounded-lg hover:bg-hex-88888820 -->
           <div p="t-2 r-5">
             <!-- 图片 icon -->
             <div v-if="p.icon.startsWith('project_icons/')" w-9 h-9 flex="~ items-center">

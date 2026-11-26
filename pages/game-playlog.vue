@@ -118,7 +118,7 @@ const lastPlayed = (game: (typeof played.value)[number]) => formatLocaleDate(gam
 }
 
 .stat-divider {
-  --uno: w-px h-6 bg-[#8883];
+  --uno: w-px h-6 bg-[var(--c-border-light)];
 }
 
 /* 排序独占一行，贴右边缘 */
@@ -140,7 +140,7 @@ const lastPlayed = (game: (typeof played.value)[number]) => formatLocaleDate(gam
 }
 
 .game-row:hover {
-  --uno: bg-[#8882];
+  --uno: bg-[var(--c-fill)];
 }
 
 /* 封面高度决定行高，文字块整体要落在封面上下边缘之内 */

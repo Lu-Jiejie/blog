@@ -18,7 +18,7 @@ const { width, height } = useWindowSize()
 
 const CONFIG = {
   // Particle connection color (with alpha)
-  COLOR: 0x888888,
+  COLOR: 0x969696,
   ALPHA: 0.15,
   // Particle velocity
   VELOCITY: 0.8,

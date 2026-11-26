@@ -24,7 +24,7 @@ const visible = computed(() => all.value.slice(0, limit))
       <!-- important-op-100 压掉 UiLink 自带的 op-60，透明度交给子元素自己控制 -->
       <UiLink
         v-for="item in visible" :key="item.id" :title="item.name" :href="item.link" external
-        class="entry flex items-center gap-4 rounded-md p-2 important-op-100 transition-colors duration-300 hover:bg-[#8882]"
+        class="entry flex items-center gap-4 rounded-md p-2 important-op-100 transition-colors duration-300 hover:bg-[var(--c-fill)]"
       >
         <img
           :src="imgProxy(item.icon)" alt="cover"

@@ -27,7 +27,7 @@ watch(() => props.visible, (val) => {
       :class="visible ? 'op-100' : 'op-0 pointer-events-none'"
     >
       <div
-        absolute inset-0 bg="[#ffffffcc] dark:[#000000cc]" z--1
+        absolute inset-0 bg="[var(--c-bg)]" op-80 z--1
         @click="emit('close')"
       />
 
