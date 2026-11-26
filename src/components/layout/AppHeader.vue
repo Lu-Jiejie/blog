@@ -171,7 +171,8 @@ useEventListener('keydown', (e) => {
       <!-- 文字导航与图标工具区之间的竖线；窄屏整组隐藏，所以线也一起隐藏 -->
       <div class="hidden nav:block w-px h-4 shrink-0 bg-[#8883]" aria-hidden="true" />
 
-      <div class="hidden nav:flex items-center gap-4">
+      <!-- 图标组的间距与父级 gap-5 保持一致，否则主题↔GitHub 比 GitHub↔音乐紧一档 -->
+      <div class="hidden nav:flex items-center gap-5">
         <button
           type="button"
           class="nav-link flex items-center justify-center w-[1.2em] h-[1.2em]"

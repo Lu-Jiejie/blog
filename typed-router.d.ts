@@ -216,7 +216,7 @@ declare module 'vue-router/auto-routes' {
       pathParamNames:
         | never
     }
-    'pages/thinking/index.md': {
+    'pages/thinking/index.vue': {
       routes:
         | '/thinking/'
       views:
