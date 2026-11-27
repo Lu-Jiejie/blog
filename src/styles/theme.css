@@ -21,12 +21,15 @@
   --c-paper: var(--n-1);
   --c-paper-hover: var(--n-2);
   --c-fill: var(--n-3);
+  --c-progress-track: #bbbab2; /* 进度条空槽：正文色压进纸面后的实测值，写死不用混色 */
   --c-hairline: var(--n-4);
   --c-border: var(--n-5);
+  --c-control-border: #24231f66; /* 图标按钮 1.5px 描边：正文色 40% */
   --c-text: var(--n-8);
   --c-text-strong: var(--n-9);
   --c-text-muted: var(--n-6);
   --c-text-faint: var(--n-7);
+  --c-text-footnote: #89867e; /* 页脚小字：比 faint 再淡一档，并往页底色靠 */
   --c-accent: var(--n-accent);
   --c-accent-strong: var(--n-accent-strong);
   --c-on-accent: #fff;
@@ -36,13 +39,13 @@
   --c-warning: #a87a3d;
   --c-error: #a64953;
 
-  /* 浮层阴影：淡而扩散，不用白光晕 */
-  --c-shadow: 0 4px 24px -6px rgba(24, 24, 27, 0.14), 0 1px 2px rgba(24, 24, 27, 0.06);
+  /* 浮层阴影：淡而扩散，不用白光晕；浅色底下带一点棕，冷黑影子压在暖纸上会显脏 */
+  --c-shadow: 0 4px 24px -6px rgba(70, 45, 20, 0.15), 0 1px 2px rgba(70, 45, 20, 0.07);
   /* 图片灯箱压暗层 */
   --c-scrim: rgba(251, 250, 247, 0.82);
 
-  /* 选中态：强调色 30% 铺一层，字色不动（和 Yohaku 一致） */
-  --c-selection-bg: color-mix(in oklab, var(--c-accent) 30%, transparent);
+  /* 选中态：强调色 30% 铺一层（#af5744 + 4d 透明度），字色不动 */
+  --c-selection-bg: #af57444d;
 
   /* 第三方钩子：名字由 shiki / markdown 插件决定，值跟色板走 */
   --c-code-bg: var(--n-3);
@@ -84,6 +87,9 @@ html.dark {
   --n-accent-strong: #eba392;
 
   --c-on-accent: #1c1c1e;
+  --c-progress-track: #4f4f4f;
+  --c-control-border: #f0f0f066;
+  --c-text-footnote: #646465;
 
   --c-info: #7090b3;
   --c-success: #8cbea3;
@@ -93,7 +99,7 @@ html.dark {
   --c-shadow: 0 4px 24px -6px rgba(0, 0, 0, 0.6), 0 1px 2px rgba(0, 0, 0, 0.4);
   --c-scrim: rgba(28, 28, 30, 0.82);
 
-  --c-selection-bg: color-mix(in oklab, var(--c-accent) 30%, transparent);
+  --c-selection-bg: #e393824d;
 
   --c-shiki-bg: #2a2a2a;
   --c-magic-link-bg-hover: #5c5c5c;

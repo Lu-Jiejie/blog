@@ -21,6 +21,7 @@
 <style scoped>
 .footer-note {
   --uno: flex flex-wrap items-baseline text-[12px];
-  color: color-mix(in oklab, var(--c-text-faint) 80%, var(--c-bg));
+
+  color: var(--c-text-footnote);
 }
 </style>

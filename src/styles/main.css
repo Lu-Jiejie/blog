@@ -302,6 +302,14 @@ html:not(.dark) [img-dark] {
   }
 }
 
+/* 浮层表面：顶栏下拉面板与播放器弹出层共用，免得两处各写一套背景/描边/阴影 */
+.popover-panel {
+  background-color: var(--c-paper);
+  border: 1px solid var(--c-hairline);
+  border-radius: 0.5rem;
+  box-shadow: var(--c-shadow);
+}
+
 /* 键盘焦点统一用强调色，鼠标点击时不出现 */
 :focus-visible {
   outline: 2px solid var(--c-accent);

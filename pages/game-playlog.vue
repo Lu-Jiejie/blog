@@ -218,13 +218,9 @@ const lastPlayed = (game: (typeof played.value)[number]) => formatLocaleDate(gam
   color: var(--c-text-faint);
 }
 
-/* 四边各留 8px，再用负 margin 抵回：封面贴内容列边缘，悬停底色不贴着图 */
+/* 四边各留 8px，再用负 margin 抵回：封面贴内容列边缘，悬停时不会有底色贴着图 */
 .game-row {
-  --uno: flex items-center gap-3 rounded-md py-2 px-2 -mx-2 important-op-100 transition-colors duration-300;
-}
-
-.game-row:hover {
-  --uno: bg-[var(--c-paper-hover)];
+  --uno: relative flex items-center gap-3 py-2 px-2 -mx-2 important-op-100;
 }
 
 /* 行间用发丝线分界，第一行不画 */
@@ -270,7 +266,6 @@ section > div + div {
 .game-hours {
   --uno: font-serif text-lg leading-none tabular-nums flex-shrink-0;
   color: var(--c-text-muted);
-  transition: color 0.3s;
 }
 
 .hours-unit {
@@ -279,10 +274,7 @@ section > div + div {
   color: var(--c-text-faint);
 }
 
-.game-row:hover .game-hours {
-  color: var(--c-text);
-}
-
+/* 这一页不做悬停态：行是又密又长的列表，任何高亮都会跳，靠封面和文字本身足够读 */
 /* 数据到了整体淡入；读数据期间不占位，只靠顶部那条 nprogress 细线示意 */
 .list-wrap.is-ready {
   animation: fade-in 0.4s ease both;

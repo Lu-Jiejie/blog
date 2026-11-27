@@ -38,10 +38,20 @@ export const createApp = ViteSSG(
       OverlayScrollbars(document.body, globalScrollbarOptions)
 
       // nprogress + better-scroller
-      router.beforeEach(() => {
+      // 同页只改 query / hash（例如 /collection?type=movie）不算换页，不显示顶部进度条
+      let navPending = false
+      router.beforeEach((to, from) => {
+        if (to.path === from.path && from.matched.length > 0)
+          return
+
+        navPending = true
         NProgress.start()
       })
       router.afterEach(() => {
+        if (!navPending)
+          return
+
+        navPending = false
         NProgress.done()
       })
 

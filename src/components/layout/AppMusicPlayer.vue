@@ -152,13 +152,15 @@ async function selectTrack(track: MidiTrack) {
 }
 
 function formatTime(seconds: number): string {
+  if (!Number.isFinite(seconds) || seconds < 0)
+    return '0:00'
   const m = Math.floor(seconds / 60)
   const s = Math.floor(seconds % 60)
   return `${m}:${s.toString().padStart(2, '0')}`
 }
 
 const progress = computed(() => {
-  if (duration.value === 0)
+  if (!Number.isFinite(duration.value) || duration.value <= 0)
     return 0
   return (currentTime.value / duration.value) * 100
 })
@@ -176,18 +178,45 @@ function handleScrollbarInit(instance: OverlayScrollbars) {
   osInstance.value = instance
 }
 
-watch(isOpen, async (open) => {
-  if (open && showPlaylist.value && osInstance.value) {
-    // 面板从 display:none 变为可见，强制 Scrollbar 重新计算尺寸
-    osInstance.value.update()
-    await nextTick()
-    const el = playerRef.value?.querySelector('[data-current-track]')
-    if (el) {
-      const { viewport } = osInstance.value.elements()
-      const top = el.getBoundingClientRect().top - viewport.getBoundingClientRect().top + viewport.scrollTop
-      viewport.scrollTop = top - viewport.clientHeight / 2
-    }
-  }
+// 播放列表滚动：打开面板/展开列表时把当前曲目居中，切歌时只在跑出视窗才滚
+function scrollToCurrentTrack(center: boolean) {
+  const instance = osInstance.value
+  const el = playerRef.value?.querySelector<HTMLElement>('[data-current-track]')
+  if (!instance || !el)
+    return
+  // 面板刚由 display:none 变可见，先让 Scrollbar 重新量尺寸
+  instance.update()
+  const { viewport } = instance.elements()
+  const offset = el.getBoundingClientRect().top - viewport.getBoundingClientRect().top
+  const height = el.offsetHeight
+  if (!center && offset >= 0 && offset + height <= viewport.clientHeight)
+    return
+  viewport.scrollTo({
+    top: viewport.scrollTop + offset - (viewport.clientHeight - height) / 2,
+    behavior: 'smooth',
+  })
+}
+
+async function syncPlaylistScroll(center: boolean) {
+  if (!isOpen.value || !showPlaylist.value)
+    return
+  await nextTick()
+  scrollToCurrentTrack(center)
+}
+
+watch(isOpen, (open) => {
+  if (open)
+    void syncPlaylistScroll(true)
+})
+
+// 展开是 0.2s 的高度过渡，等它走完再滚，否则此时视窗高度还是 0
+watch(showPlaylist, (show) => {
+  if (show)
+    setTimeout(() => void syncPlaylistScroll(true), 220)
+})
+
+watch(currentTrackIndex, () => {
+  void syncPlaylistScroll(false)
 })
 
 onMounted(async () => {
@@ -212,7 +241,7 @@ onUnmounted(() => {
   <div ref="playerRef" relative z-51>
     <button
       title="音乐播放器"
-      class="flex items-center justify-center transition-colors duration-300 cursor-pointer text-[var(--c-text-muted)] hover:text-[var(--c-accent)]"
+      class="flex items-center justify-center transition-colors duration-300 cursor-pointer text-[var(--c-text-muted)] hover:text-[var(--c-text)]"
       style="width: 1.2em; height: 1.2em"
       :class="(isPlaying || willPlayAfterLoad) && 'text-[var(--c-accent)]!'"
       @click="togglePanel"
@@ -226,82 +255,60 @@ onUnmounted(() => {
 
     <div
       v-show="isOpen"
-      absolute top-full right-0 mt-2
-      bg="[var(--c-paper)]"
-      rounded-xl border="~ base"
-      w-72 p-4 z-100
+      class="popover-panel absolute top-full right-0 mt-2 w-72 p-4 z-100"
       :class="isVisible ? 'op-100 visible translate-y-0' : 'op-0 invisible -translate-y-1'"
       transition-all duration-200 ease
-      style="box-shadow: var(--c-shadow);"
     >
       <!-- Track title -->
-      <div mb-1>
-        <div text-sm font-medium truncate :op="currentTrack ? '85' : '40'">
+      <div class="track-meta">
+        <div class="track-title" :class="{ 'is-empty': !currentTrack }">
           {{ currentTrack ? currentTrack.name : '未在播放' }}
         </div>
-        <div v-if="currentTrack?.artist" text-xs op-40 truncate>
+        <div v-if="currentTrack?.artist" class="track-artist">
           {{ currentTrack.artist }}
         </div>
       </div>
 
       <!-- Progress bar -->
-      <div mb-2>
-        <div
-          relative h-1.5 bg-[var(--c-fill)] rounded-full cursor-pointer overflow-hidden
-          :class="isLoading ? 'op-50 pointer-events-none' : ''"
-          @click="handleSeek"
-        >
-          <div
-            absolute left-0 top-0 h-full bg-[var(--c-accent)] rounded-full
-            transition-none
-            :style="{ width: `${progress}%` }"
-          />
+      <div class="track-progress">
+        <div class="progress-track" :class="{ 'is-loading': isLoading }" @click="handleSeek">
+          <div class="progress-fill" :style="{ width: `${progress}%` }" />
         </div>
-        <div flex justify-between text-xs op-40 mt-0.5>
+        <div class="progress-time">
           <span>{{ formatTime(currentTime) }}</span>
           <span>{{ formatTime(duration) }}</span>
         </div>
       </div>
 
       <!-- Controls -->
-      <div flex items-center justify-center gap-2>
-        <button
-          w-8 h-8 rounded-full hover-bg-[var(--c-fill)] flex items-center justify-center
-          op-40 hover:op-70 transition cursor-pointer
-          @click="togglePlayMode"
-        >
+      <div class="player-controls">
+        <button type="button" class="player-btn" title="播放模式" @click="togglePlayMode">
           <div :class="playModeIcon" text-sm />
         </button>
-        <button
-          w-8 h-8 rounded-full hover-bg-[var(--c-fill)] flex items-center justify-center
-          op-40 hover:op-70 transition cursor-pointer
-          :disabled="isLoading"
-          @click="playPrevious"
-        >
+        <button type="button" class="player-btn" title="上一首" :disabled="isLoading" @click="playPrevious">
           <div i-icon-park-outline-left text-lg />
         </button>
         <button
-          w-10 h-10 rounded-full bg-[var(--c-fill)] flex items-center justify-center
-          hover:bg-[var(--c-border)] transition cursor-pointer
+          type="button"
+          class="player-btn player-btn--primary"
+          :title="isPlaying ? '暂停' : '播放'"
           :disabled="isLoading"
           @click="togglePlayback"
         >
           <div
             :class="isPlaying ? 'i-icon-park-outline-pause' : 'i-material-symbols-play-arrow-outline'"
-            text-xl
+            text-2xl
           />
         </button>
-        <button
-          w-8 h-8 rounded-full hover-bg-[var(--c-fill)] flex items-center justify-center
-          op-40 hover:op-70 transition cursor-pointer
-          :disabled="isLoading"
-          @click="playNext"
-        >
+        <button type="button" class="player-btn" title="下一首" :disabled="isLoading" @click="playNext">
           <div i-icon-park-outline-right text-lg />
         </button>
         <button
-          w-8 h-8 rounded-full flex items-center justify-center transition cursor-pointer
-          :class="showPlaylist ? 'bg-[var(--c-fill)] op-70' : 'hover-bg-[var(--c-fill)] op-40 hover:op-70'"
+          type="button"
+          class="player-btn"
+          :class="{ 'is-on': showPlaylist }"
+          title="播放列表"
+          :aria-pressed="showPlaylist"
           @click="showPlaylist = !showPlaylist"
         >
           <div i-icon-park-outline-music-list text-sm />
@@ -323,8 +330,8 @@ onUnmounted(() => {
                 :title="`${track.name} - ${track.artist}`"
                 w-full text-left px-2 py-1 rounded text-xs
                 :class="currentTrackIndex === i
-                  ? 'bg-[var(--c-fill)] font-medium'
-                  : 'hover:bg-[var(--c-paper)] op-70'"
+                  ? 'text-[var(--c-accent)] font-medium'
+                  : 'hover:bg-[var(--c-paper-hover)] text-[var(--c-text-faint)] hover:text-[var(--c-text)]'"
                 transition-colors duration-200
                 @click="selectTrack(track)"
               >
@@ -335,7 +342,7 @@ onUnmounted(() => {
                   />
                   <div
                     v-else
-                    i-icon-park-outline-music-one text-xs op-50 flex-shrink-0
+                    i-icon-park-outline-music-one text-xs text-[var(--c-text-faint)] flex-shrink-0
                   />
                   <span truncate>{{ track.name }}</span>
                 </div>
@@ -349,7 +356,117 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
-/* 顶栏播放按钮：播放中的动态音浪柱条（绿色） */
+/* 面板字号走站点阶梯：text-sm / text-xs 是 Tailwind 自带刻度，跟正文节奏对不上 */
+.track-meta {
+  margin-bottom: 0.5rem;
+}
+
+.track-title {
+  overflow: hidden;
+  font-size: var(--text-body);
+  font-weight: 500;
+  line-height: 1.35;
+  color: var(--c-text);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track-title.is-empty {
+  font-weight: 400;
+  color: var(--c-text-faint);
+}
+
+.track-artist {
+  margin-top: 1px;
+  overflow: hidden;
+  font-size: var(--text-label);
+  line-height: 1.4;
+  color: var(--c-text-faint);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.track-progress {
+  margin-bottom: 0.75rem;
+}
+
+/* 进度槽：空槽色写死在 token 里（--c-progress-track），明暗两侧都能看出沟槽；填充只用强调色 */
+.progress-track {
+  position: relative;
+  height: 5px;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: var(--c-progress-track);
+  border-radius: 999px;
+  transition: opacity 0.2s ease;
+}
+
+.progress-track.is-loading {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.progress-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  background-color: var(--c-accent);
+  border-radius: 999px;
+}
+
+.progress-time {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.25rem;
+  font-size: var(--text-caption);
+  color: var(--c-text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.player-controls {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.player-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  color: var(--c-text-faint);
+  background-color: transparent;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+/* 悬停只提亮到正文色，强调色留给状态 */
+.player-btn:hover {
+  color: var(--c-text);
+}
+
+.player-btn:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.player-btn--primary {
+  width: 2.75rem;
+  height: 2.75rem;
+  color: var(--c-text);
+}
+
+/* 列表展开是状态，用强调色常驻 */
+.player-btn.is-on,
+.player-btn.is-on:hover {
+  color: var(--c-accent);
+}
+
+/* 顶栏播放按钮：播放中的动态音浪柱条 */
 .eq-wave {
   display: inline-flex;
   align-items: flex-end;

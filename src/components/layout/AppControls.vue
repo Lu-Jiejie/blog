@@ -32,7 +32,7 @@ onMounted(updateScrolled)
     <button
       v-if="hasTocHeadings"
       id="toc-open-button"
-      class="toc:hidden text-[var(--c-text-muted)] hover:text-[var(--c-accent)]"
+      class="toc:hidden text-[var(--c-text-muted)] hover:text-[var(--c-text)]"
       w-10 h-10 rounded-full
       flex="~" items-center justify-center
       bg="[var(--c-fill)]"
@@ -50,7 +50,7 @@ onMounted(updateScrolled)
       w-10 h-10 rounded-full
       flex="~" items-center justify-center
       bg="[var(--c-fill)]"
-      class="text-[var(--c-text-muted)] hover:text-[var(--c-accent)]"
+      class="text-[var(--c-text-muted)] hover:text-[var(--c-text)]"
       transition="all duration-300"
       title="回到顶部"
       :class="scrolled ? 'op-70 hover:op-100 cursor-pointer' : 'op-0! pointer-events-none'"

@@ -40,18 +40,18 @@ watch(() => props.visible, async (isVisible) => {
 <template>
   <nav
     ref="panelEl"
+    class="popover-panel"
     fixed z-200
     top="[10%]" left="1/2" un-translate="x--1/2"
     w="[90%]"
-    p="x-6 y-4" rounded-lg
-    flex="~ col" bg="[var(--c-bg)]"
-    shadow="[var(--c-shadow)]"
+    p="x-6 y-4"
+    flex="~ col"
     transition="opacity duration-300"
     :class="visible ? 'op-100' : 'op-0 pointer-events-none'"
     aria-label="目录"
     style="max-height: calc(100vh - 10% - 30%);"
   >
-    <div pb-2 border-b op-60>
+    <div pb-2 border-b border-[var(--c-hairline)] text-[var(--c-text-muted)]>
       Table of Contents
     </div>
     <UiScrollbar

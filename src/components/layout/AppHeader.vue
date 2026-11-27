@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useEventListener, useTimeoutFn } from '@vueuse/core'
-import { computed, ref, watch } from 'vue'
+import { computed, nextTick, ref, watch } from 'vue'
 import { RouterLink, useRoute } from 'vue-router'
 import UiBackdrop from '~/components/ui/UiBackdrop.vue'
 import { isDark, toggleDark } from '~/logic'
@@ -87,6 +87,69 @@ function onMenuFocusOut(e: FocusEvent) {
 
 const menuOpen = ref(false)
 
+// ===== 下拉菜单的强调色竖条：在行之间滑动，指针离开面板后回到当前页那一行 =====
+const BAR_HEIGHT = 14
+
+interface MenuGroup {
+  id: string
+  items: NavItem[]
+}
+
+const panelEls = new Map<string, HTMLElement>()
+const barState = ref<Record<string, { top: number, visible: boolean }>>({})
+
+function setPanelEl(id: string, el: unknown) {
+  if (el instanceof HTMLElement)
+    panelEls.set(id, el)
+  else
+    panelEls.delete(id)
+}
+
+function menuRows(id: string) {
+  return Array.from(panelEls.get(id)?.querySelectorAll<HTMLElement>('[data-menu-row]') ?? [])
+}
+
+function placeBar(id: string, index: number) {
+  const row = menuRows(id)[index]
+  if (!row)
+    return
+  barState.value = {
+    ...barState.value,
+    [id]: { top: row.offsetTop + (row.offsetHeight - BAR_HEIGHT) / 2, visible: true },
+  }
+}
+
+function resetBar(menu: MenuGroup) {
+  const index = menu.items.findIndex(item => !item.external && isActive(item.href))
+  if (index === -1) {
+    barState.value = {
+      ...barState.value,
+      [menu.id]: { top: barState.value[menu.id]?.top ?? 0, visible: false },
+    }
+    return
+  }
+  placeBar(menu.id, index)
+}
+
+function barStyle(id: string) {
+  const state = barState.value[id]
+  return {
+    transform: `translateY(${state?.top ?? 0}px)`,
+    opacity: state?.visible ? 1 : 0,
+  }
+}
+
+// 面板刚展开时先落到当前页那一行
+watch(openMenu, async (id) => {
+  if (!id)
+    return
+  const menu = menus.value.find(m => m.id === id)
+  if (!menu)
+    return
+  await nextTick()
+  resetBar(menu)
+})
+
 const themeIcon = computed(() => isDark.value ? 'i-ri-moon-line' : 'i-ri-sun-line')
 const themeLabel = computed(() => isDark.value ? '切换到浅色主题' : '切换到深色主题')
 
@@ -104,7 +167,7 @@ useEventListener('keydown', (e) => {
 </script>
 
 <template>
-  <header z-40 flex items-center gap-6 min-h-[2rem] p="x-5 t-6 b-7">
+  <header z-40 flex items-center gap-6 min-h-[2rem] p="x-5 t-5 b-7">
     <RouterLink to="/" class="typewriter-logo shrink-0" aria-label="首页">
       <AppLogo />
     </RouterLink>
@@ -148,20 +211,23 @@ useEventListener('keydown', (e) => {
             @focusout="onMenuFocusOut"
           >
             <div
-              flex="~ col" min-w-40 py-2 rounded-lg border="~ base"
-              bg="[var(--c-bg)]"
-              shadow="[var(--c-shadow)]"
+              :ref="el => setPanelEl(menu.id, el)"
+              class="popover-panel menu-panel"
+              @pointerleave="resetBar(menu)"
             >
+              <span class="menu-bar" :style="barStyle(menu.id)" aria-hidden="true" />
               <component
                 :is="item.external ? 'a' : RouterLink"
-                v-for="item in menu.items"
+                v-for="(item, index) in menu.items"
                 :key="item.href"
                 v-bind="linkProps(item)"
-                class="nav-link px-4 py-1.5 whitespace-nowrap"
+                data-menu-row
+                class="nav-link menu-item whitespace-nowrap"
                 :class="isActive(item.href) && 'nav-link-active'"
+                @pointerenter="placeBar(menu.id, index)"
               >
                 {{ item.label }}
-                <span v-if="item.external" i-ri-arrow-right-up-line text-12px op-50 />
+                <span v-if="item.external" class="i-ri-arrow-right-up-line menu-item-ext" />
               </component>
             </div>
           </div>
@@ -207,14 +273,13 @@ useEventListener('keydown', (e) => {
     </div>
 
     <UiBackdrop :visible="menuOpen" @close="menuOpen = false">
-      <!-- 与 TocPanel 一致：自身 fixed 定位，w-[90%] 才是相对视口，否则会按 backdrop 的 flex 子项收缩 -->
+      <!-- 与 TocPanel 同用 .popover-panel；自身 fixed 定位，w-[90%] 才是相对视口，否则会按 backdrop 的 flex 子项收缩 -->
       <nav
+        class="popover-panel overflow-y-auto select-none"
         fixed z-200
         top="[10%]" left="1/2" un-translate="x--1/2"
         w="[90%]"
-        rounded-md overflow-y-auto select-none
-        flex="~ col" bg="[var(--c-bg)]"
-        shadow="[var(--c-shadow)]"
+        flex="~ col"
         transition="opacity duration-300"
         :class="menuOpen ? 'op-100' : 'op-0 pointer-events-none'"
         aria-label="菜单"
@@ -238,7 +303,10 @@ useEventListener('keydown', (e) => {
           :key="menu.id"
           class="mx-5 pt-3 pb-2.5 border-t border-[var(--c-hairline)]"
         >
-          <div class="text-xs uppercase tracking-wider op-30" :class="menu.active && 'op-60'">
+          <div
+            class="text-xs uppercase tracking-wider"
+            :class="menu.active ? 'text-[var(--c-text-muted)]' : 'text-[var(--c-text-faint)]'"
+          >
             {{ menu.label }}
           </div>
           <div class="flex flex-wrap gap-x-5 gap-y-2 mt-2">
@@ -252,7 +320,7 @@ useEventListener('keydown', (e) => {
               @click="menuOpen = false"
             >
               {{ item.label }}
-              <span v-if="item.external" i-ri-arrow-right-up-line text-12px op-50 />
+              <span v-if="item.external" class="i-ri-arrow-right-up-line text-12px text-[var(--c-text-faint)]" />
             </component>
           </div>
         </div>
@@ -287,32 +355,72 @@ useEventListener('keydown', (e) => {
   --uno: transition-colors duration-300 cursor-pointer;
 
   color: var(--c-text-muted);
+  font-weight: 600;
 }
 
-/* 已经是选中色的链接不再被 hover 冲淡 */
+/* 悬停只是提亮到正文色，强调色留给当前页 */
 .nav-link:not(.nav-link-active):hover {
-  color: color-mix(in srgb, var(--c-accent) 55%, var(--c-text-muted));
+  color: var(--c-text);
 }
 
-/* 面板展开时触发器只升到 hover 那一档：关闭是延迟的，若在这个窗口里跳到 accent，
+/* 面板展开时触发器升到与 hover 同一档：关闭是延迟的，若在这个窗口里跳 accent，
    鼠标离开瞬间就会闪一下深粉再退回灰。 */
 .nav-link-open {
-  color: color-mix(in srgb, var(--c-accent) 55%, var(--c-text-muted));
+  color: var(--c-text);
 }
 
 .nav-link-active {
   color: var(--c-accent);
 }
 
+/* 下拉面板：6px 内边距配 6px 行圆角，与外层 8px 圆角同心 */
+.menu-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 10.5rem;
+  padding: 0.375rem;
+}
+
+.menu-item {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 0.375rem 0.625rem 0.375rem 1rem;
+  border-radius: 6px;
+}
+
+/* 整块面板只有一根竖条，靠 translateY 在行之间滑；位置由 JS 按行高算 */
+.menu-bar {
+  position: absolute;
+  top: 0;
+  left: 0.5rem;
+  width: 2px;
+  height: 14px;
+  border-radius: 1px;
+  background-color: var(--c-accent);
+  pointer-events: none;
+  transition:
+    transform 0.2s ease,
+    opacity 0.15s ease;
+}
+
+.menu-item-ext {
+  font-size: 0.75rem;
+  color: var(--c-text-faint);
+}
+
 .typewriter-logo {
   font-size: 1.1rem;
-  font-weight: 500;
+  font-weight: 600;
   --uno: transition-colors duration-300;
 
   color: var(--c-text);
 }
 
 .typewriter-logo:hover {
-  color: var(--c-accent);
+  color: var(--c-text-strong);
 }
 </style>

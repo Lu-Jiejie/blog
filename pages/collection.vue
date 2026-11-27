@@ -46,7 +46,7 @@ const contents = [
       <!-- 表格样式全部挂在 .prose 下（prose.css 的 table/tr/td 规则 + ListCollection 自己的
            .prose .list-collection td），所以这里必须再包一层，不能直接放进 .list-wrap -->
       <div class="prose">
-        <ListCollection :collection="collection" />
+        <ListCollection :collection="collection" variant="underline" />
       </div>
     </template>
   </div>
